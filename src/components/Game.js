@@ -16,46 +16,52 @@ class Game extends React.Component {
 class Board extends React.Component {
   constructor(props) {
     super(props);
+    this.width = 6;
+    this.height = 6;
     this.state = {
-      squares: Array(9).fill(null),
+      squares: Array(this.width * this.height).fill(null),
     };
   }
     
   render() {
+    const renderedRows = indicesArray(this.height).map(
+      i => this.renderRow(i)
+    );
     return (
-      <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+      <div className="board">
+        {renderedRows}
       </div>
     );
   }
 
-  renderSquare(i) {
+  renderRow(i) {
+    const renderedSquares = indicesArray(this.width).map(
+      j => this.renderSquare(i * this.width + j)
+    );
+    return (
+      <div 
+        className="board-row"
+        key={i}
+      >
+        {renderedSquares}
+      </div>
+    );
+  }
+
+  renderSquare(k) {
     return (
       <Square
-        value={this.state.squares[i]}
-        onClick={() => this.handleClick(i)}
+        key={k}
+        value={this.state.squares[k]}
+        onClick={() => this.handleClick(k)}
       />
     );
   }
 
-  handleClick(i) {
+  handleClick(k) {
     const squares = this.state.squares.slice();
-    if (squares[i]) return;
-    squares[i] = 'X';
+    if (squares[k]) return;
+    squares[k] = 'X';
     this.setState({ squares });
   }
 }
@@ -69,6 +75,14 @@ function Square(props) {
       {props.value}
     </button>
   );
+}
+
+function indicesArray(n) {
+  const a = [];
+  for (let index = 0; index < n; index++) {
+    a.push(index);
+  }
+  return a;
 }
 
 export default Game;
