@@ -20,6 +20,7 @@ class Board extends React.Component {
     this.height = 6;
     this.state = {
       squares: Array(this.width * this.height).fill(null),
+      activeIndex: null,
     };
   }
     
@@ -28,7 +29,10 @@ class Board extends React.Component {
       i => this.renderRow(i)
     );
     return (
-      <div className="board">
+      <div
+        className="board"
+        onKeyUp={this.handleKeyUp}
+      >
         {renderedRows}
       </div>
     );
@@ -58,23 +62,40 @@ class Board extends React.Component {
     );
   }
 
-  handleClick(k) {
-    const squares = this.state.squares.slice();
-    if (squares[k]) return;
-    squares[k] = 'X';
-    this.setState({ squares });
+  handleClick = (k) => {
+    this.setState({ activeIndex: k });
+  }
+
+  handleKeyUp = (event) => {
+    const activeIndex = this.state.activeIndex;
+    if (activeIndex === null) return;
+    const key = event.key;
+    if (key === 'Escape') {
+      this.setState({ activeIndex: null });
+      return;
+    }
+    if (/^[A-Za-z]$/.test(key)) {
+      const squares = this.state.squares.slice();
+      squares[activeIndex] = key.toUpperCase();
+      this.setState({ 
+        squares,
+        activeIndex: null
+      });
+    }
   }
 }
 
-function Square(props) {
-  return (
-    <button
-      className="square"
-      onClick={props.onClick}
-    >
-      {props.value}
-    </button>
-  );
+class Square extends React.Component {
+  render() {
+    return(
+      <button
+        className="square"
+        onClick={this.props.onClick}
+      >
+        {this.props.value}
+      </button>
+    );
+  }
 }
 
 function indicesArray(n) {
