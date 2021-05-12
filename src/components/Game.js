@@ -57,6 +57,7 @@ class Board extends React.Component {
       <Square
         key={k}
         value={this.state.squares[k]}
+        isActive={this.state.activeIndex === k}
         onClick={() => this.handleClick(k)}
       />
     );
@@ -87,9 +88,12 @@ class Board extends React.Component {
 
 class Square extends React.Component {
   render() {
+    const cssClasses = ['square'];
+    if (this.props.isActive) cssClasses.push('is-active');
+    const className = cssClasses.join(' ');
     return(
       <button
-        className="square"
+        className={className}
         onClick={this.props.onClick}
       >
         {this.props.value}
