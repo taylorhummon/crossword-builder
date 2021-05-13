@@ -64,7 +64,7 @@ class Board extends React.Component {
   }
 
   handleClick = (k) => {
-    this.setState({ activeIndex: k });
+    this.setState(() => ({ activeIndex: k }));
   }
 
   handleKeyUp = (event) => {
@@ -80,6 +80,27 @@ class Board extends React.Component {
           activeIndex: null
         };
       }
+      return null;
+    });
+  }
+
+  handleKeyUpAlternative = (event) => {
+    this.setState((prevState) => { // updating squares if needed
+      const activeIndex = prevState.activeIndex;
+      if (activeIndex === null) return null;
+      if (event.key === 'Escape') return null;
+      if (/^[A-Za-z]$/.test(event.key)) {
+        const squares = prevState.squares.slice();
+        squares[activeIndex] = event.key.toUpperCase();
+        return { squares };
+      }
+      return null;
+    });
+    this.setState((prevState) => { // updating activeIndex if needed
+      const activeIndex = prevState.activeIndex;
+      if (activeIndex === null) return null;
+      if (event.key === 'Escape') return { activeIndex: null };
+      if (/^[A-Za-z]$/.test(event.key)) return { activeIndex: null };
       return null;
     });
   }
