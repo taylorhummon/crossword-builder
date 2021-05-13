@@ -68,21 +68,20 @@ class Board extends React.Component {
   }
 
   handleKeyUp = (event) => {
-    const activeIndex = this.state.activeIndex;
-    if (activeIndex === null) return;
-    const key = event.key;
-    if (key === 'Escape') {
-      this.setState({ activeIndex: null });
-      return;
-    }
-    if (/^[A-Za-z]$/.test(key)) {
-      const squares = this.state.squares.slice();
-      squares[activeIndex] = key.toUpperCase();
-      this.setState({ 
-        squares,
-        activeIndex: null
-      });
-    }
+    this.setState((prevState) => {
+      const activeIndex = prevState.activeIndex;
+      if (activeIndex === null) return null;
+      if (event.key === 'Escape') return { activeIndex: null };
+      if (/^[A-Za-z]$/.test(event.key)) {
+        const squares = prevState.squares.slice();
+        squares[activeIndex] = event.key.toUpperCase();
+        return {
+          squares,
+          activeIndex: null
+        };
+      }
+      return null;
+    });
   }
 }
 
