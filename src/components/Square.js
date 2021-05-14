@@ -7,12 +7,13 @@ class Square extends React.Component {
     if (this.props.isActive) cssClasses.push('is-active');
     const className = cssClasses.join(' ');
     return(
-      <button
+      <div
         className={className}
+        tabIndex="0"
         onClick={this.props.onClick}
       >
         {this.props.value}
-      </button>
+      </div>
     );
   }
 }
