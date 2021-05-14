@@ -13,8 +13,12 @@
   width: 34px;
 }
 
-.square.is-active {
+.square.is-blue {
   background: rgb(216, 222, 253);
+}
+
+.square.is-black {
+  background: rgb(0, 0, 0);
 }
 
 .square:focus { /* !!! how is this used? */

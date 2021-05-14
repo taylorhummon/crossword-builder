@@ -3,19 +3,31 @@ import './Square.css';
 
 class Square extends React.Component {
   render() {
-    const cssClasses = ['square'];
-    if (this.props.isActive) cssClasses.push('is-active');
-    const className = cssClasses.join(' ');
-    return(
+    const displayedValue = isBlack(this.props) ? null : this.props.value;
+    return (
       <div
-        className={className}
+        className={className(this.props)}
         tabIndex="0"
         onClick={this.props.onClick}
       >
-        {this.props.value}
+        {displayedValue}
       </div>
     );
   }
+}
+
+function className(props) {
+  const cssClasses = ['square'];
+  if (props.isActive) { 
+    cssClasses.push('is-blue') 
+  } else if (isBlack(props)) {
+    cssClasses.push('is-black');
+  }
+  return cssClasses.join(' ');
+}
+
+function isBlack(props) {
+  return props.value === '\n';
 }
 
 export default Square;

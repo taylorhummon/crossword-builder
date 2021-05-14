@@ -61,7 +61,7 @@ class Board extends React.Component {
       const activeIndex = prevState.activeIndex;
       if (activeIndex === null) return null;
       if (event.key === 'Escape') return { activeIndex: null };
-      if (event.key === 'Enter') return updateSquare(prevState, activeIndex, null);
+      if (event.key === 'Enter') return updateSquare(prevState, activeIndex, '\n');
       if (event.key === ' ') return updateSquare(prevState, activeIndex, null);
       if (/^[A-Za-z]$/.test(event.key)) return updateSquare(prevState, activeIndex, event.key.toUpperCase());
       return null;
