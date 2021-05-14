@@ -58,12 +58,12 @@ class Board extends React.Component {
         key={k}
         value={this.state.squares[k]}
         isActive={this.state.activeIndex === k}
-        onClick={() => this.handleClick(k)}
+        onClick={(event) => this.handleClick(k, event)}
       />
     );
   }
 
-  handleClick = (k) => {
+  handleClick = (k, event) => {
     this.setState(() => ({ activeIndex: k }));
   }
 
@@ -72,38 +72,21 @@ class Board extends React.Component {
       const activeIndex = prevState.activeIndex;
       if (activeIndex === null) return null;
       if (event.key === 'Escape') return { activeIndex: null };
-      if (/^[A-Za-z]$/.test(event.key)) {
-        const squares = prevState.squares.slice();
-        squares[activeIndex] = event.key.toUpperCase();
-        return {
-          squares,
-          activeIndex: null
-        };
-      }
+      if (event.key === 'Enter') return updateSquare(prevState, activeIndex, null);
+      if (event.key === ' ') return updateSquare(prevState, activeIndex, null);
+      if (/^[A-Za-z]$/.test(event.key)) return updateSquare(prevState, activeIndex, event.key.toUpperCase());
       return null;
     });
   }
+}
 
-  handleKeyUpAlternative = (event) => {
-    this.setState((prevState) => { // updating squares if needed
-      const activeIndex = prevState.activeIndex;
-      if (activeIndex === null) return null;
-      if (event.key === 'Escape') return null;
-      if (/^[A-Za-z]$/.test(event.key)) {
-        const squares = prevState.squares.slice();
-        squares[activeIndex] = event.key.toUpperCase();
-        return { squares };
-      }
-      return null;
-    });
-    this.setState((prevState) => { // updating activeIndex if needed
-      const activeIndex = prevState.activeIndex;
-      if (activeIndex === null) return null;
-      if (event.key === 'Escape') return { activeIndex: null };
-      if (/^[A-Za-z]$/.test(event.key)) return { activeIndex: null };
-      return null;
-    });
-  }
+function updateSquare(prevState, activeIndex, value) {
+  const squares = prevState.squares.slice();
+  squares[activeIndex] = value;
+  return {
+    squares,
+    activeIndex: null
+  };
 }
 
 class Square extends React.Component {
