@@ -57,6 +57,7 @@ class Board extends React.Component {
       if (prevState.activeIndex === k) {
         return updateSquare(prevState, '\n');
       } else {
+        horizontalSuggestion(prevState.squares, k, this.width);
         return { activeIndex: k };
       }
     });
@@ -91,5 +92,39 @@ function indicesArray(n) {
   }
   return a;
 }
+
+function horizontalSuggestion(squares, activeIndex, boardWidth) {
+  const activeIndexColumn = activeIndex % boardWidth;
+  const activeIndexRow = (activeIndex - activeIndexColumn) / boardWidth;
+  if (squares[activeIndex] === '\n') return // !!! deal with this later
+  let left = activeIndexColumn;
+  while (left - 1 >= 0 && squares[activeIndexRow * boardWidth + left - 1] !== '\n') {
+    left--;
+  }
+  let right = activeIndexColumn;
+  while (right + 1 < boardWidth && squares[activeIndexRow * boardWidth + right + 1] !== '\n') {
+    right++;
+  }
+  let word = "";
+  for (let i = left; i <= right; i++) {
+    const char = squares[activeIndexRow * boardWidth + i];
+    if (char === null) {
+      word = word + "[a-z]";
+    } else {
+      word = word + char.toLowerCase();
+    }
+  }
+  console.log('WORD', word);
+}
+
+const dictionary = [
+  'dog',
+  'cat',
+  'rat',
+  'sat',
+  'fridge',
+  'cake',
+  'pie',
+];
 
 export default Board;
