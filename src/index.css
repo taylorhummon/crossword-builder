@@ -7,7 +7,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body { /* !!! merge this with the previous body styling */
+  font: 14px "Century Gothic", Futura, sans-serif;
+  margin: 20px;
 }
