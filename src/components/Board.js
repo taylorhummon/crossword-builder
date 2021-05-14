@@ -53,25 +53,31 @@ class Board extends React.Component {
   }
 
   handleClick = (k, event) => {
-    this.setState(() => ({ activeIndex: k }));
+    this.setState((prevState) => {
+      if (prevState.activeIndex === k) {
+        return updateSquare(prevState, '\n');
+      } else {
+        return { activeIndex: k };
+      }
+    });
   }
 
   handleKeyUp = (event) => {
     this.setState((prevState) => {
-      const activeIndex = prevState.activeIndex;
-      if (activeIndex === null) return null;
-      if (event.key === 'Escape') return { activeIndex: null };
-      if (event.key === 'Enter') return updateSquare(prevState, activeIndex, '\n');
-      if (event.key === ' ') return updateSquare(prevState, activeIndex, null);
-      if (/^[A-Za-z]$/.test(event.key)) return updateSquare(prevState, activeIndex, event.key.toUpperCase());
+      if (prevState.activeIndex === null) return null;
+      if (event.key === 'Escape')         return { activeIndex: null };
+      if (event.key === 'Backspace')      return updateSquare(prevState, null);
+      if (event.key === ' ')              return updateSquare(prevState, null);
+      if (event.key === 'Enter')          return updateSquare(prevState, '\n');
+      if (/^[A-Za-z]$/.test(event.key))   return updateSquare(prevState, event.key.toUpperCase());
       return null;
     });
   }
 }
 
-function updateSquare(prevState, activeIndex, value) {
+function updateSquare(prevState, value) {
   const squares = prevState.squares.slice();
-  squares[activeIndex] = value;
+  squares[prevState.activeIndex] = value;
   return {
     squares,
     activeIndex: null
