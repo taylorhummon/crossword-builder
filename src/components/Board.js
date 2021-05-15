@@ -96,7 +96,7 @@ function indicesArray(n) {
 function horizontalSuggestion(squares, activeIndex, boardWidth) {
   const activeIndexColumn = activeIndex % boardWidth;
   const activeIndexRow = (activeIndex - activeIndexColumn) / boardWidth;
-  if (squares[activeIndex] === '\n') return // !!! deal with this later
+  if (squares[activeIndex] === '\n') return; // !!! deal with this later
   let left = activeIndexColumn;
   while (left - 1 >= 0 && squares[activeIndexRow * boardWidth + left - 1] !== '\n') {
     left--;
@@ -105,16 +105,28 @@ function horizontalSuggestion(squares, activeIndex, boardWidth) {
   while (right + 1 < boardWidth && squares[activeIndexRow * boardWidth + right + 1] !== '\n') {
     right++;
   }
-  let word = "";
+  let regExpString = "";
   for (let i = left; i <= right; i++) {
     const char = squares[activeIndexRow * boardWidth + i];
-    if (char === null) {
-      word = word + "[a-z]";
+    if (i === activeIndexColumn) {
+      regExpString += "([a-z])";
+    } else if (char === null) {
+      regExpString += "[a-z]";
     } else {
-      word = word + char.toLowerCase();
+      regExpString += char.toLowerCase();
     }
   }
-  console.log('WORD', word);
+  const regExp = new RegExp(`^${regExpString}$`);
+  const resultsSet = new Set();
+  dictionary.forEach(word => {
+    const info = regExp.exec(word);
+    if (info !== null) {
+      resultsSet.add(info[1]);
+    }
+  });
+  const results = [...resultsSet];
+  results.sort();
+  console.log('FOUND POSSIBLE COMPLETIONS', results);
 }
 
 const dictionary = [
