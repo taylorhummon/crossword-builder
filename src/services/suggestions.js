@@ -1,28 +1,62 @@
 
-function horizontalSuggestion(squares, activeIndex, boardWidth) {
+function computeHorizontalSuggestions(squares, activeIndex, boardWidth) {
+  const pattern = computePattern(squares, activeIndex, boardWidth);
+  console.log('PATTERN', pattern);
+  const suggestions = findSuggestions(pattern);
+  console.log('SUGGESTIONS', suggestions);
+  return suggestions;
+}
+
+function computePattern(squares, activeIndex, boardWidth) {
   const activeIndexColumn = activeIndex % boardWidth;
   const activeIndexRow = (activeIndex - activeIndexColumn) / boardWidth;
-  if (squares[activeIndex] === '\n') return; // !!! deal with this later
-  let left = activeIndexColumn;
-  while (left - 1 >= 0 && squares[activeIndexRow * boardWidth + left - 1] !== '\n') {
-    left--;
+  const leftIndex = findLeftIndex(squares, boardWidth, activeIndexRow, activeIndexColumn);
+  const rightIndex = findRightIndex(squares, boardWidth, activeIndexRow, activeIndexColumn);
+  return computePatternHelper(squares, boardWidth, activeIndexRow, activeIndexColumn, leftIndex, rightIndex);
+}
+
+function findLeftIndex(squares, boardWidth, activeIndexRow, activeIndexColumn) {
+  let leftIndex = activeIndexColumn;
+  while (leftIndex - 1 >= 0 && squareAt(squares, boardWidth, leftIndex - 1, activeIndexRow) !== '\n') {
+    leftIndex--;
   }
-  let right = activeIndexColumn;
-  while (right + 1 < boardWidth && squares[activeIndexRow * boardWidth + right + 1] !== '\n') {
-    right++;
+  return leftIndex;
+}
+
+function findRightIndex(squares, boardWidth, activeIndexRow, activeIndexColumn) {
+  let rightIndex = activeIndexColumn;
+  while (rightIndex + 1 < boardWidth && squareAt(squares, boardWidth, rightIndex + 1, activeIndexRow) !== '\n') {
+    rightIndex++;
   }
-  let regExpString = "";
-  for (let i = left; i <= right; i++) {
-    const char = squares[activeIndexRow * boardWidth + i];
+  return rightIndex;
+}
+
+function computePatternHelper(squares, boardWidth, activeIndexRow, activeIndexColumn, leftIndex, rightIndex) {
+  let pattern = '';
+  for (let i = leftIndex; i <= rightIndex; i++) {
+    const char = squareAt(squares, boardWidth, i, activeIndexRow);
     if (i === activeIndexColumn) {
-      regExpString += "([a-z])";
+      pattern += '@';
     } else if (char === null) {
-      regExpString += "[a-z]";
+      pattern += '?';
     } else {
-      regExpString += char.toLowerCase();
+      pattern += char.toLowerCase();
     }
   }
-  const regExp = new RegExp(`^${regExpString}$`);
+  return pattern;
+}
+
+function squareAt(squares, boardWidth, i, j) {
+  return squares[j * boardWidth + i];
+}
+
+function findSuggestions(pattern) {
+  const regExpPattern = pattern.split('').map(char => {
+    if (char === '@') return '([a-z])';
+    if (char === '?') return '[a-z]';
+    return char;
+  }).join('');
+  const regExp = new RegExp(`^${regExpPattern}$`);
   const resultsSet = new Set();
   dictionary.forEach(word => {
     const info = regExp.exec(word);
@@ -32,7 +66,7 @@ function horizontalSuggestion(squares, activeIndex, boardWidth) {
   });
   const results = [...resultsSet];
   results.sort();
-  console.log('FOUND POSSIBLE COMPLETIONS', results);
+  return results;
 }
 
 const dictionary = [
@@ -45,4 +79,4 @@ const dictionary = [
   'pie',
 ];
 
-export default horizontalSuggestion;
+export default computeHorizontalSuggestions;

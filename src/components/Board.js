@@ -1,7 +1,7 @@
 import React from 'react';
 import './Board.css';
 import Square from './Square';
-import horizontalSuggestion from '../services/suggestions';
+import computeHorizontalSuggestions from '../services/suggestions';
 
 class Board extends React.Component {
   constructor(props) {
@@ -58,7 +58,7 @@ class Board extends React.Component {
       if (prevState.activeIndex === k) {
         return updateSquare(prevState, '\n');
       } else {
-        horizontalSuggestion(prevState.squares, k, this.width);
+        computeHorizontalSuggestions(prevState.squares, k, this.width);
         return { activeIndex: k };
       }
     });
