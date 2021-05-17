@@ -1,7 +1,7 @@
 import findSuggestions from './suggestions_a';
 import buildAlphabet from './build_alphabet';
 
-function computeHorizontalSuggestions(squares, activeIndex, boardWidth) {
+function computeSuggestions(squares, activeIndex, boardWidth) {
   const pattern = computePattern(squares, activeIndex, boardWidth);
   const initialTimeStamp = Date.now();
   const suggestionsSet = findSuggestions(pattern);
@@ -60,4 +60,4 @@ function toLettersArray(set) {
   return buildAlphabet().filter(letter => set.has(letter));
 }
 
-export default computeHorizontalSuggestions;
+export default computeSuggestions;

@@ -1,6 +1,5 @@
 function computeSubpatterns(pattern) {
-  const index = pattern.indexOf('@');
-  if (index === -1) throw new Error('Did not find @ in pattern');
+  const index = findIndex(pattern);
   const leftPoints = [];
   for (let i = 0; i < index; i++) {
     if (pattern[i] === '.') leftPoints.push(i + 1);
@@ -21,6 +20,17 @@ function computeSubpatterns(pattern) {
     (subpatternA, subpatternB) => subpatternA.length - subpatternB.length
   );
   return subpatterns;
+}
+
+function findIndex(pattern) {
+  const index = pattern.indexOf('@');
+  if (index === -1) {
+    throw new Error('Did not find @ in pattern');
+  }
+  if (pattern.indexOf('@', index + 1) !== -1) {
+    throw new Error('Found multiple @ in pattern');
+  }
+  return index;
 }
 
 export default computeSubpatterns;

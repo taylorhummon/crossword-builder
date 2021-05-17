@@ -3,8 +3,7 @@ import computeSubpatterns from './subpatterns';
 
 function findSuggestions(pattern) {
   const lettersSet = new Set();
-  const subpatterns = computeSubpatterns(pattern);
-  for (const subpattern of subpatterns) {
+  for (const subpattern of computeSubpatterns(pattern)) {
     const lettersSetForSubpattern = findSuggestionsHelper(subpattern);
     for (const letter of lettersSetForSubpattern) {
       lettersSet.add(letter);
@@ -14,18 +13,21 @@ function findSuggestions(pattern) {
 }
 
 function findSuggestionsHelper(pattern) {
-  const index = pattern.indexOf('@');
-  if (index === -1) throw new Error('Did not find @ in pattern');
-  const newPattern = pattern.split('').map(
-    character => character === '@' ? '.' : character
-  ).join('');
-  const regExp = new RegExp(`^${newPattern}$`);
   const lettersSet = new Set();
+  const index = pattern.indexOf('@');
+  const regExp = buildRegExp(pattern);
   const dictionary = dictionaryWithWordsOfLength(pattern.length);
   for (const word of dictionary) {
     if (regExp.test(word)) lettersSet.add(word.charAt(index));
   }
   return lettersSet;
+}
+
+function buildRegExp(pattern) {
+  const regexPattern = pattern.split('').map(
+    character => character === '@' ? '.' : character
+  ).join('');
+  return new RegExp(`^${regexPattern}$`);
 }
 
 export default findSuggestions;

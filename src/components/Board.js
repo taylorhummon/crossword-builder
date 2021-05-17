@@ -1,7 +1,7 @@
 import React from 'react';
 import './Board.css';
 import Square from './Square';
-import computeHorizontalSuggestions from '../services/suggestions';
+import computeSuggestions from '../services/suggestions';
 import indicesArray from '../services/indices_array';
 
 class Board extends React.Component {
@@ -59,7 +59,7 @@ class Board extends React.Component {
       if (prevState.activeIndex === k) {
         return updateSquare(prevState, '\n');
       } else {
-        computeHorizontalSuggestions(prevState.squares, k, this.width);
+        computeSuggestions(prevState.squares, k, this.width);
         return { activeIndex: k };
       }
     });

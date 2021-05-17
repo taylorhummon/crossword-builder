@@ -17,17 +17,19 @@ function findSuggestions(pattern) {
 }
 
 function hasMatch(pattern, letter) {
-  const index = pattern.indexOf('@');
-  if (index === -1) throw new Error('Did not find @ in pattern');
-  const newPattern = pattern.split('').map(
-    character => character === '@' ? letter : character
-  ).join('');
-  const regExp = new RegExp(`^${newPattern}$`);
+  const regExp = buildRegExp(pattern, letter);
   const dictionary = dictionaryWithWordsOfLength(pattern.length);
   for (const word of dictionary) {
     if (regExp.test(word)) return true;
   }
   return false;
+}
+
+function buildRegExp(pattern, letter) {
+  const regexPattern = pattern.split('').map(
+    character => character === '@' ? letter : character
+  ).join('');
+  return new RegExp(`^${regexPattern}$`);
 }
 
 export default findSuggestions;
