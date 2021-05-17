@@ -2,6 +2,7 @@ import React from 'react';
 import './Board.css';
 import Square from './Square';
 import computeHorizontalSuggestions from '../services/suggestions';
+import indicesArray from '../services/indices_array';
 
 class Board extends React.Component {
   constructor(props) {
@@ -84,14 +85,6 @@ function updateSquare(prevState, value) {
     squares,
     activeIndex: null
   };
-}
-
-function indicesArray(n) {
-  const a = [];
-  for (let index = 0; index < n; index++) {
-    a.push(index);
-  }
-  return a;
 }
 
 export default Board;
