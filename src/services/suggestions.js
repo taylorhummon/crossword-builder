@@ -1,3 +1,4 @@
+import dictionary from './dictionary3';
 
 function computeHorizontalSuggestions(squares, activeIndex, boardWidth) {
   const patternAndIndex = computePatternAndIndex(squares, activeIndex, boardWidth);
@@ -54,25 +55,63 @@ function squareAt(squares, boardWidth, i, j) {
   return squares[j * boardWidth + i];
 }
 
-function findSuggestions(pattern, index) {
+const findSuggestions = findSuggestionsA;
+
+// look at each word in the dictionary to see if it matches
+function findSuggestionsA(pattern, index) {
+  const initialTimeStamp = Date.now();
   const regExp = new RegExp(`^${pattern}$`);
   const resultsSet = new Set();
   for (const word of dictionary) {
-    if (regExp.test(word)) resultsSet.add(word[index]);
+    if (regExp.test(word)) resultsSet.add(word.charAt(index));
   }
   const results = [...resultsSet];
   results.sort();
+  const duration = (Date.now() - initialTimeStamp);
+  console.log('Search Took', duration);
   return results;
 }
 
-const dictionary = [
-  'dog',
-  'cat',
-  'rat',
-  'sat',
-  'fridge',
-  'cake',
-  'pie',
-];
+// use global regexp searching
+function findSuggestionsB(pattern, index) {
+  const initialTimeStamp1 = Date.now();
+  const allWords = dictionary.join('\n');
+  const duration1 = (Date.now() - initialTimeStamp1);
+  console.log('Precompile Took', duration1);
+  const initialTimeStamp2 = Date.now();
+
+  const regExp = new RegExp(`^${pattern}$`, 'gm');
+  const resultsSet = new Set();
+  for (const match of allWords.matchAll(regExp)) {
+    resultsSet.add(match[0].charAt(index));
+  }
+  const results = [...resultsSet];
+  results.sort();
+  const duration2 = (Date.now() - initialTimeStamp2);
+  console.log('Search Took', duration2);
+  return results;
+}
+
+// perform 26 searches, but allow a search to give up early
+function findSuggestionsC(pattern, index) {
+  const initialTimeStamp = Date.now();
+  const results = [];
+  for (let i = 0; i < 26; i++) {
+    const letter = String.fromCharCode(97 + i);
+    const specificPattern = pattern.substring(0, index) + letter + pattern.substring(index + 1);
+    const regExp = new RegExp(`^${specificPattern}$`);
+    for (const word of dictionary) {
+      if (regExp.test(word)) {
+        results.push(letter);
+        break;
+      }
+    }
+  }
+  const duration = (Date.now() - initialTimeStamp);
+  console.log('Search Took', duration);
+  return results;
+}
+
+
 
 export default computeHorizontalSuggestions;
