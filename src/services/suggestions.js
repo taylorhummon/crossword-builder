@@ -1,4 +1,9 @@
-import dictionary from './dictionary3';
+import dictionary1 from './dictionary1';
+import dictionary2 from './dictionary2';
+import dictionary3 from './dictionary3';
+import dictionary4 from './dictionary4';
+import dictionary5 from './dictionary5';
+import dictionary6 from './dictionary6';
 
 function computeHorizontalSuggestions(squares, activeIndex, boardWidth) {
   const patternAndIndex = computePatternAndIndex(squares, activeIndex, boardWidth);
@@ -57,61 +62,35 @@ function squareAt(squares, boardWidth, i, j) {
 
 const findSuggestions = findSuggestionsA;
 
-// look at each word in the dictionary to see if it matches
 function findSuggestionsA(pattern, index) {
-  const initialTimeStamp = Date.now();
   const regExp = new RegExp(`^${pattern}$`);
-  const resultsSet = new Set();
+  const alphabetSet = new Set();
+  const dictionary = dictionaryWithWordsOfLength(pattern.length);
+  // const initialTimeStamp = Date.now();
   for (const word of dictionary) {
-    if (regExp.test(word)) resultsSet.add(word.charAt(index));
+    if (regExp.test(word)) alphabetSet.add(word.charAt(index));
   }
-  const results = [...resultsSet];
-  results.sort();
-  const duration = (Date.now() - initialTimeStamp);
-  console.log('Search Took', duration);
-  return results;
+  // console.log('Search Took', Date.now() - initialTimeStamp);
+  return toAlphabetArray(alphabetSet);
 }
 
-// use global regexp searching
-function findSuggestionsB(pattern, index) {
-  const initialTimeStamp1 = Date.now();
-  const allWords = dictionary.join('\n');
-  const duration1 = (Date.now() - initialTimeStamp1);
-  console.log('Precompile Took', duration1);
-  const initialTimeStamp2 = Date.now();
-
-  const regExp = new RegExp(`^${pattern}$`, 'gm');
-  const resultsSet = new Set();
-  for (const match of allWords.matchAll(regExp)) {
-    resultsSet.add(match[0].charAt(index));
-  }
-  const results = [...resultsSet];
-  results.sort();
-  const duration2 = (Date.now() - initialTimeStamp2);
-  console.log('Search Took', duration2);
-  return results;
+function dictionaryWithWordsOfLength(length) {
+  if (length === 1) return dictionary1;
+  if (length === 2) return dictionary2;
+  if (length === 3) return dictionary3;
+  if (length === 4) return dictionary4;
+  if (length === 5) return dictionary5;
+  if (length === 6) return dictionary6;
+  throw 'pattern too long!';
 }
 
-// perform 26 searches, but allow a search to give up early
-function findSuggestionsC(pattern, index) {
-  const initialTimeStamp = Date.now();
-  const results = [];
+function toAlphabetArray(set) {
+  const alphabetArray = [];
   for (let i = 0; i < 26; i++) {
     const letter = String.fromCharCode(97 + i);
-    const specificPattern = pattern.substring(0, index) + letter + pattern.substring(index + 1);
-    const regExp = new RegExp(`^${specificPattern}$`);
-    for (const word of dictionary) {
-      if (regExp.test(word)) {
-        results.push(letter);
-        break;
-      }
-    }
+    if (set.has(letter)) alphabetArray.push(letter);
   }
-  const duration = (Date.now() - initialTimeStamp);
-  console.log('Search Took', duration);
-  return results;
+  return alphabetArray;
 }
-
-
 
 export default computeHorizontalSuggestions;
