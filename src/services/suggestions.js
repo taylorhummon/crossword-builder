@@ -1,4 +1,4 @@
-import findSuggestions from './suggestions_a';
+import { findSuggestions1, findSuggestions2 } from './suggestions_b';
 import buildAlphabet from './build_alphabet';
 
 // const initialTimeStamp = Date.now();
@@ -7,34 +7,30 @@ import buildAlphabet from './build_alphabet';
 function computeSuggestions(squares, activeIndex, boardWidth) {
   const activeIndexColumn = activeIndex % boardWidth;
   const activeIndexRow = (activeIndex - activeIndexColumn) / boardWidth;
-  const horizontalPattern = computeHorizontalPattern(squares, activeIndexColumn, activeIndexRow, boardWidth);
-  const horizontalSuggestionsSet = findSuggestions(horizontalPattern);
-  const verticalPattern = computeVerticalPattern(squares, activeIndexColumn, activeIndexRow, boardWidth);
-  const verticalSuggestionsSet = findSuggestions(verticalPattern);
-  const suggestions = toLettersArray(horizontalSuggestionsSet, verticalSuggestionsSet);
-  console.log('SUGGESTIONS', suggestions);
-  return suggestions;
+  const rightPattern = computeRightPattern(squares, activeIndexColumn, activeIndexRow, boardWidth);
+  const leftPattern = computeLeftPattern(squares, activeIndexColumn, activeIndexRow, boardWidth);
+  const bottomPattern = computeBottomPattern(squares, activeIndexColumn, activeIndexRow, boardWidth);
+  const topPattern = computeTopPattern(squares, activeIndexColumn, activeIndexRow, boardWidth);
+  const horizontalPattern = leftPattern + '@' + rightPattern;
+  const verticalPattern = topPattern + '@' + bottomPattern;
+  const horizontalSuggestionsSet1 = findSuggestions1(horizontalPattern);
+  const verticalSuggestionsSet1 = findSuggestions1(verticalPattern);
+  const suggestions1 = toLettersArray(horizontalSuggestionsSet1, verticalSuggestionsSet1);
+  const horizontalSuggestionsSet2 = findSuggestions2(horizontalPattern);
+  const verticalSuggestionsSet2 = findSuggestions2(verticalPattern);
+  const suggestions2 = toLettersArray(horizontalSuggestionsSet2, verticalSuggestionsSet2);
 }
 
 /* HORIZONTAL */
 
-function computeHorizontalPattern(squares, activeIndexColumn, activeIndexRow, boardWidth) {
+function computeLeftPattern(squares, activeIndexColumn, activeIndexRow, boardWidth) {
   const leftIndex = findLeftIndex(squares, boardWidth, activeIndexRow, activeIndexColumn);
+  return horizontalPattern(squares, activeIndexColumn, activeIndexRow, boardWidth, leftIndex, activeIndexColumn - 1);
+}
+
+function computeRightPattern(squares, activeIndexColumn, activeIndexRow, boardWidth) {
   const rightIndex = findRightIndex(squares, boardWidth, activeIndexRow, activeIndexColumn);
-  let pattern = '';
-  for (let i = leftIndex; i <= rightIndex; i++) {
-    if (i === activeIndexColumn) {
-      pattern += '@';
-    } else {
-      const char = squareAt(squares, boardWidth, i, activeIndexRow);
-      if (char === null) {
-        pattern += '.';
-      } else {
-        pattern += char.toLowerCase();
-      }
-    }
-  }
-  return pattern;
+  return horizontalPattern(squares, activeIndexColumn, activeIndexRow, boardWidth, activeIndexColumn + 1, rightIndex);
 }
 
 function findLeftIndex(squares, boardWidth, activeIndexRow, activeIndexColumn) {
@@ -53,25 +49,29 @@ function findRightIndex(squares, boardWidth, activeIndexRow, activeIndexColumn) 
   return rightIndex;
 }
 
-/* VERTICAL */
-
-function computeVerticalPattern(squares, activeIndexColumn, activeIndexRow, boardWidth) {
-  const topIndex = findTopIndex(squares, boardWidth, activeIndexRow, activeIndexColumn);
-  const bottomIndex = findBottomIndex(squares, boardWidth, activeIndexRow, activeIndexColumn);
+function horizontalPattern(squares, activeIndexColumn, activeIndexRow, boardWidth, from, to) {
   let pattern = '';
-  for (let j = topIndex; j <= bottomIndex; j++) {
-    if (j === activeIndexRow) {
-      pattern += '@';
+  for (let i = from; i <= to; i++) { // NOTE: i <= to is intentional
+    const char = squareAt(squares, boardWidth, i, activeIndexRow);
+    if (char === null) {
+      pattern += '.';
     } else {
-      const char = squareAt(squares, boardWidth, activeIndexColumn, j);
-      if (char === null) {
-        pattern += '.';
-      } else {
-        pattern += char.toLowerCase();
-      }
+      pattern += char.toLowerCase();
     }
   }
   return pattern;
+}
+
+/* VERTICAL */
+
+function computeTopPattern(squares, activeIndexColumn, activeIndexRow, boardWidth) {
+  const topIndex = findTopIndex(squares, boardWidth, activeIndexRow, activeIndexColumn);
+  return verticalPattern(squares, activeIndexColumn, activeIndexRow, boardWidth, topIndex, activeIndexRow - 1);
+}
+
+function computeBottomPattern(squares, activeIndexColumn, activeIndexRow, boardWidth) {
+  const bottomIndex = findBottomIndex(squares, boardWidth, activeIndexRow, activeIndexColumn);
+  return verticalPattern(squares, activeIndexColumn, activeIndexRow, boardWidth, activeIndexRow + 1, bottomIndex);
 }
 
 function findTopIndex(squares, boardWidth, activeIndexRow, activeIndexColumn) {
@@ -88,6 +88,19 @@ function findBottomIndex(squares, boardWidth, activeIndexRow, activeIndexColumn)
     bottomIndex++;
   }
   return bottomIndex;
+}
+
+function verticalPattern(squares, activeIndexColumn, activeIndexRow, boardWidth, from, to) {
+  let pattern = '';
+  for (let j = from; j <= to; j++) { // NOTE: j <= to is intentional
+    const char = squareAt(squares, boardWidth, activeIndexColumn, j);
+    if (char === null) {
+      pattern += '.';
+    } else {
+      pattern += char.toLowerCase();
+    }
+  }
+  return pattern;
 }
 
 /* OTHER */

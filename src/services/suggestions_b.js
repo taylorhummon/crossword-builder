@@ -2,7 +2,17 @@ import dictionaryWithWordsOfLength from './dictionary';
 import buildAlphabet from './build_alphabet';
 import computeSubpatterns from './subpatterns';
 
-function findSuggestions(pattern) {
+export function findSuggestions1(pattern) {
+  const lettersSet = new Set();
+  for (let letter of buildAlphabet()) {
+    if (hasMatch(pattern, letter)) {
+      lettersSet.add(letter);
+    }
+  }
+  return lettersSet;
+}
+
+export function findSuggestions2(pattern) {
   const subpatterns = computeSubpatterns(pattern);
   const lettersSet = new Set();
   for (let letter of buildAlphabet()) {
@@ -31,5 +41,3 @@ function buildRegExp(pattern, letter) {
   ).join('');
   return new RegExp(`^${regexPattern}$`);
 }
-
-export default findSuggestions;

@@ -1,7 +1,11 @@
 import dictionaryWithWordsOfLength from './dictionary';
 import computeSubpatterns from './subpatterns';
 
-function findSuggestions(pattern) {
+export function findSuggestions1(pattern) {
+  return findSuggestionsHelper(pattern);
+}
+
+export function findSuggestions2(pattern) {
   const lettersSet = new Set();
   for (const subpattern of computeSubpatterns(pattern)) {
     const lettersSetForSubpattern = findSuggestionsHelper(subpattern);
@@ -29,5 +33,3 @@ function buildRegExp(pattern) {
   ).join('');
   return new RegExp(`^${regexPattern}$`);
 }
-
-export default findSuggestions;
