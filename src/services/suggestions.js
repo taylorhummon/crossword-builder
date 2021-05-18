@@ -5,12 +5,12 @@ import buildAlphabet from './build_alphabet';
 // console.log('Search Took', Date.now() - initialTimeStamp);
 
 function computeSuggestions(squares, activeIndex, boardWidth) {
-  const activeIndexColumn = activeIndex % boardWidth;
-  const activeIndexRow = (activeIndex - activeIndexColumn) / boardWidth;
-  const rightPattern = computeRightPattern(squares, activeIndexColumn, activeIndexRow, boardWidth);
-  const leftPattern = computeLeftPattern(squares, activeIndexColumn, activeIndexRow, boardWidth);
-  const bottomPattern = computeBottomPattern(squares, activeIndexColumn, activeIndexRow, boardWidth);
-  const topPattern = computeTopPattern(squares, activeIndexColumn, activeIndexRow, boardWidth);
+  const activeColumn = activeIndex % boardWidth;
+  const activeRow = (activeIndex - activeColumn) / boardWidth;
+  const rightPattern = computeRightPattern(squares, activeColumn, activeRow, boardWidth);
+  const leftPattern = computeLeftPattern(squares, activeColumn, activeRow, boardWidth);
+  const bottomPattern = computeBottomPattern(squares, activeColumn, activeRow, boardWidth);
+  const topPattern = computeTopPattern(squares, activeColumn, activeRow, boardWidth);
   const horizontalPattern = leftPattern + '@' + rightPattern;
   const verticalPattern = topPattern + '@' + bottomPattern;
   const horizontalSuggestionsSet1 = findSuggestions1(horizontalPattern);
@@ -23,36 +23,36 @@ function computeSuggestions(squares, activeIndex, boardWidth) {
 
 /* HORIZONTAL */
 
-function computeLeftPattern(squares, activeIndexColumn, activeIndexRow, boardWidth) {
-  const leftIndex = findLeftIndex(squares, boardWidth, activeIndexRow, activeIndexColumn);
-  return horizontalPattern(squares, activeIndexColumn, activeIndexRow, boardWidth, leftIndex, activeIndexColumn - 1);
+function computeLeftPattern(squares, activeColumn, activeRow, boardWidth) {
+  const leftIndex = findLeftIndex(squares, boardWidth, activeRow, activeColumn);
+  return horizontalPattern(squares, activeColumn, activeRow, boardWidth, leftIndex, activeColumn - 1);
 }
 
-function computeRightPattern(squares, activeIndexColumn, activeIndexRow, boardWidth) {
-  const rightIndex = findRightIndex(squares, boardWidth, activeIndexRow, activeIndexColumn);
-  return horizontalPattern(squares, activeIndexColumn, activeIndexRow, boardWidth, activeIndexColumn + 1, rightIndex);
+function computeRightPattern(squares, activeColumn, activeRow, boardWidth) {
+  const rightIndex = findRightIndex(squares, boardWidth, activeRow, activeColumn);
+  return horizontalPattern(squares, activeColumn, activeRow, boardWidth, activeColumn + 1, rightIndex);
 }
 
-function findLeftIndex(squares, boardWidth, activeIndexRow, activeIndexColumn) {
-  let leftIndex = activeIndexColumn;
-  while (leftIndex - 1 >= 0 && squareAt(squares, boardWidth, leftIndex - 1, activeIndexRow) !== '\n') {
+function findLeftIndex(squares, boardWidth, activeRow, activeColumn) {
+  let leftIndex = activeColumn;
+  while (leftIndex - 1 >= 0 && squareAt(squares, boardWidth, leftIndex - 1, activeRow) !== '\n') {
     leftIndex--;
   }
   return leftIndex;
 }
 
-function findRightIndex(squares, boardWidth, activeIndexRow, activeIndexColumn) {
-  let rightIndex = activeIndexColumn;
-  while (rightIndex + 1 < boardWidth && squareAt(squares, boardWidth, rightIndex + 1, activeIndexRow) !== '\n') {
+function findRightIndex(squares, boardWidth, activeRow, activeColumn) {
+  let rightIndex = activeColumn;
+  while (rightIndex + 1 < boardWidth && squareAt(squares, boardWidth, rightIndex + 1, activeRow) !== '\n') {
     rightIndex++;
   }
   return rightIndex;
 }
 
-function horizontalPattern(squares, activeIndexColumn, activeIndexRow, boardWidth, from, to) {
+function horizontalPattern(squares, activeColumn, activeRow, boardWidth, from, to) {
   let pattern = '';
   for (let i = from; i <= to; i++) { // NOTE: i <= to is intentional
-    const char = squareAt(squares, boardWidth, i, activeIndexRow);
+    const char = squareAt(squares, boardWidth, i, activeRow);
     if (char === null) {
       pattern += '.';
     } else {
@@ -64,36 +64,36 @@ function horizontalPattern(squares, activeIndexColumn, activeIndexRow, boardWidt
 
 /* VERTICAL */
 
-function computeTopPattern(squares, activeIndexColumn, activeIndexRow, boardWidth) {
-  const topIndex = findTopIndex(squares, boardWidth, activeIndexRow, activeIndexColumn);
-  return verticalPattern(squares, activeIndexColumn, activeIndexRow, boardWidth, topIndex, activeIndexRow - 1);
+function computeTopPattern(squares, activeColumn, activeRow, boardWidth) {
+  const topIndex = findTopIndex(squares, boardWidth, activeRow, activeColumn);
+  return verticalPattern(squares, activeColumn, activeRow, boardWidth, topIndex, activeRow - 1);
 }
 
-function computeBottomPattern(squares, activeIndexColumn, activeIndexRow, boardWidth) {
-  const bottomIndex = findBottomIndex(squares, boardWidth, activeIndexRow, activeIndexColumn);
-  return verticalPattern(squares, activeIndexColumn, activeIndexRow, boardWidth, activeIndexRow + 1, bottomIndex);
+function computeBottomPattern(squares, activeColumn, activeRow, boardWidth) {
+  const bottomIndex = findBottomIndex(squares, boardWidth, activeRow, activeColumn);
+  return verticalPattern(squares, activeColumn, activeRow, boardWidth, activeRow + 1, bottomIndex);
 }
 
-function findTopIndex(squares, boardWidth, activeIndexRow, activeIndexColumn) {
-  let topIndex = activeIndexRow;
-  while (topIndex - 1 >= 0 && squareAt(squares, boardWidth, activeIndexColumn, topIndex - 1) !== '\n') {
+function findTopIndex(squares, boardWidth, activeRow, activeColumn) {
+  let topIndex = activeRow;
+  while (topIndex - 1 >= 0 && squareAt(squares, boardWidth, activeColumn, topIndex - 1) !== '\n') {
     topIndex--;
   }
   return topIndex;
 }
 
-function findBottomIndex(squares, boardWidth, activeIndexRow, activeIndexColumn) {
-  let bottomIndex = activeIndexRow;
-  while (bottomIndex + 1 < boardWidth && squareAt(squares, boardWidth, activeIndexColumn, bottomIndex + 1) !== '\n') {
+function findBottomIndex(squares, boardWidth, activeRow, activeColumn) {
+  let bottomIndex = activeRow;
+  while (bottomIndex + 1 < boardWidth && squareAt(squares, boardWidth, activeColumn, bottomIndex + 1) !== '\n') {
     bottomIndex++;
   }
   return bottomIndex;
 }
 
-function verticalPattern(squares, activeIndexColumn, activeIndexRow, boardWidth, from, to) {
+function verticalPattern(squares, activeColumn, activeRow, boardWidth, from, to) {
   let pattern = '';
   for (let j = from; j <= to; j++) { // NOTE: j <= to is intentional
-    const char = squareAt(squares, boardWidth, activeIndexColumn, j);
+    const char = squareAt(squares, boardWidth, activeColumn, j);
     if (char === null) {
       pattern += '.';
     } else {
