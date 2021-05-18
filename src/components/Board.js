@@ -59,7 +59,7 @@ class Board extends React.Component {
       if (prevState.activeIndex === k) {
         return updateSquare(prevState, '\n');
       } else {
-        computeSuggestions(prevState.squares, k, this.width);
+        computeSuggestions(prevState.squares, this.width, this.height, k);
         return { activeIndex: k };
       }
     });
