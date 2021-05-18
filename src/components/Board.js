@@ -2,7 +2,7 @@ import React from 'react';
 import './Board.css';
 import Square from './Square';
 import computeSuggestions from '../services/suggestions';
-import indicesArray from '../services/indices_array';
+import { indicesArray } from '../services/indices_array';
 
 class Board extends React.Component {
   constructor(props) {

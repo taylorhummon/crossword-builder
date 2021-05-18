@@ -1,6 +1,7 @@
 import { findSuggestions1, findSuggestions2 } from './suggestions_a';
 import buildAlphabet from './build_alphabet';
 import { divMod } from './math';
+import { inclusiveIndicesArray } from './indices_array';
 
 // const initialTimeStamp = Date.now();
 // console.log('Search Took', Date.now() - initialTimeStamp);
@@ -34,94 +35,80 @@ function buildBoardObject(squares, width, height, activeIndex) {
   return board;
 }
 
+function toLettersArray(setA, setB) {
+  return buildAlphabet().filter(
+    letter => setA.has(letter) && setB.has(letter)
+  );
+}
+
 /* HORIZONTAL */
 
 function computeLeftPattern(board) {
-  const leftIndex = findLeftIndex(board);
-  return horizontalPattern(board, leftIndex, board.activeColumn - 1);
+  return horizontalPattern(board, leftBound(board), board.activeColumn - 1);
 }
 
 function computeRightPattern(board) {
-  const rightIndex = findRightIndex(board);
-  return horizontalPattern(board, board.activeColumn + 1, rightIndex);
+  return horizontalPattern(board, board.activeColumn + 1, rightBound(board));
 }
 
-function findLeftIndex(board) {
-  let leftIndex = board.activeColumn;
-  while (leftIndex - 1 >= 0 && board.squareAt(leftIndex - 1, board.activeRow) !== '\n') {
-    leftIndex--;
+function leftBound(board) {
+  let i = board.activeColumn;
+  while (i - 1 >= 0 && board.squareAt(i - 1, board.activeRow) !== '\n') {
+    i--;
   }
-  return leftIndex;
+  return i;
 }
 
-function findRightIndex(board) {
-  let rightIndex = board.activeColumn;
-  while (rightIndex + 1 < board.width && board.squareAt(rightIndex + 1, board.activeRow) !== '\n') {
-    rightIndex++;
+function rightBound(board) {
+  let i = board.activeColumn;
+  while (i + 1 < board.width && board.squareAt(i + 1, board.activeRow) !== '\n') {
+    i++;
   }
-  return rightIndex;
+  return i;
 }
 
 function horizontalPattern(board, from, to) {
-  let pattern = '';
-  for (let i = from; i <= to; i++) { // NOTE: "i <= to" is intentional
-    const char = board.squareAt(i, board.activeRow);
-    if (char === null) {
-      pattern += '.';
-    } else {
-      pattern += char.toLowerCase();
-    }
-  }
-  return pattern;
+  return inclusiveIndicesArray(from, to).map(
+    i => board.squareAt(i, board.activeRow)
+  ).map(character => {
+    if (character === null) return '.';
+    return character.toLowerCase();
+  }).join('');
 }
 
 /* VERTICAL */
 
 function computeTopPattern(board) {
-  const topIndex = findTopIndex(board);
-  return verticalPattern(board, topIndex, board.activeRow - 1);
+  return verticalPattern(board, topBound(board), board.activeRow - 1);
 }
 
 function computeBottomPattern(board) {
-  const bottomIndex = findBottomIndex(board);
-  return verticalPattern(board, board.activeRow + 1, bottomIndex);
+  return verticalPattern(board, board.activeRow + 1, bottomBound(board));
 }
 
-function findTopIndex(board) {
-  let topIndex = board.activeRow;
-  while (topIndex - 1 >= 0 && board.squareAt(board.activeColumn, topIndex - 1) !== '\n') {
-    topIndex--;
+function topBound(board) {
+  let j = board.activeRow;
+  while (j - 1 >= 0 && board.squareAt(board.activeColumn, j - 1) !== '\n') {
+    j--;
   }
-  return topIndex;
+  return j;
 }
 
-function findBottomIndex(board) {
-  let bottomIndex = board.activeRow;
-  while (bottomIndex + 1 < board.width && board.squareAt(board.activeColumn, bottomIndex + 1) !== '\n') {
-    bottomIndex++;
+function bottomBound(board) {
+  let j = board.activeRow;
+  while (j + 1 < board.width && board.squareAt(board.activeColumn, j + 1) !== '\n') {
+    j++;
   }
-  return bottomIndex;
+  return j;
 }
 
 function verticalPattern(board, from, to) {
-  let pattern = '';
-  for (let j = from; j <= to; j++) { // NOTE: "j <= to" is intentional
-    const char = board.squareAt(board.activeColumn, j);
-    if (char === null) {
-      pattern += '.';
-    } else {
-      pattern += char.toLowerCase();
-    }
-  }
-  return pattern;
-}
-
-/* OTHER */
-
-function toLettersArray(setA, setB) {
-  return buildAlphabet().filter(
-    letter => setA.has(letter) && setB.has(letter)
-  );
+  return inclusiveIndicesArray(from, to).map(
+    j => board.squareAt(board.activeColumn, j)
+  ).map(character => {
+    if (character === null) return '.';
+    return character.toLowerCase();
+  }).join('');
 }
 
 export default computeSuggestions;
