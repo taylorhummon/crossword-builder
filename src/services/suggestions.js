@@ -1,4 +1,4 @@
-import { findSuggestions1, findSuggestions2, findSuggestionsTrimLeft, findSuggestionsTrimRight } from './suggestions_a';
+import { findSuggestions1, findSuggestions2, computeSuggestFillTrimLeft, computeSuggestFillTrimRight } from './suggestions_a';
 import buildAlphabet from './build_alphabet';
 import { divMod } from './math';
 import { inclusiveIndicesArray } from './indices_array';
@@ -10,32 +10,36 @@ function computeSuggestions(squares, width, height, activeIndex) {
   const canSuggestFill = true;
   const board = buildBoardObject(squares, width, height, activeIndex);
   if (canSuggestFill) {
+    const suggestFill = computeSuggestFill(
+      computeHorizontalPattern(board, leftBound(board), board.activeColumn),
+      computeHorizontalPattern(board, board.activeColumn, rightBound(board)),
+      computeVerticalPattern(board, topBound(board), board.activeRow),
+      computeVerticalPattern(board, board.activeRow, bottomBound(board))
+    );
+    console.log('SUGGEST FILL?', suggestFill);
     const horizontalPattern = computeHorizontalPattern(board, leftBound(board), rightBound(board));
     const verticalPattern = computeVerticalPattern(board, topBound(board), bottomBound(board));
     const horizontalSuggestionsSet = findSuggestions2(horizontalPattern);
     const verticalSuggestionsSet = findSuggestions2(verticalPattern);
     const suggestions = toLettersArray(horizontalSuggestionsSet, verticalSuggestionsSet);
-    const rightPattern = computeHorizontalPattern(board, board.activeColumn, rightBound(board));
-    const leftPattern = computeHorizontalPattern(board, leftBound(board), board.activeColumn);
-    const bottomPattern = computeVerticalPattern(board, board.activeRow, bottomBound(board));
-    const topPattern = computeVerticalPattern(board, topBound(board), board.activeRow);
-    const suggestFill = computeSuggestFill(rightPattern, leftPattern, bottomPattern, topPattern);
+    console.log('SUGGESTED LETTERS', suggestions);
   } else {
     const horizontalPattern = computeHorizontalPattern(board, leftBound(board), rightBound(board));
     const verticalPattern = computeVerticalPattern(board, topBound(board), bottomBound(board));
     const horizontalSuggestionsSet = findSuggestions1(horizontalPattern);
     const verticalSuggestionsSet = findSuggestions1(verticalPattern);
     const suggestions = toLettersArray(horizontalSuggestionsSet, verticalSuggestionsSet);
+    console.log('SUGGESTIONS', suggestions);
   }
 }
 
 function buildBoardObject(squares, width, height, activeIndex) {
   const [activeColumn, activeRow] = divMod(activeIndex, width);
-  const board = { 
-    squares, 
-    width, 
-    height, 
-    activeColumn, 
+  const board = {
+    squares,
+    width,
+    height,
+    activeColumn,
     activeRow,
     squareAt(i, j) { return this.squares[j * this.width + i]; }
   };
@@ -48,12 +52,12 @@ function toLettersArray(setA, setB) {
   );
 }
 
-function computeSuggestFill(rightPattern, leftPattern, bottomPattern, topPattern) {
-  findSuggestionsTrimLeft(leftPattern);
-  findSuggestionsTrimRight(rightPattern);
-  findSuggestionsTrimLeft(topPattern);
-  findSuggestionsTrimRight(bottomPattern);
-  return false; // !!!
+function computeSuggestFill(leftPattern, rightPattern, topPattern, bottomPattern) {
+  if (! computeSuggestFillTrimLeft(leftPattern)) return false;
+  if (! computeSuggestFillTrimRight(rightPattern)) return false;
+  if (! computeSuggestFillTrimLeft(topPattern)) return false;
+  if (! computeSuggestFillTrimRight(bottomPattern)) return false;
+  return true;
 }
 
 /* HORIZONTAL */

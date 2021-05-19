@@ -1,5 +1,6 @@
 import dictionaryWithWordsOfLength from './dictionary';
 import { computeSubpatterns, computeSubpatternsTrimRight, computeSubpatternsTrimLeft } from './subpatterns';
+import { firstCharacter, lastCharacter, trimFirstCharacter, trimLastCharacter } from './strings';
 
 export function findSuggestions1(pattern) {
   return findSuggestionsHelper(pattern);
@@ -17,18 +18,6 @@ export function findSuggestions2(pattern) {
   return lettersSet;
 }
 
-export function findSuggestionsTrimLeft(pattern) {
-  if (pattern[pattern.length - 1] !== '@') throw new Error('Expected @ as last character');
-  const subpatterns = computeSubpatternsTrimLeft(pattern);
-  console.log('TRIMMED LEFT SUBPATTERNS', subpatterns);
-}
-
-export function findSuggestionsTrimRight(pattern) {
-  if (pattern[0] !== '@') throw new Error('Expected @ as first character');
-  const subpatterns = computeSubpatternsTrimRight(pattern);
-  console.log('TRIMMED RIGHT SUBPATTERNS', subpatterns);
-}
-
 function findSuggestionsHelper(pattern) {
   const lettersSet = new Set();
   const index = pattern.indexOf('@');
@@ -41,8 +30,38 @@ function findSuggestionsHelper(pattern) {
 }
 
 function buildRegExp(pattern) {
-  const regexPattern = pattern.split('').map(
+  const regExpPattern = pattern.split('').map(
     character => character === '@' ? '.' : character
   ).join('');
-  return new RegExp(`^${regexPattern}$`);
+  return new RegExp(`^${regExpPattern}$`);
+}
+
+export function computeSuggestFillTrimLeft(pattern) {
+  if (lastCharacter(pattern) !== '@') throw new Error('Expected @ as last character');
+  const subpatterns = computeSubpatternsTrimLeft(pattern);
+  if (subpatterns.includes('@')) return true;
+  for (const subpattern of subpatterns) {
+    const regExpPattern = trimLastCharacter(subpattern);
+    if (hasMatchInDictionary(regExpPattern)) return true;
+  }
+  return false;
+}
+
+export function computeSuggestFillTrimRight(pattern) {
+  if (firstCharacter(pattern) !== '@') throw new Error('Expected @ as first character');
+  const subpatterns = computeSubpatternsTrimRight(pattern);
+  if (subpatterns.includes('@')) return true;
+  for (const subpattern of subpatterns) {
+    const regExpPattern = trimFirstCharacter(subpattern);
+    if (hasMatchInDictionary(regExpPattern)) return true;
+  }
+  return false;
+}
+
+function hasMatchInDictionary(regExpPattern) {
+  const regExp = new RegExp(`^${regExpPattern}$`);
+  const dictionary = dictionaryWithWordsOfLength(regExpPattern.length);
+  for (const word of dictionary) {
+    if (regExp.test(word)) return true;
+  }
 }

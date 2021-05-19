@@ -17,7 +17,7 @@ export function computeSubpatternsTrimLeft(pattern) {
   trimPoints.unshift(0);
   return trimPoints.map(
     trimPoint => pattern.substring(trimPoint)
-  );
+  ).reverse();
 }
 
 export function computeSubpatternsTrimRight(pattern) {
@@ -29,7 +29,7 @@ export function computeSubpatternsTrimRight(pattern) {
   trimPoints.push(pattern.length);
   return trimPoints.map(
     trimPoint => pattern.substring(0, trimPoint)
-  );
+  ).reverse();
 }
 
 function findIndex(pattern) {
