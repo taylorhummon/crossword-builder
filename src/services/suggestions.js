@@ -83,7 +83,7 @@ function computeHorizontalPattern(board, from, to) {
     const character = board.squareAt(i, board.activeRow);
     if (i === board.activeColumn) return '@';
     if (character === null) return '.';
-    if (/[A-Z]/.test(character)) return character.toLowerCase();
+    if (/[A-Z]/.test(character)) return character;
     throw new Error(`Unexpected character: ${character}`);
   }).join('');
 }
@@ -111,7 +111,7 @@ function computeVerticalPattern(board, from, to) {
     const character = board.squareAt(board.activeColumn, j);
     if (j === board.activeRow) return '@';
     if (character === null) return '.';
-    if (/[A-Z]/.test(character)) return character.toLowerCase();
+    if (/[A-Z]/.test(character)) return character;
     throw new Error(`Unexpected character: ${character}`);
   }).join('');
 }
