@@ -1,5 +1,5 @@
 import dictionaryWithWordsOfLength from './dictionary';
-import computeSubpatterns from './subpatterns';
+import { computeSubpatterns, computeSubpatternsTrimRight, computeSubpatternsTrimLeft } from './subpatterns';
 
 export function findSuggestions1(pattern) {
   return findSuggestionsHelper(pattern);
@@ -7,13 +7,26 @@ export function findSuggestions1(pattern) {
 
 export function findSuggestions2(pattern) {
   const lettersSet = new Set();
-  for (const subpattern of computeSubpatterns(pattern)) {
+  const subpatterns = computeSubpatterns(pattern);
+  for (const subpattern of subpatterns) {
     const lettersSetForSubpattern = findSuggestionsHelper(subpattern);
     for (const letter of lettersSetForSubpattern) {
       lettersSet.add(letter);
     }
   }
   return lettersSet;
+}
+
+export function findSuggestionsTrimLeft(pattern) {
+  if (pattern[pattern.length - 1] !== '@') throw new Error('Expected @ as last character');
+  const subpatterns = computeSubpatternsTrimLeft(pattern);
+  console.log('TRIMMED LEFT SUBPATTERNS', subpatterns);
+}
+
+export function findSuggestionsTrimRight(pattern) {
+  if (pattern[0] !== '@') throw new Error('Expected @ as first character');
+  const subpatterns = computeSubpatternsTrimRight(pattern);
+  console.log('TRIMMED RIGHT SUBPATTERNS', subpatterns);
 }
 
 function findSuggestionsHelper(pattern) {

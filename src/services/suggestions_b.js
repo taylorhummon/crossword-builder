@@ -1,6 +1,6 @@
 import dictionaryWithWordsOfLength from './dictionary';
 import buildAlphabet from './build_alphabet';
-import computeSubpatterns from './subpatterns';
+import { computeSubpatterns } from './subpatterns';
 
 export function findSuggestions1(pattern) {
   const lettersSet = new Set();

@@ -1,25 +1,35 @@
-function computeSubpatterns(pattern) {
-  const index = findIndex(pattern);
-  const leftPoints = [];
-  for (let i = 0; i < index; i++) {
-    if (pattern[i] === '.') leftPoints.push(i + 1);
-  }
-  leftPoints.unshift(0);
-  const rightPoints = [];
-  for (let i = index + 1; i < pattern.length; i++) {
-    if (pattern[i] === '.') rightPoints.push(i);
-  }
-  rightPoints.push(pattern.length);
-  const subpatterns = [];
-  for (const leftPoint of leftPoints) {
-    for (const rightPoint of rightPoints) {
-      subpatterns.push(pattern.substring(leftPoint, rightPoint));
-    }
-  }
+export function computeSubpatterns(pattern) {
+  const subpatterns = computeSubpatternsTrimLeft(pattern).flatMap(
+    subpattern => computeSubpatternsTrimRight(subpattern)
+  );
   subpatterns.sort(
     (subpatternA, subpatternB) => subpatternA.length - subpatternB.length
   );
   return subpatterns;
+}
+
+export function computeSubpatternsTrimLeft(pattern) {
+  const index = findIndex(pattern);
+  const trimPoints = [];
+  for (let i = 0; i < index; i++) {
+    if (pattern[i] === '.') trimPoints.push(i + 1);
+  }
+  trimPoints.unshift(0);
+  return trimPoints.map(
+    trimPoint => pattern.substring(trimPoint)
+  );
+}
+
+export function computeSubpatternsTrimRight(pattern) {
+  const index = findIndex(pattern);
+  const trimPoints = [];
+  for (let i = index + 1; i < pattern.length; i++) {
+    if (pattern[i] === '.') trimPoints.push(i);
+  }
+  trimPoints.push(pattern.length);
+  return trimPoints.map(
+    trimPoint => pattern.substring(0, trimPoint)
+  );
 }
 
 function findIndex(pattern) {
@@ -32,5 +42,3 @@ function findIndex(pattern) {
   }
   return index;
 }
-
-export default computeSubpatterns;
