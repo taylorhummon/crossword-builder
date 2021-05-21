@@ -13,3 +13,5 @@ export function buildUppercaseAlphabet() {
     i => String.fromCharCode(charCode + i)
   );
 }
+
+export const filledSquare = '';

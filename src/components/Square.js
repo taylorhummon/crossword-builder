@@ -1,5 +1,6 @@
 import React from 'react';
 import './Square.css';
+import { filledSquare } from '../utilities/alphabet';
 
 class Square extends React.Component {
   render() {
@@ -18,16 +19,16 @@ class Square extends React.Component {
 
 function className(props) {
   const cssClasses = ['square'];
-  if (props.isActive) { 
-    cssClasses.push('is-blue') 
+  if (props.isActive) {
+    cssClasses.push('is-blue')
   } else if (isBlack(props)) {
     cssClasses.push('is-black');
   }
   return cssClasses.join(' ');
 }
 
-function isBlack(props) {
-  return props.value === '\n';
+function isBlack(props) { // !!! rename
+  return props.value === filledSquare;
 }
 
 export default Square;

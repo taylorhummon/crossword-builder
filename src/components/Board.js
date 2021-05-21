@@ -38,10 +38,12 @@ class Board extends React.Component {
         key={k}
         value={this.props.squares[k]}
         isActive={this.props.activeIndex === k}
-        onClick={(event) => this.props.handleBoardClick(k, event)}
+        onClick={this.handleSquareClick(k)}
       />
     );
   }
+
+  handleSquareClick = k => event => this.props.handleBoardClick(k, event);
 }
 
 export default Board;
