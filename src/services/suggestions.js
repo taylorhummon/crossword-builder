@@ -1,6 +1,6 @@
 import { findSuggestions1, findSuggestions2, computeSuggestFillTrimLeft, computeSuggestFillTrimRight } from './suggestions_a';
-import { buildUppercaseAlphabet } from '../utilities/build_alphabet';
-import { divMod } from '../utilities/math';
+import { buildUppercaseAlphabet } from '../utilities/alphabet';
+import { remainderAndQuotient } from '../utilities/math';
 import { inclusiveIndicesArray } from '../utilities/indices_array';
 
 // const initialTimeStamp = Date.now();
@@ -34,7 +34,7 @@ export function computeSuggestions(squares, width, height, activeIndex) {
 }
 
 function buildBoardObject(squares, width, height, activeIndex) {
-  const [activeColumn, activeRow] = divMod(activeIndex, width);
+  const [activeColumn, activeRow] = remainderAndQuotient(activeIndex, width);
   const board = {
     squares,
     width,
