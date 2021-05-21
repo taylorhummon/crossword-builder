@@ -1,7 +1,7 @@
 import { findSuggestions1, findSuggestions2, computeSuggestFillTrimLeft, computeSuggestFillTrimRight } from './suggestions_a';
-import buildAlphabet from './build_alphabet';
-import { divMod } from './math';
-import { inclusiveIndicesArray } from './indices_array';
+import buildAlphabet from '../utilities/build_alphabet';
+import { divMod } from '../utilities/math';
+import { inclusiveIndicesArray } from '../utilities/indices_array';
 
 // const initialTimeStamp = Date.now();
 // console.log('Search Took', Date.now() - initialTimeStamp);

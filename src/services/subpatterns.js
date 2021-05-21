@@ -15,9 +15,9 @@ export function computeSubpatternsTrimLeft(pattern) {
     if (pattern[i] === '.') trimPoints.push(i + 1);
   }
   trimPoints.unshift(0);
-  return trimPoints.map(
+  return trimPoints.reverse().map(
     trimPoint => pattern.substring(trimPoint)
-  ).reverse();
+  );
 }
 
 export function computeSubpatternsTrimRight(pattern) {
@@ -27,9 +27,9 @@ export function computeSubpatternsTrimRight(pattern) {
     if (pattern[i] === '.') trimPoints.push(i);
   }
   trimPoints.push(pattern.length);
-  return trimPoints.map(
+  return trimPoints.reverse().map(
     trimPoint => pattern.substring(0, trimPoint)
-  ).reverse();
+  );
 }
 
 function findIndex(pattern) {

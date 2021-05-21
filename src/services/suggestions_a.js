@@ -1,6 +1,6 @@
 import dictionaryWithWordsOfLength from '../dictionaries/dictionary';
 import { computeSubpatterns, computeSubpatternsTrimRight, computeSubpatternsTrimLeft } from './subpatterns';
-import { firstCharacter, lastCharacter, trimFirstCharacter, trimLastCharacter } from './strings';
+import { firstCharacter, lastCharacter, trimFirstCharacter, trimLastCharacter } from '../utilities/strings';
 
 export function findSuggestions1(pattern) {
   return findSuggestionsHelper(pattern);

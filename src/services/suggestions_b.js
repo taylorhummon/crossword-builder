@@ -1,5 +1,5 @@
 import dictionaryWithWordsOfLength from '../dictionaries/dictionary';
-import buildAlphabet from './build_alphabet';
+import buildAlphabet from '../utilities/build_alphabet';
 import { computeSubpatterns } from './subpatterns';
 
 export function findSuggestions1(pattern) {

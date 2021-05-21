@@ -2,7 +2,7 @@ import React from 'react';
 import './Board.css';
 import Square from './Square';
 import computeSuggestions from '../services/suggestions';
-import { indicesArray } from '../services/indices_array';
+import { indicesArray } from '../utilities/indices_array';
 
 class Board extends React.Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class Board extends React.Component {
       activeIndex: null,
     };
   }
-    
+
   render() {
     const renderedRows = indicesArray(this.height).map(
       i => this.renderRow(i)
@@ -34,7 +34,7 @@ class Board extends React.Component {
       j => this.renderSquare(i * this.width + j)
     );
     return (
-      <div 
+      <div
         className="board-row"
         key={i}
       >
