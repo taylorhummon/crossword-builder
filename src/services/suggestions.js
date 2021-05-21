@@ -6,8 +6,7 @@ import { inclusiveIndicesArray } from '../utilities/indices_array';
 // const initialTimeStamp = Date.now();
 // console.log('Search Took', Date.now() - initialTimeStamp);
 
-export function computeSuggestions(squares, width, height, activeIndex) {
-  const canSuggestFill = true;
+export function computeSuggestions(squares, width, height, activeIndex, canSuggestFill) {
   const board = buildBoardObject(squares, width, height, activeIndex);
   const horizontalPattern = computeHorizontalPattern(board, leftBound(board), rightBound(board));
   const verticalPattern = computeVerticalPattern(board, topBound(board), bottomBound(board));

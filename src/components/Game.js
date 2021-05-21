@@ -15,6 +15,7 @@ class Game extends React.Component {
       squares: arrayOfSize(this.boardWidth * this.boardHeight),
       activeIndex: null,
       suggestedLetters: [],
+      allowFillSuggestions: true
     };
   }
 
@@ -34,6 +35,8 @@ class Game extends React.Component {
         <div className="game-suggestions">
           <Suggestions
             suggestedLetters={this.state.suggestedLetters}
+            allowFillSuggestions={this.state.allowFillSuggestions}
+            handleAllowFillInputChange={this.handleAllowFillInputChange}
           />
         </div>
       </div>
@@ -46,7 +49,7 @@ class Game extends React.Component {
         return updateSquare(prevState, filledSquare);
       } else {
         // !!! compute suggestions should be computed asynchronously (and probably on the back end)
-        const suggestedLetters = computeSuggestions(prevState.squares, this.boardWidth, this.boardHeight, k);
+        const suggestedLetters = computeSuggestions(prevState.squares, this.boardWidth, this.boardHeight, k, prevState.allowFillSuggestions);
         return {
           activeIndex: k,
           suggestedLetters
@@ -64,6 +67,17 @@ class Game extends React.Component {
       if (event.key === 'Enter') return updateSquare(prevState, filledSquare);
       if (/^[A-Za-z]$/.test(event.key)) return updateSquare(prevState, event.key.toUpperCase());
       return null;
+    });
+  }
+
+  handleAllowFillInputChange = (event) => {
+    if (event.target.type !== 'checkbox') return;
+    this.setState((prevState) => {
+      const suggestedLetters = computeSuggestions(prevState.squares, this.boardWidth, this.boardHeight, prevState.activeIndex, prevState.allowFillSuggestions);
+      return {
+        allowFillSuggestions: event.target.checked,
+        suggestedLetters
+      };
     });
   }
 }
