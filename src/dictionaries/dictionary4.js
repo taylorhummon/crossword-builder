@@ -1,4 +1,4 @@
-const dictionary4 = [
+export const dictionary4 = [
   'AAAA',
   'AAAS',
   'AABA',
@@ -3865,5 +3865,3 @@ const dictionary4 = [
   'ZORA',
   'ZUNI',
 ];
-
-export default dictionary4;

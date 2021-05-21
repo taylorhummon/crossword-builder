@@ -1,9 +1,15 @@
 import { indicesArray } from './indices_array';
 
-function buildAlphabet() {
+export function buildLowercaseAlphabet() {
+  const charCode = 'a'.charCodeAt(0);
   return indicesArray(26).map(
-    i => String.fromCharCode(65 + i)
+    i => String.fromCharCode(charCode + i)
   );
 }
 
-export default buildAlphabet;
+export function buildUppercaseAlphabet() {
+  const charCode = 'A'.charCodeAt(0);
+  return indicesArray(26).map(
+    i => String.fromCharCode(charCode + i)
+  );
+}

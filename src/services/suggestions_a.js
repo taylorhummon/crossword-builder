@@ -1,4 +1,4 @@
-import dictionaryWithWordsOfLength from '../dictionaries/dictionary';
+import { dictionaryWithWordsOfLength } from '../dictionaries/dictionary';
 import { computeSubpatterns, computeSubpatternsTrimRight, computeSubpatternsTrimLeft } from './subpatterns';
 import { firstCharacter, lastCharacter, trimFirstCharacter, trimLastCharacter } from '../utilities/strings';
 

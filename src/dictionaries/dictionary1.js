@@ -1,4 +1,4 @@
-const dictionary1 = [
+export const dictionary1 = [
 'A',
 'B',
 'C',
@@ -26,5 +26,3 @@ const dictionary1 = [
 'Y',
 'Z',
 ];
-
-export default dictionary1;

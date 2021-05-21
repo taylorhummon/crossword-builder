@@ -1,4 +1,4 @@
-const dictionary10 = [
+export const dictionary10 = [
   'ABNEGATIVE',
   'ACTIONITEM',
   'ADOLESCENT',
@@ -225,5 +225,3 @@ const dictionary10 = [
   'WHYIOUGHTA',
   'YOYODIETER',
 ];
-
-export default dictionary10;

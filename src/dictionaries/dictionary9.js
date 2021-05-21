@@ -1,4 +1,4 @@
-const dictionary9 = [
+export const dictionary9 = [
   'ABSCONDED',
   'ACADEMIES',
   'ADNAUSEAM',
@@ -278,5 +278,3 @@ const dictionary9 = [
   'YOGAPANTS',
   'ZAPATISTA',
 ];
-
-export default dictionary9;

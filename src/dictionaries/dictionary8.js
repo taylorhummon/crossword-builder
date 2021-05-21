@@ -1,4 +1,4 @@
-const dictionary8 = [
+export const dictionary8 = [
   'ABSTRACT',
   'ACCREDIT',
   'ACIDTEST',
@@ -597,5 +597,3 @@ const dictionary8 = [
   'ZIRCONIA',
   'ZOOTOPIA',
 ];
-
-export default dictionary8;

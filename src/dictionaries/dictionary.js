@@ -1,11 +1,11 @@
-import dictionary1 from './dictionary1';
-import dictionary2 from './dictionary2';
-import dictionary3 from './dictionary3';
-import dictionary4 from './dictionary4';
-import dictionary5 from './dictionary5';
-import dictionary6 from './dictionary6';
+import { dictionary1 } from './dictionary1';
+import { dictionary2 } from './dictionary2';
+import { dictionary3 } from './dictionary3';
+import { dictionary4 } from './dictionary4';
+import { dictionary5 } from './dictionary5';
+import { dictionary6 } from './dictionary6';
 
-function dictionaryWithWordsOfLength(length) {
+export function dictionaryWithWordsOfLength(length) {
   if (length === 1) return dictionary1;
   if (length === 2) return dictionary2;
   if (length === 3) return dictionary3;
@@ -14,5 +14,3 @@ function dictionaryWithWordsOfLength(length) {
   if (length === 6) return dictionary6;
   throw new Error('Need a dictionary with longer words');
 }
-
-export default dictionaryWithWordsOfLength;

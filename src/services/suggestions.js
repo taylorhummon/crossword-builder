@@ -1,12 +1,12 @@
 import { findSuggestions1, findSuggestions2, computeSuggestFillTrimLeft, computeSuggestFillTrimRight } from './suggestions_a';
-import buildAlphabet from '../utilities/build_alphabet';
+import { buildUppercaseAlphabet } from '../utilities/build_alphabet';
 import { divMod } from '../utilities/math';
 import { inclusiveIndicesArray } from '../utilities/indices_array';
 
 // const initialTimeStamp = Date.now();
 // console.log('Search Took', Date.now() - initialTimeStamp);
 
-function computeSuggestions(squares, width, height, activeIndex) {
+export function computeSuggestions(squares, width, height, activeIndex) {
   const canSuggestFill = true;
   const board = buildBoardObject(squares, width, height, activeIndex);
   if (canSuggestFill) {
@@ -47,7 +47,7 @@ function buildBoardObject(squares, width, height, activeIndex) {
 }
 
 function toLettersArray(setA, setB) {
-  return buildAlphabet().filter(
+  return buildUppercaseAlphabet().filter(
     letter => setA.has(letter) && setB.has(letter)
   );
 }
@@ -115,5 +115,3 @@ function computeVerticalPattern(board, from, to) {
     throw new Error(`Unexpected character: ${character}`);
   }).join('');
 }
-
-export default computeSuggestions;

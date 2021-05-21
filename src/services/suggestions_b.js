@@ -1,10 +1,10 @@
-import dictionaryWithWordsOfLength from '../dictionaries/dictionary';
-import buildAlphabet from '../utilities/build_alphabet';
+import { dictionaryWithWordsOfLength } from '../dictionaries/dictionary';
+import { buildUppercaseAlphabet } from '../utilities/build_alphabet';
 import { computeSubpatterns } from './subpatterns';
 
 export function findSuggestions1(pattern) {
   const lettersSet = new Set();
-  for (let letter of buildAlphabet()) {
+  for (let letter of buildUppercaseAlphabet()) {
     if (hasMatch(pattern, letter)) {
       lettersSet.add(letter);
     }
@@ -15,7 +15,7 @@ export function findSuggestions1(pattern) {
 export function findSuggestions2(pattern) {
   const subpatterns = computeSubpatterns(pattern);
   const lettersSet = new Set();
-  for (let letter of buildAlphabet()) {
+  for (let letter of buildUppercaseAlphabet()) {
     for (const subpattern of subpatterns) {
       if (hasMatch(subpattern, letter)) {
         lettersSet.add(letter);

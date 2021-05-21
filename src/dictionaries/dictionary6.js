@@ -1,4 +1,4 @@
-const dictionary6 = [
+export const dictionary6 = [
   'AACHEN',
   'AARONS',
   'AATEAM',
@@ -3059,5 +3059,3 @@ const dictionary6 = [
   'ZENITH',
   'ZYDECO',
 ];
-
-export default dictionary6;

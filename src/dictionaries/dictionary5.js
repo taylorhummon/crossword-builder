@@ -1,4 +1,4 @@
-const dictionary5 = [
+export const dictionary5 = [
   'AAHED',
   'AANDE',
   'AANDP',
@@ -4638,5 +4638,3 @@ const dictionary5 = [
   'ZORRO',
   'ZYNGA',
 ];
-
-export default dictionary5;

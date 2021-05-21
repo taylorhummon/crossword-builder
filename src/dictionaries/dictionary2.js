@@ -1,4 +1,4 @@
-const dictionary2 = [
+export const dictionary2 = [
   'AN',
   'AR',
   'BA',
@@ -23,5 +23,3 @@ const dictionary2 = [
   'TW',
   'WS',
 ];
-
-export default dictionary2;
