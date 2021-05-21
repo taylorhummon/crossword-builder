@@ -1,4 +1,4 @@
-import dictionaryWithWordsOfLength from './dictionary';
+import dictionaryWithWordsOfLength from '../dictionaries/dictionary';
 import buildAlphabet from './build_alphabet';
 import { computeSubpatterns } from './subpatterns';
 
