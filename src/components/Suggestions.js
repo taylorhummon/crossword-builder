@@ -5,12 +5,12 @@ class Suggestions extends React.Component {
   render() {
     return (
       <div className="suggestions">
-        Allow fill as a suggestion:
+        Can suggest fill:
         <input
-          name="allowFillSuggestions"
+          name="canSuggestFill"
           type="checkbox"
-          checked={this.props.allowFillSuggestions}
-          onChange={this.props.handleAllowFillInputChange}
+          checked={this.props.canSuggestFill}
+          onChange={this.props.handleCanSuggestFillChange}
         />
         <br />
         Suggestions: {this.props.suggestedLetters.join(', ')}

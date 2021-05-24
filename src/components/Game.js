@@ -15,7 +15,7 @@ class Game extends React.Component {
       squares: arrayOfSize(this.boardWidth * this.boardHeight),
       activeIndex: null,
       suggestedLetters: [],
-      allowFillSuggestions: true
+      canSuggestFill: true
     };
   }
 
@@ -35,8 +35,8 @@ class Game extends React.Component {
         <div className="game-suggestions">
           <Suggestions
             suggestedLetters={this.state.suggestedLetters}
-            allowFillSuggestions={this.state.allowFillSuggestions}
-            handleAllowFillInputChange={this.handleAllowFillInputChange}
+            canSuggestFill={this.state.canSuggestFill}
+            handleCanSuggestFillChange={this.handleCanSuggestFillChange}
           />
         </div>
       </div>
@@ -49,7 +49,7 @@ class Game extends React.Component {
         return updateSquare(prevState, filledSquare);
       } else {
         // !!! compute suggestions should be computed asynchronously (and probably on the back end)
-        const suggestedLetters = computeSuggestions(prevState.squares, this.boardWidth, this.boardHeight, k, prevState.allowFillSuggestions);
+        const suggestedLetters = computeSuggestions(prevState.squares, this.boardWidth, this.boardHeight, k, prevState.canSuggestFill);
         return {
           activeIndex: k,
           suggestedLetters
@@ -70,13 +70,13 @@ class Game extends React.Component {
     });
   }
 
-  handleAllowFillInputChange = (event) => {
+  handleCanSuggestFillChange = (event) => {
     const target = event.target;
-    if (target.type === 'checkbox' && target.name === 'allowFillSuggestions') {
+    if (target.type === 'checkbox' && target.name === 'canSuggestFill') {
       this.setState((prevState) => {
-        const allowFillSuggestions = target.checked;
-        const suggestedLetters = computeSuggestions(prevState.squares, this.boardWidth, this.boardHeight, prevState.activeIndex, allowFillSuggestions);
-        return { allowFillSuggestions, suggestedLetters };
+        const canSuggestFill = target.checked;
+        const suggestedLetters = computeSuggestions(prevState.squares, this.boardWidth, this.boardHeight, prevState.activeIndex, canSuggestFill);
+        return { canSuggestFill, suggestedLetters };
       });
     }
   }
