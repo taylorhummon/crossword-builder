@@ -71,14 +71,14 @@ class Game extends React.Component {
   }
 
   handleAllowFillInputChange = (event) => {
-    if (event.target.type !== 'checkbox') return;
-    this.setState((prevState) => {
-      const suggestedLetters = computeSuggestions(prevState.squares, this.boardWidth, this.boardHeight, prevState.activeIndex, prevState.allowFillSuggestions);
-      return {
-        allowFillSuggestions: event.target.checked,
-        suggestedLetters
-      };
-    });
+    const target = event.target;
+    if (target.type === 'checkbox' && target.name === 'allowFillSuggestions') {
+      this.setState((prevState) => {
+        const allowFillSuggestions = target.checked;
+        const suggestedLetters = computeSuggestions(prevState.squares, this.boardWidth, this.boardHeight, prevState.activeIndex, allowFillSuggestions);
+        return { allowFillSuggestions, suggestedLetters };
+      });
+    }
   }
 }
 
