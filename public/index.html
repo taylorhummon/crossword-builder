@@ -39,5 +39,17 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      window.addEventListener('mousedown', function (e) {
+        document.body.classList.add('mouse-navigation');
+        document.body.classList.remove('kbd-navigation');
+      });
+      window.addEventListener('keydown', function (e) {
+        if (e.keyCode === 9) { // user pressed tab key
+          document.body.classList.add('kbd-navigation');
+          document.body.classList.remove('mouse-navigation');
+        }
+      });
+    </script>
   </body>
 </html>

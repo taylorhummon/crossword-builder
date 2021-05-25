@@ -6,11 +6,12 @@ import { inclusiveIndicesArray } from '../utilities/indices_array';
 // const initialTimeStamp = Date.now();
 // console.log('Search Took', Date.now() - initialTimeStamp);
 
-export function computeSuggestions(squares, width, height, activeIndex, canSuggestFill) {
-  const board = buildBoardObject(squares, width, height, activeIndex);
+export function computeSuggestions(state, width, height) {
+  if (typeof state.activeIndex !== 'number') return null;
+  const board = buildBoardObject(state, width, height);
   const horizontalPattern = computeHorizontalPattern(board, leftBound(board), rightBound(board));
   const verticalPattern = computeVerticalPattern(board, topBound(board), bottomBound(board));
-  if (canSuggestFill) {
+  if (state.canSuggestFill) {
     const horizontalSuggestionsSet = findSuggestions2(horizontalPattern);
     const verticalSuggestionsSet = findSuggestions2(verticalPattern);
     const letterSuggestions = toLettersArray(horizontalSuggestionsSet, verticalSuggestionsSet);
@@ -24,10 +25,10 @@ export function computeSuggestions(squares, width, height, activeIndex, canSugge
   }
 }
 
-function buildBoardObject(squares, width, height, activeIndex) {
-  const [activeColumn, activeRow] = remainderAndQuotient(activeIndex, width);
+function buildBoardObject(state, width, height) {
+  const [activeColumn, activeRow] = remainderAndQuotient(state.activeIndex, width);
   const board = {
-    squares,
+    squares: state.squares,
     width,
     height,
     activeColumn,

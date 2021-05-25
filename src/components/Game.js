@@ -6,35 +6,39 @@ import { arrayOfSize, arrayShallowCopy } from '../utilities/arrays';
 import { computeSuggestions } from '../services/suggestions';
 import { filledSquare } from '../utilities/alphabet';
 
+const boardWidth = 6;
+const boardHeight = 6;
+
 class Game extends React.Component {
   constructor(props) {
     super(props);
-    this.boardWidth = 6;
-    this.boardHeight = 6;
     this.state = {
-      squares: arrayOfSize(this.boardWidth * this.boardHeight),
+      squares: arrayOfSize(boardWidth * boardHeight),
       activeIndex: null,
-      suggestedLetters: [],
       canSuggestFill: true
     };
   }
 
   render() {
+    // !!! suggestions should be computed asynchronously (and probably on the back end)
+    const suggestedLetters = computeSuggestions(this.state, boardWidth, boardHeight);
     return (
       <div className="game">
         <div className="game-board">
           <Board
-            width={this.boardWidth}
-            height={this.boardHeight}
+            width={boardWidth}
+            height={boardHeight}
             squares={this.state.squares}
             activeIndex={this.state.activeIndex}
+            handleSquareFocus={this.handleSquareFocus}
+            handleSquareBlur={this.handleSquareBlur}
             handleBoardClick={this.handleBoardClick}
             handleBoardKeyUp={this.handleBoardKeyUp}
           />
         </div>
         <div className="game-suggestions">
           <Suggestions
-            suggestedLetters={this.state.suggestedLetters}
+            suggestedLetters={suggestedLetters}
             canSuggestFill={this.state.canSuggestFill}
             handleCanSuggestFillChange={this.handleCanSuggestFillChange}
           />
@@ -43,31 +47,29 @@ class Game extends React.Component {
     );
   }
 
-  handleBoardClick = (k, event) => {
+  handleSquareFocus = (k, event) => {
     this.setState((prevState) => {
-      if (prevState.activeIndex === k) {
-        return updateSquare(prevState, filledSquare);
-      } else {
-        // !!! compute suggestions should be computed asynchronously (and probably on the back end)
-        const suggestedLetters = computeSuggestions(prevState.squares, this.boardWidth, this.boardHeight, k, prevState.canSuggestFill);
-        return {
-          activeIndex: k,
-          suggestedLetters
-        };
-      }
+      return { activeIndex: k };
     });
   }
 
-  handleBoardKeyUp = (event) => {
+  handleSquareBlur = (k, event) => {
     this.setState((prevState) => {
-      if (prevState.activeIndex === null) return null;
-      if (event.key === 'Escape') return { activeIndex: null, suggestedLetters: [] };
-      if (event.key === 'Backspace') return updateSquare(prevState, null);
-      if (event.key === ' ') return updateSquare(prevState, null);
-      if (event.key === 'Enter') return updateSquare(prevState, filledSquare);
-      if (/^[A-Za-z]$/.test(event.key)) return updateSquare(prevState, event.key.toUpperCase());
-      return null;
+      // if (prevState.activeIndex !== k) return null; // !!! not sure this is necessary
+      return { activeIndex: null };
     });
+  }
+
+  handleBoardClick = (k, event) => {
+    return; // !!!
+  }
+
+  handleBoardKeyUp = (event) => {
+    if (event.key === 'Escape') this.updateSquare(event.target, false);
+    if (event.key === 'Backspace') this.updateSquare(event.target, true, null);
+    if (event.key === ' ') this.updateSquare(event.target, true, null);
+    if (event.key === 'Enter') this.updateSquare(event.target, true, filledSquare);
+    if (/^[A-Za-z]$/.test(event.key)) this.updateSquare(event.target, true, event.key.toUpperCase());
   }
 
   handleCanSuggestFillChange = (event) => {
@@ -75,21 +77,27 @@ class Game extends React.Component {
     if (target.type === 'checkbox' && target.name === 'canSuggestFill') {
       this.setState((prevState) => {
         const canSuggestFill = target.checked;
-        const suggestedLetters = computeSuggestions(prevState.squares, this.boardWidth, this.boardHeight, prevState.activeIndex, canSuggestFill);
-        return { canSuggestFill, suggestedLetters };
+        return { canSuggestFill };
       });
     }
   }
-}
 
-function updateSquare(prevState, value) {
-  const squares = arrayShallowCopy(prevState.squares);
-  squares[prevState.activeIndex] = value;
-  return {
-    squares,
-    activeIndex: null,
-    suggestedLetters: []
-  };
+  updateSquare(target, shouldUpdateValue, value) {
+    if (! shouldUpdateValue) {
+      target.blur();
+      return;
+    }
+    this.setState(
+      (prevState) => {
+        const squares = arrayShallowCopy(prevState.squares);
+        squares[prevState.activeIndex] = value;
+        return { squares };
+      },
+      () => {
+        target.blur();
+      }
+    )
+  }
 }
 
 export default Game;

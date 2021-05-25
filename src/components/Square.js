@@ -4,11 +4,13 @@ import { filledSquare } from '../utilities/alphabet';
 
 class Square extends React.Component {
   render() {
-    const displayedValue = isBlack(this.props) ? null : this.props.value;
+    const displayedValue = isFilled(this.props) ? null : this.props.value;
     return (
       <div
         className={className(this.props)}
         tabIndex="0"
+        onFocus={this.props.onFocus}
+        onBlur={this.props.onBlur}
         onClick={this.props.onClick}
       >
         {displayedValue}
@@ -19,15 +21,11 @@ class Square extends React.Component {
 
 function className(props) {
   const cssClasses = ['square'];
-  if (props.isActive) {
-    cssClasses.push('is-blue')
-  } else if (isBlack(props)) {
-    cssClasses.push('is-black');
-  }
+  if (isFilled(props)) cssClasses.push('is-filled');
   return cssClasses.join(' ');
 }
 
-function isBlack(props) { // !!! rename
+function isFilled(props) {
   return props.value === filledSquare;
 }
 

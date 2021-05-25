@@ -13,10 +13,15 @@ class Suggestions extends React.Component {
           onChange={this.props.handleCanSuggestFillChange}
         />
         <br />
-        Suggestions: {this.props.suggestedLetters.join(', ')}
+        Suggestions: {suggestionString(this.props.suggestedLetters)}
       </div>
     );
   }
+}
+
+function suggestionString(letters) {
+  if (! letters) return '';
+  return letters.join(', ');
 }
 
 export default Suggestions;

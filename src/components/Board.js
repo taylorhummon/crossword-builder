@@ -38,11 +38,16 @@ class Board extends React.Component {
         key={k}
         value={this.props.squares[k]}
         isActive={this.props.activeIndex === k}
+        onFocus={this.handleSquareFocus(k)}
+        onBlur={this.handleSquareBlur(k)}
         onClick={this.handleSquareClick(k)}
       />
     );
   }
 
+  // !!! carefully think about whether this is any better than doing it inline
+  handleSquareFocus = k => event => this.props.handleSquareFocus(k, event);
+  handleSquareBlur = k => event => this.props.handleSquareBlur(k, event);
   handleSquareClick = k => event => this.props.handleBoardClick(k, event);
 }
 
