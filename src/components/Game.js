@@ -61,7 +61,18 @@ class Game extends React.Component {
   }
 
   handleBoardClick = (k, event) => {
-    return; // !!!
+    const target = event.target;
+    this.setState(
+      (prevState) => {
+        if (prevState.activeIndex !== k) return null;
+        const squares = arrayShallowCopy(prevState.squares);
+        squares[prevState.activeIndex] = filledSquare;
+        return { squares };
+      },
+      () => {
+        target.blur(); // !!! this should only blur if we're actually updating squares
+      }
+    )
   }
 
   handleBoardKeyUp = (event) => {
