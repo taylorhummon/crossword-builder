@@ -48,39 +48,39 @@ class Game extends React.Component {
   }
 
   handleSquareFocus = (k, event) => {
+    if (! isKeyboardNavigation()) return;
     this.setState((prevState) => {
+      if (prevState.activeIndex === k) return null;
       return { activeIndex: k };
     });
   }
 
   handleSquareBlur = (k, event) => {
     this.setState((prevState) => {
-      // if (prevState.activeIndex !== k) return null; // !!! not sure this is necessary
+      if (prevState.activeIndex !== k) return null;
       return { activeIndex: null };
     });
   }
 
   handleBoardClick = (k, event) => {
-    const target = event.target;
-    this.setState(
-      (prevState) => {
-        if (prevState.activeIndex !== k) return null;
-        const squares = arrayShallowCopy(prevState.squares);
-        squares[prevState.activeIndex] = filledSquare;
-        return { squares };
-      },
-      () => {
-        target.blur(); // !!! this should only blur if we're actually updating squares
+    if (! isMouseNavigation()) return;
+    this.setState((prevState) => {
+      if (prevState.activeIndex === k) {
+        return updateSquare(prevState, filledSquare);
+      } else {
+        return { activeIndex: k };
       }
-    )
+    });
   }
 
   handleBoardKeyUp = (event) => {
-    if (event.key === 'Escape') this.updateSquare(event.target, false);
-    if (event.key === 'Backspace') this.updateSquare(event.target, true, null);
-    if (event.key === ' ') this.updateSquare(event.target, true, null);
-    if (event.key === 'Enter') this.updateSquare(event.target, true, filledSquare);
-    if (/^[A-Za-z]$/.test(event.key)) this.updateSquare(event.target, true, event.key.toUpperCase());
+    this.setState((prevState) => {
+      // if (event.key === 'Escape')
+      if (event.key === 'Backspace')    return updateSquare(prevState, null);
+      if (event.key === ' ')            return updateSquare(prevState, filledSquare);
+      if (event.key === 'Enter')        return updateSquare(prevState, filledSquare);
+      if (/^[A-Za-z]$/.test(event.key)) return updateSquare(prevState, event.key.toUpperCase());
+    });
   }
 
   handleCanSuggestFillChange = (event) => {
@@ -92,23 +92,20 @@ class Game extends React.Component {
       });
     }
   }
+}
 
-  updateSquare(target, shouldUpdateValue, value) {
-    if (! shouldUpdateValue) {
-      target.blur();
-      return;
-    }
-    this.setState(
-      (prevState) => {
-        const squares = arrayShallowCopy(prevState.squares);
-        squares[prevState.activeIndex] = value;
-        return { squares };
-      },
-      () => {
-        target.blur();
-      }
-    )
-  }
+function updateSquare(prevState, value) {
+  const squares = arrayShallowCopy(prevState.squares);
+  squares[prevState.activeIndex] = value;
+  return { squares };
+}
+
+function isKeyboardNavigation() {
+  return document.body.classList.contains('kbd-navigation');
+}
+
+function isMouseNavigation() {
+  return document.body.classList.contains('mouse-navigation');
 }
 
 export default Game;

@@ -17,12 +17,14 @@
   background: rgb(0, 0, 0);
 }
 
-.square:focus {
-  outline: none;
+.square.is-active {
+  background: rgb(216, 222, 253);
 }
 
-.square:focus,
-.square.is-filled:focus {
-  outline: none;
-  background: rgb(216, 222, 253);
+.square.is-filled.is-active {
+  background: rgb(123, 131, 167);
+}
+
+.square:focus {
+  outline: none; /* prevent default styling of (keyboard) focused squares */
 }

@@ -21,7 +21,8 @@ class Square extends React.Component {
 
 function className(props) {
   const cssClasses = ['square'];
-  if (isFilled(props)) cssClasses.push('is-filled');
+  if (isFilled(props))  cssClasses.push('is-filled');
+  if (props.isActive)   cssClasses.push('is-active');
   return cssClasses.join(' ');
 }
 
