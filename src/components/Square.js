@@ -8,6 +8,7 @@ class Square extends React.Component {
     return (
       <div
         className={className(this.props)}
+        id={`square-${this.props.index}`} // !!! gross
         tabIndex="0"
         onFocus={this.props.onFocus}
         onBlur={this.props.onBlur}

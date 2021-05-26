@@ -74,13 +74,47 @@ class Game extends React.Component {
   }
 
   handleBoardKeyUp = (event) => {
+    const key = event.key;
+    const shouldReturnEarly = this.processArrowKey(key);
+    if (shouldReturnEarly) return;
     this.setState((prevState) => {
-      // if (event.key === 'Escape')
-      if (event.key === 'Backspace')    return updateSquare(prevState, null);
-      if (event.key === ' ')            return updateSquare(prevState, filledSquare);
-      if (event.key === 'Enter')        return updateSquare(prevState, filledSquare);
-      if (/^[A-Za-z]$/.test(event.key)) return updateSquare(prevState, event.key.toUpperCase());
+      if (key === 'Backspace')    return updateSquare(prevState, null);
+      if (key === ' ')            return updateSquare(prevState, filledSquare);
+      if (key === 'Enter')        return updateSquare(prevState, filledSquare);
+      if (key === 'ArrowUp') {
+        if (prevState.activeIndex < boardWidth) return null;
+        return { activeIndex: prevState.activeIndex - boardWidth };
+      }
+      if (/^[A-Za-z]$/.test(key)) return updateSquare(prevState, key.toUpperCase());
     });
+  }
+
+  processArrowKey(key) {
+    if (key === 'ArrowLeft') {
+      const activeIndex = this.state.activeIndex; // !!! looking up stale state
+      if (activeIndex % boardWidth === 0) return true;
+      adjustFocus(activeIndex, activeIndex - 1);
+      return true;
+    };
+    if (key === 'ArrowRight') {
+      const activeIndex = this.state.activeIndex;
+      if (activeIndex % boardWidth === boardWidth - 1) return true;
+      adjustFocus(activeIndex, activeIndex + 1);
+      return true;
+    };
+    if (key === 'ArrowUp') {
+      const activeIndex = this.state.activeIndex;
+      if (activeIndex < boardWidth) return true;
+      adjustFocus(activeIndex, activeIndex - boardWidth);
+      return true;
+    };
+    if (key === 'ArrowDown') {
+      const activeIndex = this.state.activeIndex;
+      if (activeIndex >= (boardWidth - 1) * boardHeight) return true;
+      adjustFocus(activeIndex, activeIndex + boardWidth);
+      return true;
+    };
+    return false;
   }
 
   handleCanSuggestFillChange = (event) => {
@@ -106,6 +140,12 @@ function isKeyboardNavigation() {
 
 function isMouseNavigation() {
   return document.body.classList.contains('mouse-navigation');
+}
+
+function adjustFocus(activeIndex, toFocus) {
+  const square = document.getElementById(`square-${toFocus}`);
+  if (! square) throw Error(`Could not find square at index ${toFocus}`);
+  square.focus();
 }
 
 export default Game;
