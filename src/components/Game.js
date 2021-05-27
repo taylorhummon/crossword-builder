@@ -5,9 +5,8 @@ import Suggestions from './Suggestions';
 import { arrayOfSize, arrayShallowCopy } from '../utilities/arrays';
 import { computeSuggestions } from '../services/suggestions';
 import { filledSquare } from '../utilities/alphabet';
-
-const boardWidth = 6;
-const boardHeight = 6;
+import { boardWidth, boardHeight, isArrowKey, moveFocusForArrowKey } from '../services/board_navigation';
+import { isKeyboardNavigation, isMouseNavigation } from '../services/navigation';
 
 class Game extends React.Component {
   constructor(props) {
@@ -17,6 +16,7 @@ class Game extends React.Component {
       activeIndex: null,
       canSuggestFill: true
     };
+    this.boardRef = React.createRef();
   }
 
   render() {
@@ -24,7 +24,10 @@ class Game extends React.Component {
     const suggestedLetters = computeSuggestions(this.state, boardWidth, boardHeight);
     return (
       <div className="game">
-        <div className="game-board">
+        <div
+          className="game-board"
+          ref={this.boardRef}
+        >
           <Board
             width={boardWidth}
             height={boardHeight}
@@ -56,6 +59,7 @@ class Game extends React.Component {
   }
 
   handleSquareBlur = (k, event) => {
+    // !!! only update state if we're actually leaving the component
     this.setState((prevState) => {
       if (prevState.activeIndex !== k) return null;
       return { activeIndex: null };
@@ -75,54 +79,23 @@ class Game extends React.Component {
 
   handleBoardKeyUp = (event) => {
     const key = event.key;
-    const shouldReturnEarly = this.processArrowKey(key);
-    if (shouldReturnEarly) return;
+    if (isArrowKey(key)) {
+      moveFocusForArrowKey(this.boardRef.current, key, this.state.activeIndex);
+      return;
+    }
     this.setState((prevState) => {
       if (key === 'Backspace')    return updateSquare(prevState, null);
       if (key === ' ')            return updateSquare(prevState, filledSquare);
       if (key === 'Enter')        return updateSquare(prevState, filledSquare);
-      if (key === 'ArrowUp') {
-        if (prevState.activeIndex < boardWidth) return null;
-        return { activeIndex: prevState.activeIndex - boardWidth };
-      }
       if (/^[A-Za-z]$/.test(key)) return updateSquare(prevState, key.toUpperCase());
     });
-  }
-
-  processArrowKey(key) {
-    if (key === 'ArrowLeft') {
-      const activeIndex = this.state.activeIndex; // !!! looking up stale state
-      if (activeIndex % boardWidth === 0) return true;
-      adjustFocus(activeIndex, activeIndex - 1);
-      return true;
-    };
-    if (key === 'ArrowRight') {
-      const activeIndex = this.state.activeIndex;
-      if (activeIndex % boardWidth === boardWidth - 1) return true;
-      adjustFocus(activeIndex, activeIndex + 1);
-      return true;
-    };
-    if (key === 'ArrowUp') {
-      const activeIndex = this.state.activeIndex;
-      if (activeIndex < boardWidth) return true;
-      adjustFocus(activeIndex, activeIndex - boardWidth);
-      return true;
-    };
-    if (key === 'ArrowDown') {
-      const activeIndex = this.state.activeIndex;
-      if (activeIndex >= (boardWidth - 1) * boardHeight) return true;
-      adjustFocus(activeIndex, activeIndex + boardWidth);
-      return true;
-    };
-    return false;
   }
 
   handleCanSuggestFillChange = (event) => {
     const target = event.target;
     if (target.type === 'checkbox' && target.name === 'canSuggestFill') {
       this.setState((prevState) => {
-        const canSuggestFill = target.checked;
-        return { canSuggestFill };
+        return { canSuggestFill: target.checked };
       });
     }
   }
@@ -132,20 +105,6 @@ function updateSquare(prevState, value) {
   const squares = arrayShallowCopy(prevState.squares);
   squares[prevState.activeIndex] = value;
   return { squares };
-}
-
-function isKeyboardNavigation() {
-  return document.body.classList.contains('kbd-navigation');
-}
-
-function isMouseNavigation() {
-  return document.body.classList.contains('mouse-navigation');
-}
-
-function adjustFocus(activeIndex, toFocus) {
-  const square = document.getElementById(`square-${toFocus}`);
-  if (! square) throw Error(`Could not find square at index ${toFocus}`);
-  square.focus();
 }
 
 export default Game;
