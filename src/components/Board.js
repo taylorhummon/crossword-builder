@@ -11,7 +11,7 @@ class Board extends React.Component {
     return (
       <div
         className="board"
-        onKeyUp={this.props.handleBoardKeyUp}
+        onKeyDown={this.props.handleBoardKeyDown}
       >
         {renderedRows}
       </div>

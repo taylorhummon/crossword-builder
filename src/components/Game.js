@@ -36,7 +36,7 @@ class Game extends React.Component {
             handleSquareFocus={this.handleSquareFocus}
             handleSquareBlur={this.handleSquareBlur}
             handleBoardClick={this.handleBoardClick}
-            handleBoardKeyUp={this.handleBoardKeyUp}
+            handleBoardKeyDown={this.handleBoardKeyDown}
           />
         </div>
         <div className="game-suggestions">
@@ -77,7 +77,7 @@ class Game extends React.Component {
     });
   }
 
-  handleBoardKeyUp = (event) => {
+  handleBoardKeyDown = (event) => {
     const key = event.key;
     if (isArrowKey(key)) {
       moveFocusForArrowKey(this.boardRef.current, key, this.state.activeIndex);
@@ -88,6 +88,7 @@ class Game extends React.Component {
       if (key === ' ')            return updateSquare(prevState, filledSquare);
       if (key === 'Enter')        return updateSquare(prevState, filledSquare);
       if (/^[A-Za-z]$/.test(key)) return updateSquare(prevState, key.toUpperCase());
+      return null;
     });
   }
 
