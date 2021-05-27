@@ -20,6 +20,7 @@
 
 .square.is-active {
   background: rgb(216, 222, 253);
+  color: rgb(123, 131, 167);
 }
 
 .square.is-filled.is-active {
