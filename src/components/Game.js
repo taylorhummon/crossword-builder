@@ -8,7 +8,7 @@ import { filledSquare } from '../utilities/alphabet';
 import {
   boardWidth, boardHeight,
   isArrowKey, moveFocusForArrowKey,
-  moveFocusForward
+  moveFocusBackward, moveFocusForward
 } from '../services/board_navigation';
 
 const typingDirection = 'horizontal';
@@ -72,22 +72,29 @@ class Game extends React.Component {
   handleBoardKeyDown = (event) => {
     const key = event.key;
     if (isArrowKey(key)) {
-      moveFocusForArrowKey(this.boardRef.current, this.state.activeIndex, true, key);
+      moveFocusForArrowKey(this.boardRef.current, this.state.activeIndex, false, key);
       return;
     }
+    this._shouldMoveBack = key === 'Backspace' && this.state.squares[this.state.activeIndex] === null;
     this.setState(
       (prevState) => {
-        if (key === 'Backspace')    return updateSquare(prevState, null);
-        if (key === 'Delete')       return updateSquare(prevState, null);
-        if (key === ' ')            return updateSquare(prevState, filledSquare);
-        if (key === 'Enter')        return updateSquare(prevState, filledSquare);
-        if (/^[A-Za-z]$/.test(key)) return updateSquare(prevState, key.toUpperCase());
+        const squares = prevState.squares;
+        const index = this._shouldMoveBack ? prevState.activeIndex - 1 : prevState.activeIndex;
+        if (key === 'Delete')       return updateSquare(squares, index, null);
+        if (key === 'Backspace')    return updateSquare(squares, index, null);
+        if (key === ' ')            return updateSquare(squares, index, filledSquare);
+        if (key === 'Enter')        return updateSquare(squares, index, filledSquare);
+        if (/^[A-Za-z]$/.test(key)) return updateSquare(squares, index, key.toUpperCase());
         return null;
       },
       () => {
+        if (key === 'Backspace' && this._shouldMoveBack) {
+          moveFocusBackward(this.boardRef.current, this.state.activeIndex, true, typingDirection);
+        }
         if (key === ' ' || key === 'Enter' || /^[A-Za-z]$/.test(key)) {
           moveFocusForward(this.boardRef.current, this.state.activeIndex, true, typingDirection);
         }
+        this._shouldMoveBack = null;
       }
     );
   }
@@ -102,9 +109,9 @@ class Game extends React.Component {
   }
 }
 
-function updateSquare(prevState, value) {
-  const squares = arrayShallowCopy(prevState.squares);
-  squares[prevState.activeIndex] = value;
+function updateSquare(squares, index, value) {
+  squares = arrayShallowCopy(squares);
+  squares[index] = value;
   return { squares };
 }
 

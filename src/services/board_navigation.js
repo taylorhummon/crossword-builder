@@ -17,9 +17,14 @@ export function moveFocusForArrowKey(boardElement, activeIndex, allowWrap, key) 
   if (key === arrowDown) moveFocusDown(boardElement, activeIndex, allowWrap);
 }
 
+export function moveFocusBackward(boardElement, activeIndex, allowWrap, typingDirection) {
+  if (typingDirection === 'horizontal') moveFocusLeft(boardElement, activeIndex, allowWrap);
+  if (typingDirection === 'vertical')   moveFocusUp(boardElement, activeIndex, allowWrap);
+}
+
 export function moveFocusForward(boardElement, activeIndex, allowWrap, typingDirection) {
-  if (typingDirection === 'horizontal') moveFocusRight(boardElement, activeIndex, true);
-  if (typingDirection === 'vertical')   moveFocusDown(boardElement, activeIndex, true);
+  if (typingDirection === 'horizontal') moveFocusRight(boardElement, activeIndex, allowWrap);
+  if (typingDirection === 'vertical')   moveFocusDown(boardElement, activeIndex, allowWrap);
 }
 
 function moveFocusLeft(boardElement, activeIndex, allowWrap) {
