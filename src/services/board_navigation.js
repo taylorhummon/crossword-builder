@@ -17,6 +17,16 @@ export function moveFocusForArrowKey(boardElement, activeIndex, allowWrap, key) 
   if (key === arrowDown) moveFocusDown(boardElement, activeIndex, allowWrap);
 }
 
+export function oneBackwardIndex(index, typingDirection) {
+  if (typingDirection === 'horizontal') return oneLeftIndex(index);
+  if (typingDirection === 'vertical')   return oneUpIndex(index);
+}
+
+export function oneForwardIndex(index, typingDirection) {
+  if (typingDirection === 'horizontal') return oneRightIndex(index);
+  if (typingDirection === 'vertical')   return oneDownIndex(index);
+}
+
 export function moveFocusBackward(boardElement, activeIndex, allowWrap, typingDirection) {
   if (typingDirection === 'horizontal') moveFocusLeft(boardElement, activeIndex, allowWrap);
   if (typingDirection === 'vertical')   moveFocusUp(boardElement, activeIndex, allowWrap);
@@ -55,44 +65,44 @@ function moveFocusDown(boardElement, activeIndex, allowWrap) {
   element.focus();
 }
 
-function oneLeftIndex(activeIndex) {
-  if (inFirstColumn(activeIndex)) return activeIndex - 1 + boardWidth;
-  return activeIndex - 1;
+function oneLeftIndex(index) {
+  if (inFirstColumn(index)) return index - 1 + boardWidth;
+  return index - 1;
 }
 
-function oneRightIndex(activeIndex) {
-  if (inLastColumn(activeIndex)) return activeIndex + 1 - boardWidth;
-  return activeIndex + 1;
+function oneRightIndex(index) {
+  if (inLastColumn(index)) return index + 1 - boardWidth;
+  return index + 1;
 }
 
-function oneUpIndex(activeIndex) {
-  if (inFirstRow(activeIndex)) return activeIndex - boardWidth + boardWidth * boardHeight;
-  return activeIndex - boardWidth;
+function oneUpIndex(index) {
+  if (inFirstRow(index)) return index - boardWidth + boardWidth * boardHeight;
+  return index - boardWidth;
 }
 
-function oneDownIndex(activeIndex) {
-  if (inLastRow(activeIndex)) return activeIndex + boardWidth - boardWidth * boardHeight;
-  return activeIndex + boardWidth;
+function oneDownIndex(index) {
+  if (inLastRow(index)) return index + boardWidth - boardWidth * boardHeight;
+  return index + boardWidth;
 }
 
-function inFirstColumn(activeIndex) {
-  return activeIndex % boardWidth === 0;
+function inFirstColumn(index) {
+  return index % boardWidth === 0;
 }
 
-function inLastColumn(activeIndex) {
-  return activeIndex % boardWidth === boardWidth - 1;
+function inLastColumn(index) {
+  return index % boardWidth === boardWidth - 1;
 }
 
-function inFirstRow(activeIndex) {
-  return activeIndex < boardWidth;
+function inFirstRow(index) {
+  return index < boardWidth;
 }
 
-function inLastRow(activeIndex) {
-  return activeIndex >= (boardWidth - 1) * boardHeight;
+function inLastRow(index) {
+  return index >= (boardWidth - 1) * boardHeight;
 }
 
-function squareElement(boardElement, toFocus) {
-  const squareElements = boardElement.getElementsByClassName(`square-${toFocus}`);
-  if (squareElements.length !== 1) throw Error(`Could not find square at index ${toFocus}`);
+function squareElement(boardElement, toFocusIndex) {
+  const squareElements = boardElement.getElementsByClassName(`square-${toFocusIndex}`);
+  if (squareElements.length !== 1) throw Error(`Could not find square at index ${toFocusIndex}`);
   return squareElements[0];
 }

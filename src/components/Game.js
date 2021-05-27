@@ -8,6 +8,7 @@ import { filledSquareValue } from '../utilities/alphabet';
 import {
   boardWidth, boardHeight,
   isArrowKey, moveFocusForArrowKey,
+  oneBackwardIndex,
   moveFocusBackward, moveFocusForward
 } from '../services/board_navigation';
 
@@ -79,7 +80,7 @@ class Game extends React.Component {
     this.setState(
       (prevState) => {
         const squares = prevState.squares;
-        const index = this._shouldMoveBack ? prevState.activeIndex - 1 : prevState.activeIndex;
+        const index = this._shouldMoveBack ? oneBackwardIndex(prevState.activeIndex, typingDirection) : prevState.activeIndex;
         if (key === 'Delete')       return updateSquare(squares, index, null);
         if (key === 'Backspace')    return updateSquare(squares, index, null);
         if (key === ' ')            return updateSquare(squares, index, filledSquareValue);
