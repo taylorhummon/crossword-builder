@@ -4,7 +4,7 @@ import Board from './Board';
 import Suggestions from './Suggestions';
 import { arrayOfSize, arrayShallowCopy } from '../utilities/arrays';
 import { computeSuggestions } from '../services/suggestions';
-import { filledSquare } from '../utilities/alphabet';
+import { filledSquareValue } from '../utilities/alphabet';
 import {
   boardWidth, boardHeight,
   isArrowKey, moveFocusForArrowKey,
@@ -82,8 +82,8 @@ class Game extends React.Component {
         const index = this._shouldMoveBack ? prevState.activeIndex - 1 : prevState.activeIndex;
         if (key === 'Delete')       return updateSquare(squares, index, null);
         if (key === 'Backspace')    return updateSquare(squares, index, null);
-        if (key === ' ')            return updateSquare(squares, index, filledSquare);
-        if (key === 'Enter')        return updateSquare(squares, index, filledSquare);
+        if (key === ' ')            return updateSquare(squares, index, filledSquareValue);
+        if (key === 'Enter')        return updateSquare(squares, index, filledSquareValue);
         if (/^[A-Za-z]$/.test(key)) return updateSquare(squares, index, key.toUpperCase());
         return null;
       },

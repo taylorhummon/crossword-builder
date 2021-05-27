@@ -1,5 +1,5 @@
 import { findSuggestions1, findSuggestions2, computeSuggestFillTrimLeft, computeSuggestFillTrimRight } from './suggestions_a';
-import { buildUppercaseAlphabet, filledSquare } from '../utilities/alphabet';
+import { buildUppercaseAlphabet, filledSquareValue } from '../utilities/alphabet';
 import { remainderAndQuotient } from '../utilities/math';
 import { inclusiveIndicesArray } from '../utilities/indices_array';
 
@@ -15,7 +15,7 @@ export function computeSuggestions(state, width, height) {
     const horizontalSuggestionsSet = findSuggestions2(horizontalPattern);
     const verticalSuggestionsSet = findSuggestions2(verticalPattern);
     const letterSuggestions = toLettersArray(horizontalSuggestionsSet, verticalSuggestionsSet);
-    const suggestions = suggestFill(board) ? [filledSquare].concat(letterSuggestions) : letterSuggestions;
+    const suggestions = suggestFill(board) ? [filledSquareValue].concat(letterSuggestions) : letterSuggestions;
     return suggestions;
   } else {
     const horizontalSuggestionsSet = findSuggestions1(horizontalPattern);
@@ -60,7 +60,7 @@ function suggestFill(board) {
 
 function leftBound(board) {
   let i = board.activeColumn;
-  while (i - 1 >= 0 && board.squareAt(i - 1, board.activeRow) !== filledSquare) {
+  while (i - 1 >= 0 && board.squareAt(i - 1, board.activeRow) !== filledSquareValue) {
     i--;
   }
   return i;
@@ -68,7 +68,7 @@ function leftBound(board) {
 
 function rightBound(board) {
   let i = board.activeColumn;
-  while (i + 1 < board.width && board.squareAt(i + 1, board.activeRow) !== filledSquare) {
+  while (i + 1 < board.width && board.squareAt(i + 1, board.activeRow) !== filledSquareValue) {
     i++;
   }
   return i;
@@ -88,7 +88,7 @@ function computeHorizontalPattern(board, from, to) {
 
 function topBound(board) {
   let j = board.activeRow;
-  while (j - 1 >= 0 && board.squareAt(board.activeColumn, j - 1) !== filledSquare) {
+  while (j - 1 >= 0 && board.squareAt(board.activeColumn, j - 1) !== filledSquareValue) {
     j--;
   }
   return j;
@@ -96,7 +96,7 @@ function topBound(board) {
 
 function bottomBound(board) {
   let j = board.activeRow;
-  while (j + 1 < board.width && board.squareAt(board.activeColumn, j + 1) !== filledSquare) {
+  while (j + 1 < board.width && board.squareAt(board.activeColumn, j + 1) !== filledSquareValue) {
     j++;
   }
   return j;

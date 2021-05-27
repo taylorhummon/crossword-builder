@@ -1,6 +1,6 @@
 import React from 'react';
 import './Square.css';
-import { filledSquare } from '../utilities/alphabet';
+import { filledSquareValue } from '../utilities/alphabet';
 
 class Square extends React.Component {
   render() {
@@ -26,7 +26,7 @@ function className(props) {
 }
 
 function isFilled(props) {
-  return props.value === filledSquare;
+  return props.value === filledSquareValue;
 }
 
 export default Square;
