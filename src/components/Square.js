@@ -11,7 +11,6 @@ class Square extends React.Component {
         tabIndex="0"
         onFocus={this.props.onFocus}
         onBlur={this.props.onBlur}
-        onClick={this.props.onClick}
       >
         {displayedValue}
       </div>

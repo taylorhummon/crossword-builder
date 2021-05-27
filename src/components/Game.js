@@ -5,8 +5,13 @@ import Suggestions from './Suggestions';
 import { arrayOfSize, arrayShallowCopy } from '../utilities/arrays';
 import { computeSuggestions } from '../services/suggestions';
 import { filledSquare } from '../utilities/alphabet';
-import { boardWidth, boardHeight, isArrowKey, moveFocusForArrowKey } from '../services/board_navigation';
-import { isKeyboardNavigation, isMouseNavigation } from '../services/navigation';
+import {
+  boardWidth, boardHeight,
+  isArrowKey, moveFocusForArrowKey,
+  moveFocusForward
+} from '../services/board_navigation';
+
+const typingDirection = 'horizontal';
 
 class Game extends React.Component {
   constructor(props) {
@@ -35,7 +40,6 @@ class Game extends React.Component {
             activeIndex={this.state.activeIndex}
             handleSquareFocus={this.handleSquareFocus}
             handleSquareBlur={this.handleSquareBlur}
-            handleBoardClick={this.handleBoardClick}
             handleBoardKeyDown={this.handleBoardKeyDown}
           />
         </div>
@@ -51,7 +55,6 @@ class Game extends React.Component {
   }
 
   handleSquareFocus = (k, event) => {
-    if (! isKeyboardNavigation()) return;
     this.setState((prevState) => {
       if (prevState.activeIndex === k) return null;
       return { activeIndex: k };
@@ -66,30 +69,27 @@ class Game extends React.Component {
     });
   }
 
-  handleBoardClick = (k, event) => {
-    if (! isMouseNavigation()) return;
-    this.setState((prevState) => {
-      if (prevState.activeIndex === k) {
-        return updateSquare(prevState, filledSquare);
-      } else {
-        return { activeIndex: k };
-      }
-    });
-  }
-
   handleBoardKeyDown = (event) => {
     const key = event.key;
     if (isArrowKey(key)) {
-      moveFocusForArrowKey(this.boardRef.current, key, this.state.activeIndex);
+      moveFocusForArrowKey(this.boardRef.current, this.state.activeIndex, true, key);
       return;
     }
-    this.setState((prevState) => {
-      if (key === 'Backspace')    return updateSquare(prevState, null);
-      if (key === ' ')            return updateSquare(prevState, filledSquare);
-      if (key === 'Enter')        return updateSquare(prevState, filledSquare);
-      if (/^[A-Za-z]$/.test(key)) return updateSquare(prevState, key.toUpperCase());
-      return null;
-    });
+    this.setState(
+      (prevState) => {
+        if (key === 'Backspace')    return updateSquare(prevState, null);
+        if (key === 'Delete')       return updateSquare(prevState, null);
+        if (key === ' ')            return updateSquare(prevState, filledSquare);
+        if (key === 'Enter')        return updateSquare(prevState, filledSquare);
+        if (/^[A-Za-z]$/.test(key)) return updateSquare(prevState, key.toUpperCase());
+        return null;
+      },
+      () => {
+        if (key === ' ' || key === 'Enter' || /^[A-Za-z]$/.test(key)) {
+          moveFocusForward(this.boardRef.current, this.state.activeIndex, true, typingDirection);
+        }
+      }
+    );
   }
 
   handleCanSuggestFillChange = (event) => {
