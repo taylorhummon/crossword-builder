@@ -71,6 +71,7 @@ class Game extends React.Component {
   }
 
   handleBoardKeyDown = (event) => {
+    if (event.altKey || event.ctrlKey || event.metaKey) return;
     const key = event.key;
     if (isArrowKey(key)) {
       moveFocusForArrowKey(this.boardRef.current, this.state.activeIndex, false, key);
