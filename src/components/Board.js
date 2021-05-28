@@ -1,11 +1,23 @@
 import React from 'react';
 import Square from './Square';
+import { boardWidth, boardHeight } from '../services/boardNavigation';
 import { indicesArray } from '../utilities/arrays';
 import './Board.css';
 
 class Board extends React.Component {
+  constructor(props) {
+    super(props);
+    const indices = indicesArray(boardWidth * boardHeight);
+    this.handleSquareFocusCallbacks = indices.map(
+      k => event => this.props.handleSquareFocus(event, k)
+    );
+    this.handleSquareBlurCallbacks = indices.map(
+      k => event => this.props.handleSquareBlur(event, k)
+    );
+  }
+
   render() {
-    const renderedRows = indicesArray(this.props.height).map(
+    const renderedRows = indicesArray(boardHeight).map(
       i => this.renderRow(i)
     );
     return (
@@ -19,8 +31,8 @@ class Board extends React.Component {
   }
 
   renderRow(i) {
-    const renderedSquares = indicesArray(this.props.width).map(
-      j => this.renderSquare(i * this.props.width + j)
+    const renderedSquares = indicesArray(boardWidth).map(
+      j => this.renderSquare(i * boardWidth + j)
     );
     return (
       <div
@@ -38,16 +50,12 @@ class Board extends React.Component {
         key={k}
         value={this.props.squareValues[k]}
         isActive={this.props.activeSquareIndex === k}
-        onFocus={this.handleSquareFocus(k)}
-        onBlur={this.handleSquareBlur(k)}
         squareRef={this.props.squareRefs[k]}
+        handleSquareFocus={this.handleSquareFocusCallbacks[k]}
+        handleSquareBlur={this.handleSquareBlurCallbacks[k]}
       />
     );
   }
-
-  // !!! carefully think about whether this is any better than doing it inline
-  handleSquareFocus = k => event => this.props.handleSquareFocus(k, event);
-  handleSquareBlur = k => event => this.props.handleSquareBlur(k, event);
 }
 
 export default Board;

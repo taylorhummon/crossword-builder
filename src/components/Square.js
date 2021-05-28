@@ -9,9 +9,9 @@ class Square extends React.Component {
       <div
         className={className(this.props)}
         tabIndex="0"
-        onFocus={this.props.onFocus}
-        onBlur={this.props.onBlur}
         ref={this.props.squareRef}
+        onFocus={this.props.handleSquareFocus}
+        onBlur={this.props.handleSquareBlur}
       >
         {displayedValue}
       </div>

@@ -32,14 +32,12 @@ class App extends React.Component {
     return (
       <div className="app">
         <Board
-          width={boardWidth}
-          height={boardHeight}
           squareValues={this.state.squareValues}
           activeSquareIndex={this.state.activeSquareIndex}
+          squareRefs={this.squareRefs}
           handleSquareFocus={this.handleSquareFocus}
           handleSquareBlur={this.handleSquareBlur}
           handleBoardKeyDown={this.handleBoardKeyDown}
-          squareRefs={this.squareRefs}
         />
         <Suggestions
           suggestedLetters={suggestedLetters}
@@ -54,14 +52,14 @@ class App extends React.Component {
     );
   }
 
-  handleSquareFocus = (k) => {
+  handleSquareFocus = (event, k) => {
     this.setState((prevState) => {
       if (prevState.activeSquareIndex === k) return null;
       return { activeSquareIndex: k };
     });
   }
 
-  handleSquareBlur = (k) => {
+  handleSquareBlur = (event, k) => {
     // !!! only update state if we're actually leaving the component
     this.setState((prevState) => {
       if (prevState.activeSquareIndex !== k) return null;
