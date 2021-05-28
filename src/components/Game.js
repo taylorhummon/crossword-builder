@@ -22,17 +22,14 @@ class Game extends React.Component { // !!! rename Game
       canSuggestFill: true,
       isTypingVertical: false
     };
-    this.gameRef = React.createRef();
+    this.squareRefs = this.state.squares.map(() => React.createRef());
   }
 
   render() {
     // !!! suggestions should be computed asynchronously (and probably on the back end)
     const suggestedLetters = computeSuggestions(this.state);
     return (
-      <div
-        className="game"
-        ref={this.gameRef}
-      >
+      <div className="game">
         <Board
           width={boardWidth}
           height={boardHeight}
@@ -41,6 +38,7 @@ class Game extends React.Component { // !!! rename Game
           handleSquareFocus={this.handleSquareFocus}
           handleSquareBlur={this.handleSquareBlur}
           handleBoardKeyDown={this.handleBoardKeyDown}
+          squareRefs={this.squareRefs}
         />
         <Suggestions
           suggestedLetters={suggestedLetters}
@@ -74,7 +72,7 @@ class Game extends React.Component { // !!! rename Game
     if (event.altKey || event.ctrlKey || event.metaKey) return;
     const key = event.key;
     if (isArrowKey(key)) {
-      moveFocusForArrowKey(this.gameRef.current, this.state.activeIndex, false, key);
+      moveFocusForArrowKey(this.squareRefs, this.state.activeIndex, false, key);
       return;
     }
     // !!! should _shouldMoveBack be state?
@@ -92,10 +90,10 @@ class Game extends React.Component { // !!! rename Game
       },
       () => {
         if (key === 'Backspace' && this._shouldMoveBack) {
-          moveFocusBackward(this.gameRef.current, this.state.activeIndex, true, this.state.isTypingVertical);
+          moveFocusBackward(this.squareRefs, this.state.activeIndex, true, this.state.isTypingVertical);
         }
         if (key === ' ' || key === 'Enter' || /^[A-Za-z]$/.test(key)) {
-          moveFocusForward(this.gameRef.current, this.state.activeIndex, true, this.state.isTypingVertical);
+          moveFocusForward(this.squareRefs, this.state.activeIndex, true, this.state.isTypingVertical);
         }
         this._shouldMoveBack = null;
       }

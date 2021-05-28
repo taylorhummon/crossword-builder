@@ -10,11 +10,11 @@ export function isArrowKey(key) {
   return key === arrowLeft || key === arrowRight || key === arrowUp || key === arrowDown;
 }
 
-export function moveFocusForArrowKey(gameElement, activeIndex, allowWrap, key) {
-  if (key === arrowLeft) moveFocusLeft(gameElement, activeIndex, allowWrap);
-  if (key === arrowRight) moveFocusRight(gameElement, activeIndex, allowWrap);
-  if (key === arrowUp) moveFocusUp(gameElement, activeIndex, allowWrap);
-  if (key === arrowDown) moveFocusDown(gameElement, activeIndex, allowWrap);
+export function moveFocusForArrowKey(squareRefs, activeIndex, allowWrap, key) {
+  if (key === arrowLeft) moveFocusLeft(squareRefs, activeIndex, allowWrap);
+  if (key === arrowRight) moveFocusRight(squareRefs, activeIndex, allowWrap);
+  if (key === arrowUp) moveFocusUp(squareRefs, activeIndex, allowWrap);
+  if (key === arrowDown) moveFocusDown(squareRefs, activeIndex, allowWrap);
 }
 
 export function oneBackwardIndex(index, isTypingVertical) {
@@ -33,48 +33,40 @@ export function oneForwardIndex(index, isTypingVertical) {
   }
 }
 
-export function moveFocusBackward(gameElement, activeIndex, allowWrap, isTypingVertical) {
+export function moveFocusBackward(squareRefs, activeIndex, allowWrap, isTypingVertical) {
   if (isTypingVertical) {
-    return moveFocusUp(gameElement, activeIndex, allowWrap);
+    return moveFocusUp(squareRefs, activeIndex, allowWrap);
   } else {
-    return moveFocusLeft(gameElement, activeIndex, allowWrap);
+    return moveFocusLeft(squareRefs, activeIndex, allowWrap);
   }
 }
 
-export function moveFocusForward(gameElement, activeIndex, allowWrap, isTypingVertical) {
+export function moveFocusForward(squareRefs, activeIndex, allowWrap, isTypingVertical) {
   if (isTypingVertical) {
-    return moveFocusDown(gameElement, activeIndex, allowWrap);
+    return moveFocusDown(squareRefs, activeIndex, allowWrap);
   } else {
-    return moveFocusRight(gameElement, activeIndex, allowWrap);
+    return moveFocusRight(squareRefs, activeIndex, allowWrap);
   }
 }
 
-function moveFocusLeft(gameElement, activeIndex, allowWrap) {
+function moveFocusLeft(squareRefs, activeIndex, allowWrap) {
   if (! allowWrap && inFirstColumn(activeIndex)) return;
-  const index = oneLeftIndex(activeIndex);
-  const element = squareElement(gameElement, index);
-  element.focus();
+  focusSquare(squareRefs, oneLeftIndex(activeIndex));
 }
 
-function moveFocusRight(gameElement, activeIndex, allowWrap) {
+function moveFocusRight(squareRefs, activeIndex, allowWrap) {
   if (! allowWrap && inLastColumn(activeIndex)) return;
-  const index = oneRightIndex(activeIndex);
-  const element = squareElement(gameElement, index);
-  element.focus();
+  focusSquare(squareRefs, oneRightIndex(activeIndex));
 }
 
-function moveFocusUp(gameElement, activeIndex, allowWrap) {
+function moveFocusUp(squareRefs, activeIndex, allowWrap) {
   if (! allowWrap && inFirstRow(activeIndex)) return;
-  const index = oneUpIndex(activeIndex);
-  const element = squareElement(gameElement, index);
-  element.focus();
+  focusSquare(squareRefs, oneUpIndex(activeIndex));
 }
 
-function moveFocusDown(gameElement, activeIndex, allowWrap) {
+function moveFocusDown(squareRefs, activeIndex, allowWrap) {
   if (! allowWrap && inLastRow(activeIndex)) return;
-  const index = oneDownIndex(activeIndex);
-  const element = squareElement(gameElement, index);
-  element.focus();
+  focusSquare(squareRefs, oneDownIndex(activeIndex));
 }
 
 function oneLeftIndex(index) {
@@ -113,8 +105,8 @@ function inLastRow(index) {
   return index >= (boardWidth - 1) * boardHeight;
 }
 
-function squareElement(gameElement, toFocusIndex) {
-  const squareElements = gameElement.getElementsByClassName(`square-${toFocusIndex}`); // !!! maybe use refs on the squares themselves?
-  if (squareElements.length !== 1) throw Error(`Could not find square at index ${toFocusIndex}`);
-  return squareElements[0];
+function focusSquare(squareRefs, toFocusIndex) {
+  const element = squareRefs[toFocusIndex].current;
+  if (! element) throw Error('Somehow square dom element was missing'); // !!! is this necessary?
+  element.focus();
 }

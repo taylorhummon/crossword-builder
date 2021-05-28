@@ -11,6 +11,7 @@ class Square extends React.Component {
         tabIndex="0"
         onFocus={this.props.onFocus}
         onBlur={this.props.onBlur}
+        ref={this.props.squareRef}
       >
         {displayedValue}
       </div>
@@ -19,7 +20,7 @@ class Square extends React.Component {
 }
 
 function className(props) {
-  const cssClasses = ['square', `square-${props.index}`];
+  const cssClasses = ['square'];
   if (isFilled(props))  cssClasses.push('is-filled');
   if (props.isActive)   cssClasses.push('is-active');
   return cssClasses.join(' ');
