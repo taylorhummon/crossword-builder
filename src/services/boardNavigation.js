@@ -10,63 +10,69 @@ export function isArrowKey(key) {
   return key === arrowLeft || key === arrowRight || key === arrowUp || key === arrowDown;
 }
 
-export function moveFocusForArrowKey(squareRefs, activeSquareIndex, allowWrap, key) {
-  if (key === arrowLeft) moveFocusLeft(squareRefs, activeSquareIndex, allowWrap);
-  if (key === arrowRight) moveFocusRight(squareRefs, activeSquareIndex, allowWrap);
-  if (key === arrowUp) moveFocusUp(squareRefs, activeSquareIndex, allowWrap);
-  if (key === arrowDown) moveFocusDown(squareRefs, activeSquareIndex, allowWrap);
+export function moveFocusForArrowKey(state, moveFocusTo, key) {
+  const activeSquareIndex = state.activeSquareIndex;
+  const allowWrap = false;
+  if (key === arrowLeft)  moveFocusLeft(allowWrap, moveFocusTo, activeSquareIndex);
+  if (key === arrowRight) moveFocusRight(allowWrap, moveFocusTo, activeSquareIndex);
+  if (key === arrowUp)    moveFocusUp(allowWrap, moveFocusTo, activeSquareIndex);
+  if (key === arrowDown)  moveFocusDown(allowWrap, moveFocusTo, activeSquareIndex);
 }
 
-export function oneBackwardIndex(index, isTypingVertical) {
-  if (isTypingVertical) {
+export function moveFocusBackward(state, moveFocusTo) {
+  const activeSquareIndex = state.activeSquareIndex;
+  const allowWrap = true;
+  if (state.isTypingVertical) {
+    return moveFocusUp(allowWrap, moveFocusTo, activeSquareIndex);
+  } else {
+    return moveFocusLeft(allowWrap, moveFocusTo, activeSquareIndex);
+  }
+}
+
+export function moveFocusForward(state, moveFocusTo) {
+  const activeSquareIndex = state.activeSquareIndex;
+  const allowWrap = true;
+  if (state.isTypingVertical) {
+    return moveFocusDown(allowWrap, moveFocusTo, activeSquareIndex);
+  } else {
+    return moveFocusRight(allowWrap, moveFocusTo, activeSquareIndex);
+  }
+}
+
+function moveFocusLeft(allowWrap, moveFocusTo, activeSquareIndex) {
+  if (! allowWrap && inFirstColumn(activeSquareIndex)) return;
+  moveFocusTo(oneLeftIndex(activeSquareIndex));
+}
+
+function moveFocusRight(allowWrap, moveFocusTo, activeSquareIndex) {
+  if (! allowWrap && inLastColumn(activeSquareIndex)) return;
+  moveFocusTo(oneRightIndex(activeSquareIndex));
+}
+
+function moveFocusUp(allowWrap, moveFocusTo, activeSquareIndex) {
+  if (! allowWrap && inFirstRow(activeSquareIndex)) return;
+  moveFocusTo(oneUpIndex(activeSquareIndex));
+}
+
+function moveFocusDown(allowWrap, moveFocusTo, activeSquareIndex) {
+  if (! allowWrap && inLastRow(activeSquareIndex)) return;
+  moveFocusTo(oneDownIndex(activeSquareIndex));
+}
+
+export function oneBackwardIndex(state, index) {
+  if (state.isTypingVertical) {
     return oneUpIndex(index);
   } else {
     return oneLeftIndex(index);
   }
 }
 
-export function oneForwardIndex(index, isTypingVertical) {
-  if (isTypingVertical) {
+export function oneForwardIndex(state, index) {
+  if (state.isTypingVertical) {
     return oneDownIndex(index);
   } else {
     return oneRightIndex(index);
   }
-}
-
-export function moveFocusBackward(squareRefs, activeSquareIndex, allowWrap, isTypingVertical) {
-  if (isTypingVertical) {
-    return moveFocusUp(squareRefs, activeSquareIndex, allowWrap);
-  } else {
-    return moveFocusLeft(squareRefs, activeSquareIndex, allowWrap);
-  }
-}
-
-export function moveFocusForward(squareRefs, activeSquareIndex, allowWrap, isTypingVertical) {
-  if (isTypingVertical) {
-    return moveFocusDown(squareRefs, activeSquareIndex, allowWrap);
-  } else {
-    return moveFocusRight(squareRefs, activeSquareIndex, allowWrap);
-  }
-}
-
-function moveFocusLeft(squareRefs, activeSquareIndex, allowWrap) {
-  if (! allowWrap && inFirstColumn(activeSquareIndex)) return;
-  focusSquare(squareRefs, oneLeftIndex(activeSquareIndex));
-}
-
-function moveFocusRight(squareRefs, activeSquareIndex, allowWrap) {
-  if (! allowWrap && inLastColumn(activeSquareIndex)) return;
-  focusSquare(squareRefs, oneRightIndex(activeSquareIndex));
-}
-
-function moveFocusUp(squareRefs, activeSquareIndex, allowWrap) {
-  if (! allowWrap && inFirstRow(activeSquareIndex)) return;
-  focusSquare(squareRefs, oneUpIndex(activeSquareIndex));
-}
-
-function moveFocusDown(squareRefs, activeSquareIndex, allowWrap) {
-  if (! allowWrap && inLastRow(activeSquareIndex)) return;
-  focusSquare(squareRefs, oneDownIndex(activeSquareIndex));
 }
 
 function oneLeftIndex(index) {
@@ -103,10 +109,4 @@ function inFirstRow(index) {
 
 function inLastRow(index) {
   return index >= (boardWidth - 1) * boardHeight;
-}
-
-function focusSquare(squareRefs, toFocusIndex) {
-  const element = squareRefs[toFocusIndex].current;
-  if (! element) throw Error('Somehow square dom element was missing'); // !!! is this necessary?
-  element.focus();
 }
