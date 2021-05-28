@@ -18,7 +18,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       squareValues: arrayOfSize(boardWidth * boardHeight),
-      activeIndex: null, // !!! activeSquareIndex?
+      activeSquareIndex: null, // !!! activeSquareIndex?
       canSuggestFill: true,
       isTypingVertical: false
     };
@@ -34,7 +34,7 @@ class App extends React.Component {
           width={boardWidth}
           height={boardHeight}
           squareValues={this.state.squareValues}
-          activeIndex={this.state.activeIndex}
+          activeSquareIndex={this.state.activeSquareIndex}
           handleSquareFocus={this.handleSquareFocus}
           handleSquareBlur={this.handleSquareBlur}
           handleBoardKeyDown={this.handleBoardKeyDown}
@@ -55,16 +55,16 @@ class App extends React.Component {
 
   handleSquareFocus = (k) => {
     this.setState((prevState) => {
-      if (prevState.activeIndex === k) return null;
-      return { activeIndex: k };
+      if (prevState.activeSquareIndex === k) return null;
+      return { activeSquareIndex: k };
     });
   }
 
   handleSquareBlur = (k) => {
     // !!! only update state if we're actually leaving the component
     this.setState((prevState) => {
-      if (prevState.activeIndex !== k) return null;
-      return { activeIndex: null };
+      if (prevState.activeSquareIndex !== k) return null;
+      return { activeSquareIndex: null };
     });
   }
 
@@ -72,15 +72,15 @@ class App extends React.Component {
     if (event.altKey || event.ctrlKey || event.metaKey) return;
     const key = event.key;
     if (isArrowKey(key)) {
-      moveFocusForArrowKey(this.squareRefs, this.state.activeIndex, false, key);
+      moveFocusForArrowKey(this.squareRefs, this.state.activeSquareIndex, false, key);
       return;
     }
     // !!! should _shouldMoveBack be state?
-    this._shouldMoveBack = key === 'Backspace' && this.state.squareValues[this.state.activeIndex] === null;
+    this._shouldMoveBack = key === 'Backspace' && this.state.squareValues[this.state.activeSquareIndex] === null;
     this.setState(
       (prevState) => {
         const squareValues = prevState.squareValues;
-        const index = this._shouldMoveBack ? oneBackwardIndex(prevState.activeIndex, prevState.isTypingVertical) : prevState.activeIndex;
+        const index = this._shouldMoveBack ? oneBackwardIndex(prevState.activeSquareIndex, prevState.isTypingVertical) : prevState.activeSquareIndex;
         if (key === 'Delete')       return updateSquare(squareValues, index, null);
         if (key === 'Backspace')    return updateSquare(squareValues, index, null);
         if (key === ' ')            return updateSquare(squareValues, index, filledSquareCharacter);
@@ -90,10 +90,10 @@ class App extends React.Component {
       },
       () => {
         if (key === 'Backspace' && this._shouldMoveBack) {
-          moveFocusBackward(this.squareRefs, this.state.activeIndex, true, this.state.isTypingVertical);
+          moveFocusBackward(this.squareRefs, this.state.activeSquareIndex, true, this.state.isTypingVertical);
         }
         if (key === ' ' || key === 'Enter' || /^[A-Za-z]$/.test(key)) {
-          moveFocusForward(this.squareRefs, this.state.activeIndex, true, this.state.isTypingVertical);
+          moveFocusForward(this.squareRefs, this.state.activeSquareIndex, true, this.state.isTypingVertical);
         }
         this._shouldMoveBack = null;
       }

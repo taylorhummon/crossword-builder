@@ -8,7 +8,7 @@ import { boardWidth, boardHeight } from './board_navigation';
 // console.log('Search Took', Date.now() - initialTimeStamp);
 
 export function computeSuggestions(state) {
-  if (typeof state.activeIndex !== 'number') return null;
+  if (typeof state.activeSquareIndex !== 'number') return null;
   const board = buildBoardObject(state);
   const horizontalPattern = computeHorizontalPattern(board, leftBound(board), rightBound(board));
   const verticalPattern = computeVerticalPattern(board, topBound(board), bottomBound(board));
@@ -27,7 +27,7 @@ export function computeSuggestions(state) {
 }
 
 function buildBoardObject(state) {
-  const [activeColumn, activeRow] = remainderAndQuotient(state.activeIndex, boardWidth);
+  const [activeColumn, activeRow] = remainderAndQuotient(state.activeSquareIndex, boardWidth);
   const board = {
     squareValues: state.squareValues,
     width: boardWidth,

@@ -37,7 +37,7 @@ class Board extends React.Component {
       <Square
         key={k}
         value={this.props.squareValues[k]}
-        isActive={this.props.activeIndex === k}
+        isActive={this.props.activeSquareIndex === k}
         onFocus={this.handleSquareFocus(k)}
         onBlur={this.handleSquareBlur(k)}
         squareRef={this.props.squareRefs[k]}
