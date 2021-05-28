@@ -11,9 +11,9 @@ import {
   oneBackwardIndex,
   moveFocusBackward, moveFocusForward
 } from '../services/board_navigation';
-import './Game.css';
+import './App.css';
 
-class Game extends React.Component { // !!! rename Game
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,7 +29,7 @@ class Game extends React.Component { // !!! rename Game
     // !!! suggestions should be computed asynchronously (and probably on the back end)
     const suggestedLetters = computeSuggestions(this.state);
     return (
-      <div className="game">
+      <div className="app">
         <Board
           width={boardWidth}
           height={boardHeight}
@@ -53,14 +53,14 @@ class Game extends React.Component { // !!! rename Game
     );
   }
 
-  handleSquareFocus = (k, event) => { // !!! consider removing event parameter
+  handleSquareFocus = (k) => {
     this.setState((prevState) => {
       if (prevState.activeIndex === k) return null;
       return { activeIndex: k };
     });
   }
 
-  handleSquareBlur = (k, event) => {
+  handleSquareBlur = (k) => {
     // !!! only update state if we're actually leaving the component
     this.setState((prevState) => {
       if (prevState.activeIndex !== k) return null;
@@ -119,4 +119,4 @@ function updateSquare(squares, index, value) {
   return { squares };
 }
 
-export default Game;
+export default App;
