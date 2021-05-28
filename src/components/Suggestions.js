@@ -10,7 +10,7 @@ class Suggestions extends React.Component {
           name="canSuggestFill"
           type="checkbox"
           checked={this.props.canSuggestFill}
-          onChange={this.props.handleCanSuggestFillChange}
+          onChange={this.props.handleCanSuggestFillToggle}
         />
         <br />
         Suggestions: {suggestionString(this.props.suggestedLetters)}

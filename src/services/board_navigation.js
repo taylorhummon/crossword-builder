@@ -17,24 +17,36 @@ export function moveFocusForArrowKey(boardElement, activeIndex, allowWrap, key) 
   if (key === arrowDown) moveFocusDown(boardElement, activeIndex, allowWrap);
 }
 
-export function oneBackwardIndex(index, typingDirection) {
-  if (typingDirection === 'horizontal') return oneLeftIndex(index);
-  if (typingDirection === 'vertical')   return oneUpIndex(index);
+export function oneBackwardIndex(index, isTypingVertical) {
+  if (isTypingVertical) {
+    return oneUpIndex(index);
+  } else {
+    return oneLeftIndex(index);
+  }
 }
 
-export function oneForwardIndex(index, typingDirection) {
-  if (typingDirection === 'horizontal') return oneRightIndex(index);
-  if (typingDirection === 'vertical')   return oneDownIndex(index);
+export function oneForwardIndex(index, isTypingVertical) {
+  if (isTypingVertical) {
+    return oneDownIndex(index);
+  } else {
+    return oneRightIndex(index);
+  }
 }
 
-export function moveFocusBackward(boardElement, activeIndex, allowWrap, typingDirection) {
-  if (typingDirection === 'horizontal') moveFocusLeft(boardElement, activeIndex, allowWrap);
-  if (typingDirection === 'vertical')   moveFocusUp(boardElement, activeIndex, allowWrap);
+export function moveFocusBackward(boardElement, activeIndex, allowWrap, isTypingVertical) {
+  if (isTypingVertical) {
+    return moveFocusUp(boardElement, activeIndex, allowWrap);
+  } else {
+    return moveFocusLeft(boardElement, activeIndex, allowWrap);
+  }
 }
 
-export function moveFocusForward(boardElement, activeIndex, allowWrap, typingDirection) {
-  if (typingDirection === 'horizontal') moveFocusRight(boardElement, activeIndex, allowWrap);
-  if (typingDirection === 'vertical')   moveFocusDown(boardElement, activeIndex, allowWrap);
+export function moveFocusForward(boardElement, activeIndex, allowWrap, isTypingVertical) {
+  if (isTypingVertical) {
+    return moveFocusDown(boardElement, activeIndex, allowWrap);
+  } else {
+    return moveFocusRight(boardElement, activeIndex, allowWrap);
+  }
 }
 
 function moveFocusLeft(boardElement, activeIndex, allowWrap) {
@@ -102,7 +114,7 @@ function inLastRow(index) {
 }
 
 function squareElement(boardElement, toFocusIndex) {
-  const squareElements = boardElement.getElementsByClassName(`square-${toFocusIndex}`);
+  const squareElements = boardElement.getElementsByClassName(`square-${toFocusIndex}`); // !!! maybe use refs on the squares themselves?
   if (squareElements.length !== 1) throw Error(`Could not find square at index ${toFocusIndex}`);
   return squareElements[0];
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import './Game.css';
 import Board from './Board';
 import Suggestions from './Suggestions';
+import TypingDirection from './TypingDirection';
 import { arrayOfSize, arrayShallowCopy } from '../utilities/arrays';
 import { computeSuggestions } from '../services/suggestions';
 import { filledSquareValue } from '../utilities/alphabet';
@@ -12,22 +13,21 @@ import {
   moveFocusBackward, moveFocusForward
 } from '../services/board_navigation';
 
-const typingDirection = 'horizontal';
-
-class Game extends React.Component {
+class Game extends React.Component { // !!! rename Game
   constructor(props) {
     super(props);
     this.state = {
-      squares: arrayOfSize(boardWidth * boardHeight),
-      activeIndex: null,
-      canSuggestFill: true
+      squares: arrayOfSize(boardWidth * boardHeight), // !!! squareValues?
+      activeIndex: null, // !!! activeSquareIndex?
+      canSuggestFill: true,
+      isTypingVertical: false
     };
     this.boardRef = React.createRef();
   }
 
   render() {
     // !!! suggestions should be computed asynchronously (and probably on the back end)
-    const suggestedLetters = computeSuggestions(this.state, boardWidth, boardHeight);
+    const suggestedLetters = computeSuggestions(this.state, boardWidth, boardHeight); // !!! don't pass board width and height
     return (
       <div className="game">
         <div
@@ -48,14 +48,18 @@ class Game extends React.Component {
           <Suggestions
             suggestedLetters={suggestedLetters}
             canSuggestFill={this.state.canSuggestFill}
-            handleCanSuggestFillChange={this.handleCanSuggestFillChange}
+            handleCanSuggestFillToggle={this.handleCanSuggestFillToggle}
           />
         </div>
+        <TypingDirection
+          isTypingVertical={this.state.isTypingVertical}
+          handleTypingDirectionToggle={this.handleTypingDirectionToggle}
+        />
       </div>
     );
   }
 
-  handleSquareFocus = (k, event) => {
+  handleSquareFocus = (k, event) => { // !!! consider removing event parameter
     this.setState((prevState) => {
       if (prevState.activeIndex === k) return null;
       return { activeIndex: k };
@@ -77,11 +81,12 @@ class Game extends React.Component {
       moveFocusForArrowKey(this.boardRef.current, this.state.activeIndex, false, key);
       return;
     }
+    // !!! should _shouldMoveBack be state?
     this._shouldMoveBack = key === 'Backspace' && this.state.squares[this.state.activeIndex] === null;
     this.setState(
       (prevState) => {
         const squares = prevState.squares;
-        const index = this._shouldMoveBack ? oneBackwardIndex(prevState.activeIndex, typingDirection) : prevState.activeIndex;
+        const index = this._shouldMoveBack ? oneBackwardIndex(prevState.activeIndex, prevState.isTypingVertical) : prevState.activeIndex;
         if (key === 'Delete')       return updateSquare(squares, index, null);
         if (key === 'Backspace')    return updateSquare(squares, index, null);
         if (key === ' ')            return updateSquare(squares, index, filledSquareValue);
@@ -91,23 +96,26 @@ class Game extends React.Component {
       },
       () => {
         if (key === 'Backspace' && this._shouldMoveBack) {
-          moveFocusBackward(this.boardRef.current, this.state.activeIndex, true, typingDirection);
+          moveFocusBackward(this.boardRef.current, this.state.activeIndex, true, this.state.isTypingVertical);
         }
         if (key === ' ' || key === 'Enter' || /^[A-Za-z]$/.test(key)) {
-          moveFocusForward(this.boardRef.current, this.state.activeIndex, true, typingDirection);
+          moveFocusForward(this.boardRef.current, this.state.activeIndex, true, this.state.isTypingVertical);
         }
         this._shouldMoveBack = null;
       }
     );
   }
 
-  handleCanSuggestFillChange = (event) => {
-    const target = event.target;
-    if (target.type === 'checkbox' && target.name === 'canSuggestFill') {
-      this.setState((prevState) => {
-        return { canSuggestFill: target.checked };
-      });
-    }
+  handleCanSuggestFillToggle = () => {
+    this.setState((prevState) => {
+      return { canSuggestFill: ! prevState.canSuggestFill };
+    });
+  }
+
+  handleTypingDirectionToggle = () => {
+    this.setState((prevState) => {
+      return { isTypingVertical: ! prevState.isTypingVertical };
+    });
   }
 }
 
