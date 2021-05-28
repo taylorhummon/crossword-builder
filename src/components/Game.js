@@ -27,7 +27,7 @@ class Game extends React.Component { // !!! rename Game
 
   render() {
     // !!! suggestions should be computed asynchronously (and probably on the back end)
-    const suggestedLetters = computeSuggestions(this.state, boardWidth, boardHeight); // !!! don't pass board width and height
+    const suggestedLetters = computeSuggestions(this.state);
     return (
       <div
         className="game"

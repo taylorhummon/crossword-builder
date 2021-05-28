@@ -2,13 +2,14 @@ import { findSuggestions1, findSuggestions2, computeSuggestFillTrimLeft, compute
 import { buildUppercaseAlphabet, filledSquareValue } from '../utilities/alphabet';
 import { remainderAndQuotient } from '../utilities/math';
 import { inclusiveIndicesArray } from '../utilities/indices_array';
+import { boardWidth, boardHeight } from './board_navigation';
 
 // const initialTimeStamp = Date.now();
 // console.log('Search Took', Date.now() - initialTimeStamp);
 
-export function computeSuggestions(state, width, height) {
+export function computeSuggestions(state) {
   if (typeof state.activeIndex !== 'number') return null;
-  const board = buildBoardObject(state, width, height);
+  const board = buildBoardObject(state);
   const horizontalPattern = computeHorizontalPattern(board, leftBound(board), rightBound(board));
   const verticalPattern = computeVerticalPattern(board, topBound(board), bottomBound(board));
   if (state.canSuggestFill) {
@@ -25,12 +26,12 @@ export function computeSuggestions(state, width, height) {
   }
 }
 
-function buildBoardObject(state, width, height) {
-  const [activeColumn, activeRow] = remainderAndQuotient(state.activeIndex, width);
+function buildBoardObject(state) {
+  const [activeColumn, activeRow] = remainderAndQuotient(state.activeIndex, boardWidth);
   const board = {
     squares: state.squares,
-    width,
-    height,
+    width: boardWidth,
+    height: boardHeight,
     activeColumn,
     activeRow,
     squareAt(i, j) { return this.squares[j * this.width + i]; }
