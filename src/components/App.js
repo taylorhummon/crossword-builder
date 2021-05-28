@@ -4,7 +4,7 @@ import Suggestions from './Suggestions';
 import TypingDirection from './TypingDirection';
 import { arrayOfSize, arrayShallowCopy } from '../utilities/arrays';
 import { computeSuggestions } from '../services/suggestions';
-import { filledSquareValue } from '../utilities/alphabet';
+import { filledSquareCharacter } from '../utilities/alphabet';
 import {
   boardWidth, boardHeight,
   isArrowKey, moveFocusForArrowKey,
@@ -17,12 +17,12 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      squares: arrayOfSize(boardWidth * boardHeight), // !!! squareValues?
+      squareValues: arrayOfSize(boardWidth * boardHeight),
       activeIndex: null, // !!! activeSquareIndex?
       canSuggestFill: true,
       isTypingVertical: false
     };
-    this.squareRefs = this.state.squares.map(() => React.createRef());
+    this.squareRefs = this.state.squareValues.map(() => React.createRef());
   }
 
   render() {
@@ -33,7 +33,7 @@ class App extends React.Component {
         <Board
           width={boardWidth}
           height={boardHeight}
-          squares={this.state.squares}
+          squareValues={this.state.squareValues}
           activeIndex={this.state.activeIndex}
           handleSquareFocus={this.handleSquareFocus}
           handleSquareBlur={this.handleSquareBlur}
@@ -76,16 +76,16 @@ class App extends React.Component {
       return;
     }
     // !!! should _shouldMoveBack be state?
-    this._shouldMoveBack = key === 'Backspace' && this.state.squares[this.state.activeIndex] === null;
+    this._shouldMoveBack = key === 'Backspace' && this.state.squareValues[this.state.activeIndex] === null;
     this.setState(
       (prevState) => {
-        const squares = prevState.squares;
+        const squareValues = prevState.squareValues;
         const index = this._shouldMoveBack ? oneBackwardIndex(prevState.activeIndex, prevState.isTypingVertical) : prevState.activeIndex;
-        if (key === 'Delete')       return updateSquare(squares, index, null);
-        if (key === 'Backspace')    return updateSquare(squares, index, null);
-        if (key === ' ')            return updateSquare(squares, index, filledSquareValue);
-        if (key === 'Enter')        return updateSquare(squares, index, filledSquareValue);
-        if (/^[A-Za-z]$/.test(key)) return updateSquare(squares, index, key.toUpperCase());
+        if (key === 'Delete')       return updateSquare(squareValues, index, null);
+        if (key === 'Backspace')    return updateSquare(squareValues, index, null);
+        if (key === ' ')            return updateSquare(squareValues, index, filledSquareCharacter);
+        if (key === 'Enter')        return updateSquare(squareValues, index, filledSquareCharacter);
+        if (/^[A-Za-z]$/.test(key)) return updateSquare(squareValues, index, key.toUpperCase());
         return null;
       },
       () => {
@@ -113,10 +113,10 @@ class App extends React.Component {
   }
 }
 
-function updateSquare(squares, index, value) {
-  squares = arrayShallowCopy(squares);
-  squares[index] = value;
-  return { squares };
+function updateSquare(squareValues, index, value) {
+  squareValues = arrayShallowCopy(squareValues);
+  squareValues[index] = value;
+  return { squareValues };
 }
 
 export default App;

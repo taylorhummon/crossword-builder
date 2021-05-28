@@ -1,5 +1,5 @@
 import { findSuggestions1, findSuggestions2, computeSuggestFillTrimLeft, computeSuggestFillTrimRight } from './suggestions_a';
-import { buildUppercaseAlphabet, filledSquareValue } from '../utilities/alphabet';
+import { buildUppercaseAlphabet, filledSquareCharacter } from '../utilities/alphabet';
 import { remainderAndQuotient } from '../utilities/math';
 import { inclusiveIndicesArray } from '../utilities/indices_array';
 import { boardWidth, boardHeight } from './board_navigation';
@@ -16,7 +16,7 @@ export function computeSuggestions(state) {
     const horizontalSuggestionsSet = findSuggestions2(horizontalPattern);
     const verticalSuggestionsSet = findSuggestions2(verticalPattern);
     const letterSuggestions = toLettersArray(horizontalSuggestionsSet, verticalSuggestionsSet);
-    const suggestions = suggestFill(board) ? [filledSquareValue].concat(letterSuggestions) : letterSuggestions;
+    const suggestions = suggestFill(board) ? [filledSquareCharacter].concat(letterSuggestions) : letterSuggestions;
     return suggestions;
   } else {
     const horizontalSuggestionsSet = findSuggestions1(horizontalPattern);
@@ -29,12 +29,12 @@ export function computeSuggestions(state) {
 function buildBoardObject(state) {
   const [activeColumn, activeRow] = remainderAndQuotient(state.activeIndex, boardWidth);
   const board = {
-    squares: state.squares,
+    squareValues: state.squareValues,
     width: boardWidth,
     height: boardHeight,
     activeColumn,
     activeRow,
-    squareAt(i, j) { return this.squares[j * this.width + i]; }
+    squareValueAt(i, j) { return this.squareValues[j * this.width + i]; }
   };
   return board;
 }
@@ -61,7 +61,7 @@ function suggestFill(board) {
 
 function leftBound(board) {
   let i = board.activeColumn;
-  while (i - 1 >= 0 && board.squareAt(i - 1, board.activeRow) !== filledSquareValue) {
+  while (i - 1 >= 0 && board.squareValueAt(i - 1, board.activeRow) !== filledSquareCharacter) {
     i--;
   }
   return i;
@@ -69,7 +69,7 @@ function leftBound(board) {
 
 function rightBound(board) {
   let i = board.activeColumn;
-  while (i + 1 < board.width && board.squareAt(i + 1, board.activeRow) !== filledSquareValue) {
+  while (i + 1 < board.width && board.squareValueAt(i + 1, board.activeRow) !== filledSquareCharacter) {
     i++;
   }
   return i;
@@ -77,7 +77,7 @@ function rightBound(board) {
 
 function computeHorizontalPattern(board, from, to) {
   return inclusiveIndicesArray(from, to).map(i => {
-    const character = board.squareAt(i, board.activeRow);
+    const character = board.squareValueAt(i, board.activeRow);
     if (i === board.activeColumn) return '@';
     if (character === null) return '.';
     if (/[A-Z]/.test(character)) return character;
@@ -89,7 +89,7 @@ function computeHorizontalPattern(board, from, to) {
 
 function topBound(board) {
   let j = board.activeRow;
-  while (j - 1 >= 0 && board.squareAt(board.activeColumn, j - 1) !== filledSquareValue) {
+  while (j - 1 >= 0 && board.squareValueAt(board.activeColumn, j - 1) !== filledSquareCharacter) {
     j--;
   }
   return j;
@@ -97,7 +97,7 @@ function topBound(board) {
 
 function bottomBound(board) {
   let j = board.activeRow;
-  while (j + 1 < board.width && board.squareAt(board.activeColumn, j + 1) !== filledSquareValue) {
+  while (j + 1 < board.width && board.squareValueAt(board.activeColumn, j + 1) !== filledSquareCharacter) {
     j++;
   }
   return j;
@@ -105,7 +105,7 @@ function bottomBound(board) {
 
 function computeVerticalPattern(board, from, to) {
   return inclusiveIndicesArray(from, to).map(j => {
-    const character = board.squareAt(board.activeColumn, j);
+    const character = board.squareValueAt(board.activeColumn, j);
     if (j === board.activeRow) return '@';
     if (character === null) return '.';
     if (/[A-Z]/.test(character)) return character;

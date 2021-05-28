@@ -14,4 +14,4 @@ export function buildUppercaseAlphabet() {
   );
 }
 
-export const filledSquareValue = '';
+export const filledSquareCharacter = '';
