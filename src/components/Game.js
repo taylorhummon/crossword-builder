@@ -1,5 +1,4 @@
 import React from 'react';
-import './Game.css';
 import Board from './Board';
 import Suggestions from './Suggestions';
 import TypingDirection from './TypingDirection';
@@ -12,6 +11,7 @@ import {
   oneBackwardIndex,
   moveFocusBackward, moveFocusForward
 } from '../services/board_navigation';
+import './Game.css';
 
 class Game extends React.Component { // !!! rename Game
   constructor(props) {
@@ -22,7 +22,7 @@ class Game extends React.Component { // !!! rename Game
       canSuggestFill: true,
       isTypingVertical: false
     };
-    this.boardRef = React.createRef();
+    this.gameRef = React.createRef();
   }
 
   render() {
@@ -31,7 +31,7 @@ class Game extends React.Component { // !!! rename Game
     return (
       <div
         className="game"
-        ref={this.boardRef}
+        ref={this.gameRef}
       >
         <Board
           width={boardWidth}
@@ -74,7 +74,7 @@ class Game extends React.Component { // !!! rename Game
     if (event.altKey || event.ctrlKey || event.metaKey) return;
     const key = event.key;
     if (isArrowKey(key)) {
-      moveFocusForArrowKey(this.boardRef.current, this.state.activeIndex, false, key);
+      moveFocusForArrowKey(this.gameRef.current, this.state.activeIndex, false, key);
       return;
     }
     // !!! should _shouldMoveBack be state?
@@ -92,10 +92,10 @@ class Game extends React.Component { // !!! rename Game
       },
       () => {
         if (key === 'Backspace' && this._shouldMoveBack) {
-          moveFocusBackward(this.boardRef.current, this.state.activeIndex, true, this.state.isTypingVertical);
+          moveFocusBackward(this.gameRef.current, this.state.activeIndex, true, this.state.isTypingVertical);
         }
         if (key === ' ' || key === 'Enter' || /^[A-Za-z]$/.test(key)) {
-          moveFocusForward(this.boardRef.current, this.state.activeIndex, true, this.state.isTypingVertical);
+          moveFocusForward(this.gameRef.current, this.state.activeIndex, true, this.state.isTypingVertical);
         }
         this._shouldMoveBack = null;
       }
