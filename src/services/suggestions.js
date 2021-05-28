@@ -1,7 +1,7 @@
 import { findSuggestions1, findSuggestions2, computeSuggestFillTrimLeft, computeSuggestFillTrimRight } from './suggestionsA';
 import { buildUppercaseAlphabet, filledSquareCharacter } from '../utilities/alphabet';
 import { remainderAndQuotient } from '../utilities/math';
-import { inclusiveIndicesArray } from '../utilities/indicesArray';
+import { inclusiveIndicesArray } from '../utilities/arrays';
 import { boardWidth, boardHeight } from './boardNavigation';
 
 // const initialTimeStamp = Date.now();
