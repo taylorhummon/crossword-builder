@@ -1,6 +1,6 @@
 import React from 'react';
-import './Square.css';
 import { filledSquareCharacter } from '../utilities/alphabet';
+import './Square.css';
 
 class Square extends React.Component {
   render() {
