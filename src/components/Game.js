@@ -29,28 +29,24 @@ class Game extends React.Component { // !!! rename Game
     // !!! suggestions should be computed asynchronously (and probably on the back end)
     const suggestedLetters = computeSuggestions(this.state, boardWidth, boardHeight); // !!! don't pass board width and height
     return (
-      <div className="game">
-        <div
-          className="game-board"
-          ref={this.boardRef}
-        >
-          <Board
-            width={boardWidth}
-            height={boardHeight}
-            squares={this.state.squares}
-            activeIndex={this.state.activeIndex}
-            handleSquareFocus={this.handleSquareFocus}
-            handleSquareBlur={this.handleSquareBlur}
-            handleBoardKeyDown={this.handleBoardKeyDown}
-          />
-        </div>
-        <div className="game-suggestions">
-          <Suggestions
-            suggestedLetters={suggestedLetters}
-            canSuggestFill={this.state.canSuggestFill}
-            handleCanSuggestFillToggle={this.handleCanSuggestFillToggle}
-          />
-        </div>
+      <div
+        className="game"
+        ref={this.boardRef}
+      >
+        <Board
+          width={boardWidth}
+          height={boardHeight}
+          squares={this.state.squares}
+          activeIndex={this.state.activeIndex}
+          handleSquareFocus={this.handleSquareFocus}
+          handleSquareBlur={this.handleSquareBlur}
+          handleBoardKeyDown={this.handleBoardKeyDown}
+        />
+        <Suggestions
+          suggestedLetters={suggestedLetters}
+          canSuggestFill={this.state.canSuggestFill}
+          handleCanSuggestFillToggle={this.handleCanSuggestFillToggle}
+        />
         <TypingDirection
           isTypingVertical={this.state.isTypingVertical}
           handleTypingDirectionToggle={this.handleTypingDirectionToggle}

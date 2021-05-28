@@ -10,11 +10,11 @@ export function isArrowKey(key) {
   return key === arrowLeft || key === arrowRight || key === arrowUp || key === arrowDown;
 }
 
-export function moveFocusForArrowKey(boardElement, activeIndex, allowWrap, key) {
-  if (key === arrowLeft) moveFocusLeft(boardElement, activeIndex, allowWrap);
-  if (key === arrowRight) moveFocusRight(boardElement, activeIndex, allowWrap);
-  if (key === arrowUp) moveFocusUp(boardElement, activeIndex, allowWrap);
-  if (key === arrowDown) moveFocusDown(boardElement, activeIndex, allowWrap);
+export function moveFocusForArrowKey(gameElement, activeIndex, allowWrap, key) {
+  if (key === arrowLeft) moveFocusLeft(gameElement, activeIndex, allowWrap);
+  if (key === arrowRight) moveFocusRight(gameElement, activeIndex, allowWrap);
+  if (key === arrowUp) moveFocusUp(gameElement, activeIndex, allowWrap);
+  if (key === arrowDown) moveFocusDown(gameElement, activeIndex, allowWrap);
 }
 
 export function oneBackwardIndex(index, isTypingVertical) {
@@ -33,47 +33,47 @@ export function oneForwardIndex(index, isTypingVertical) {
   }
 }
 
-export function moveFocusBackward(boardElement, activeIndex, allowWrap, isTypingVertical) {
+export function moveFocusBackward(gameElement, activeIndex, allowWrap, isTypingVertical) {
   if (isTypingVertical) {
-    return moveFocusUp(boardElement, activeIndex, allowWrap);
+    return moveFocusUp(gameElement, activeIndex, allowWrap);
   } else {
-    return moveFocusLeft(boardElement, activeIndex, allowWrap);
+    return moveFocusLeft(gameElement, activeIndex, allowWrap);
   }
 }
 
-export function moveFocusForward(boardElement, activeIndex, allowWrap, isTypingVertical) {
+export function moveFocusForward(gameElement, activeIndex, allowWrap, isTypingVertical) {
   if (isTypingVertical) {
-    return moveFocusDown(boardElement, activeIndex, allowWrap);
+    return moveFocusDown(gameElement, activeIndex, allowWrap);
   } else {
-    return moveFocusRight(boardElement, activeIndex, allowWrap);
+    return moveFocusRight(gameElement, activeIndex, allowWrap);
   }
 }
 
-function moveFocusLeft(boardElement, activeIndex, allowWrap) {
+function moveFocusLeft(gameElement, activeIndex, allowWrap) {
   if (! allowWrap && inFirstColumn(activeIndex)) return;
   const index = oneLeftIndex(activeIndex);
-  const element = squareElement(boardElement, index);
+  const element = squareElement(gameElement, index);
   element.focus();
 }
 
-function moveFocusRight(boardElement, activeIndex, allowWrap) {
+function moveFocusRight(gameElement, activeIndex, allowWrap) {
   if (! allowWrap && inLastColumn(activeIndex)) return;
   const index = oneRightIndex(activeIndex);
-  const element = squareElement(boardElement, index);
+  const element = squareElement(gameElement, index);
   element.focus();
 }
 
-function moveFocusUp(boardElement, activeIndex, allowWrap) {
+function moveFocusUp(gameElement, activeIndex, allowWrap) {
   if (! allowWrap && inFirstRow(activeIndex)) return;
   const index = oneUpIndex(activeIndex);
-  const element = squareElement(boardElement, index);
+  const element = squareElement(gameElement, index);
   element.focus();
 }
 
-function moveFocusDown(boardElement, activeIndex, allowWrap) {
+function moveFocusDown(gameElement, activeIndex, allowWrap) {
   if (! allowWrap && inLastRow(activeIndex)) return;
   const index = oneDownIndex(activeIndex);
-  const element = squareElement(boardElement, index);
+  const element = squareElement(gameElement, index);
   element.focus();
 }
 
@@ -113,8 +113,8 @@ function inLastRow(index) {
   return index >= (boardWidth - 1) * boardHeight;
 }
 
-function squareElement(boardElement, toFocusIndex) {
-  const squareElements = boardElement.getElementsByClassName(`square-${toFocusIndex}`); // !!! maybe use refs on the squares themselves?
+function squareElement(gameElement, toFocusIndex) {
+  const squareElements = gameElement.getElementsByClassName(`square-${toFocusIndex}`); // !!! maybe use refs on the squares themselves?
   if (squareElements.length !== 1) throw Error(`Could not find square at index ${toFocusIndex}`);
   return squareElements[0];
 }
