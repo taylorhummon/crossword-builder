@@ -1,6 +1,6 @@
 import React from 'react';
 import Square from './Square';
-import { indicesArray } from '../utilities/indices_array';
+import { indicesArray } from '../utilities/indicesArray';
 import './Board.css';
 
 class Board extends React.Component {

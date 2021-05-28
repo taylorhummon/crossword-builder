@@ -1,4 +1,4 @@
-import { indicesArray } from './indices_array';
+import { indicesArray } from './indicesArray';
 
 export function buildLowercaseAlphabet() {
   const charCode = 'a'.charCodeAt(0);

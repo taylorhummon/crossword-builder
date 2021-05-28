@@ -10,7 +10,7 @@ import {
   isArrowKey, moveFocusForArrowKey,
   oneBackwardIndex,
   moveFocusBackward, moveFocusForward
-} from '../services/board_navigation';
+} from '../services/boardNavigation';
 import './App.css';
 
 class App extends React.Component {

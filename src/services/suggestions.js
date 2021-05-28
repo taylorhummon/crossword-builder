@@ -1,8 +1,8 @@
-import { findSuggestions1, findSuggestions2, computeSuggestFillTrimLeft, computeSuggestFillTrimRight } from './suggestions_a';
+import { findSuggestions1, findSuggestions2, computeSuggestFillTrimLeft, computeSuggestFillTrimRight } from './suggestionsA';
 import { buildUppercaseAlphabet, filledSquareCharacter } from '../utilities/alphabet';
 import { remainderAndQuotient } from '../utilities/math';
-import { inclusiveIndicesArray } from '../utilities/indices_array';
-import { boardWidth, boardHeight } from './board_navigation';
+import { inclusiveIndicesArray } from '../utilities/indicesArray';
+import { boardWidth, boardHeight } from './boardNavigation';
 
 // const initialTimeStamp = Date.now();
 // console.log('Search Took', Date.now() - initialTimeStamp);
