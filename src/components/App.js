@@ -2,15 +2,14 @@ import React from 'react';
 import Board from './Board';
 import Suggestions from './Suggestions';
 import TypingDirection from './TypingDirection';
-import { arrayOfSize, arrayShallowCopy } from '../utilities/arrays';
 import { computeSuggestions } from '../services/suggestions';
-import { filledSquareCharacter } from '../utilities/alphabet';
 import {
   boardWidth, boardHeight,
-  isArrowKey, moveFocusForArrowKey,
-  moveFocusBackward, moveFocusForward,
-  oneBackwardIndex
+  isArrowKey, indexDeterminedByArrowKey,
+  indexOneBeforeActive, indexOneAfterActive
 } from '../services/boardNavigation';
+import { arrayOfSize, arrayShallowCopy } from '../utilities/arrays';
+import { isLetter, filledSquareCharacter } from '../utilities/alphabet';
 import './App.css';
 
 class App extends React.Component {
@@ -23,7 +22,6 @@ class App extends React.Component {
       isTypingVertical: false
     };
     this.squareRefs = this.state.squareValues.map(() => React.createRef());
-    this.moveFocusTo = this.moveFocusTo.bind(this);
   }
 
   render() {
@@ -69,55 +67,45 @@ class App extends React.Component {
 
   handleBoardKeyDown = (event) => {
     if (event.altKey || event.ctrlKey || event.metaKey) return;
-    const key = event.key;
-    if (isArrowKey(key)) {
-      moveFocusForArrowKey(this.state, this.moveFocusTo, key);
-      return;
-    }
-    this._valueEntered = null;
-    this._isBackspaceOnEmptySquare = (
-      key === 'Backspace' &&
-      this.state.squareValues[this.state.activeSquareIndex] === null
-    );
+    this._willMoveFocusTo = null;
     this.setState(
       (prevState) => {
+        const key = event.key;
         const squareValues = prevState.squareValues;
-        const index = this.indexOfValueToBeUpdated(prevState);
-        if (key === 'Delete' || key === 'Backspace') {
-          this._valueEntered = null;
-          return updateSquare(squareValues, index, this._valueEntered);
+        const activeSquareIndex = prevState.activeSquareIndex;
+        if (isLetter(key)) {
+          this._willMoveFocusTo = indexOneAfterActive(prevState, true);
+          return updateSquare(squareValues, activeSquareIndex, key.toUpperCase());
         }
         if (key === 'Enter' || key === ' ') {
-          this._valueEntered = filledSquareCharacter;
-          return updateSquare(squareValues, index, this._valueEntered);
+          this._willMoveFocusTo = indexOneAfterActive(prevState, true);
+          return updateSquare(squareValues, activeSquareIndex, filledSquareCharacter);
         }
-        if (/^[A-Za-z]$/.test(key)) {
-          this._valueEntered = key.toUpperCase();
-          return updateSquare(squareValues, index, this._valueEntered);
+        if (key === 'Delete') {
+          this._willMoveFocusTo = null;
+          return updateSquare(squareValues, activeSquareIndex, null);
+        }
+        if (key === 'Backspace') {
+          const onEmptySquare = squareValues[activeSquareIndex] === null;
+          if (onEmptySquare) {
+            const index = indexOneBeforeActive(prevState, true);
+            this._willMoveFocusTo = index;
+            return updateSquare(squareValues, index, null);
+          } else { // act like a delete key if the square isn't empty
+            this._willMoveFocusTo = null;
+            return updateSquare(squareValues, activeSquareIndex, null);
+          }
+        }
+        if (isArrowKey(key)) {
+          this._willMoveFocusTo = indexDeterminedByArrowKey(prevState, false, key);
+          return null;
         }
         return null;
       },
       () => {
-        if (this._valueEntered !== null) moveFocusForward(this.state, this.moveFocusTo);
-        if (this._isBackspaceOnEmptySquare) moveFocusBackward(this.state, this.moveFocusTo);
-        this._valueEntered = null;
-        this._isBackspaceOnEmptySquare = null;
+        this.moveFocus();
       }
     );
-  }
-
-  moveFocusTo(index) {
-    const element = this.squareRefs[index].current;
-    if (! element) throw Error(`Somehow the dom element for square ${index} was missing`);
-    element.focus();
-  }
-
-  indexOfValueToBeUpdated(prevState) {
-    if (this._isBackspaceOnEmptySquare) {
-      return oneBackwardIndex(prevState, prevState.activeSquareIndex);
-    } else {
-      return prevState.activeSquareIndex;
-    }
   }
 
   handleCanSuggestFillToggle = () => {
@@ -130,6 +118,15 @@ class App extends React.Component {
     this.setState((prevState) => {
       return { isTypingVertical: ! prevState.isTypingVertical };
     });
+  }
+
+  moveFocus() {
+    const index = this._willMoveFocusTo;
+    if (typeof index !== 'number') return;
+    const element = this.squareRefs[index].current;
+    if (! element) throw Error(`Somehow the dom element for square ${index} was missing`);
+    element.focus();
+    this._willMoveFocusTo = null;
   }
 }
 

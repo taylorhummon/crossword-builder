@@ -10,89 +10,63 @@ export function isArrowKey(key) {
   return key === arrowLeft || key === arrowRight || key === arrowUp || key === arrowDown;
 }
 
-export function moveFocusForArrowKey(state, moveFocusTo, key) {
-  const activeSquareIndex = state.activeSquareIndex;
-  const allowWrap = false;
-  if (key === arrowLeft)  moveFocusLeft(allowWrap, moveFocusTo, activeSquareIndex);
-  if (key === arrowRight) moveFocusRight(allowWrap, moveFocusTo, activeSquareIndex);
-  if (key === arrowUp)    moveFocusUp(allowWrap, moveFocusTo, activeSquareIndex);
-  if (key === arrowDown)  moveFocusDown(allowWrap, moveFocusTo, activeSquareIndex);
+export function indexDeterminedByArrowKey(state, allowWrap, key) {
+  if (key === arrowLeft)  return indexOneLeftOf(allowWrap, state.activeSquareIndex);
+  if (key === arrowRight) return indexOneRightOf(allowWrap, state.activeSquareIndex);
+  if (key === arrowUp)    return indexOneUpFrom(allowWrap, state.activeSquareIndex);
+  if (key === arrowDown)  return indexOneDownFrom(allowWrap, state.activeSquareIndex);
 }
 
-export function moveFocusBackward(state, moveFocusTo) {
-  const activeSquareIndex = state.activeSquareIndex;
-  const allowWrap = true;
+export function indexOneBeforeActive(state, allowWrap) {
   if (state.isTypingVertical) {
-    return moveFocusUp(allowWrap, moveFocusTo, activeSquareIndex);
+    return indexOneUpFrom(allowWrap, state.activeSquareIndex);
   } else {
-    return moveFocusLeft(allowWrap, moveFocusTo, activeSquareIndex);
+    return indexOneLeftOf(allowWrap, state.activeSquareIndex);
   }
 }
 
-export function moveFocusForward(state, moveFocusTo) {
-  const activeSquareIndex = state.activeSquareIndex;
-  const allowWrap = true;
+export function indexOneAfterActive(state, allowWrap) {
   if (state.isTypingVertical) {
-    return moveFocusDown(allowWrap, moveFocusTo, activeSquareIndex);
+    return indexOneDownFrom(allowWrap, state.activeSquareIndex);
   } else {
-    return moveFocusRight(allowWrap, moveFocusTo, activeSquareIndex);
+    return indexOneRightOf(allowWrap, state.activeSquareIndex);
   }
 }
 
-function moveFocusLeft(allowWrap, moveFocusTo, activeSquareIndex) {
-  if (! allowWrap && inFirstColumn(activeSquareIndex)) return;
-  moveFocusTo(oneLeftIndex(activeSquareIndex));
-}
-
-function moveFocusRight(allowWrap, moveFocusTo, activeSquareIndex) {
-  if (! allowWrap && inLastColumn(activeSquareIndex)) return;
-  moveFocusTo(oneRightIndex(activeSquareIndex));
-}
-
-function moveFocusUp(allowWrap, moveFocusTo, activeSquareIndex) {
-  if (! allowWrap && inFirstRow(activeSquareIndex)) return;
-  moveFocusTo(oneUpIndex(activeSquareIndex));
-}
-
-function moveFocusDown(allowWrap, moveFocusTo, activeSquareIndex) {
-  if (! allowWrap && inLastRow(activeSquareIndex)) return;
-  moveFocusTo(oneDownIndex(activeSquareIndex));
-}
-
-export function oneBackwardIndex(state, index) {
-  if (state.isTypingVertical) {
-    return oneUpIndex(index);
+function indexOneLeftOf(allowWrap, index) {
+  if (inFirstColumn(index)) {
+    if (! allowWrap) return index;
+    return index - 1 + boardWidth;
   } else {
-    return oneLeftIndex(index);
+    return index - 1;
   }
 }
 
-export function oneForwardIndex(state, index) {
-  if (state.isTypingVertical) {
-    return oneDownIndex(index);
+function indexOneRightOf(allowWrap, index) {
+  if (inLastColumn(index)) {
+    if (! allowWrap) return index;
+    return index + 1 - boardWidth;
   } else {
-    return oneRightIndex(index);
+    return index + 1;
   }
 }
 
-function oneLeftIndex(index) {
-  if (inFirstColumn(index)) return index - 1 + boardWidth;
-  return index - 1;
+function indexOneUpFrom(allowWrap, index) {
+  if (inFirstRow(index)) {
+    if (! allowWrap) return index;
+    return index - boardWidth + boardWidth * boardHeight;
+  } else {
+    return index - boardWidth;
+  }
 }
 
-function oneRightIndex(index) {
-  if (inLastColumn(index)) return index + 1 - boardWidth;
-  return index + 1;
-}
-
-function oneUpIndex(index) {
-  if (inFirstRow(index)) return index - boardWidth + boardWidth * boardHeight;
-  return index - boardWidth;
-}
-
-function oneDownIndex(index) {
-  if (inLastRow(index)) return index + boardWidth - boardWidth * boardHeight;
-  return index + boardWidth;
+function indexOneDownFrom(allowWrap, index) {
+  if (inLastRow(index)) {
+    if (! allowWrap) return index;
+    return index + boardWidth - boardWidth * boardHeight;
+  } else {
+    return index + boardWidth;
+  }
 }
 
 function inFirstColumn(index) {
@@ -108,5 +82,5 @@ function inFirstRow(index) {
 }
 
 function inLastRow(index) {
-  return index >= (boardWidth - 1) * boardHeight;
+  return index >= boardWidth * boardHeight - boardWidth;
 }

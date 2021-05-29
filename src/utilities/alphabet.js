@@ -14,4 +14,8 @@ export function buildUppercaseAlphabet() {
   );
 }
 
+export function isLetter(string) {
+  return /^[A-Za-z]$/.test(string);
+}
+
 export const filledSquareCharacter = '';
