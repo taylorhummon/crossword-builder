@@ -19,7 +19,8 @@ class App extends React.Component {
       squareValues: arrayOfSize(boardWidth * boardHeight),
       activeSquareIndex: null,
       canSuggestFill: true,
-      isTypingVertical: false
+      isTypingVertical: false,
+      willMoveFocusTo: null
     };
     this.squareRefs = this.state.squareValues.map(() => React.createRef());
   }
@@ -52,8 +53,8 @@ class App extends React.Component {
 
   handleSquareFocus = (event, k) => {
     this.setState((prevState) => {
-      if (prevState.activeSquareIndex === k) return null;
-      return { activeSquareIndex: k };
+      if (prevState.activeSquareIndex === k && prevState.willMoveFocusTo === null) return null;
+      return { activeSquareIndex: k, willMoveFocusTo: null };
     });
   }
 
@@ -67,40 +68,9 @@ class App extends React.Component {
 
   handleBoardKeyDown = (event) => {
     if (event.altKey || event.ctrlKey || event.metaKey) return;
-    this._willMoveFocusTo = null;
     this.setState(
       (prevState) => {
-        const key = event.key;
-        const squareValues = prevState.squareValues;
-        const activeSquareIndex = prevState.activeSquareIndex;
-        if (isLetter(key)) {
-          this._willMoveFocusTo = indexOneAfterActive(prevState, true);
-          return updateSquare(squareValues, activeSquareIndex, key.toUpperCase());
-        }
-        if (key === 'Enter' || key === ' ') {
-          this._willMoveFocusTo = indexOneAfterActive(prevState, true);
-          return updateSquare(squareValues, activeSquareIndex, filledSquareCharacter);
-        }
-        if (key === 'Delete') {
-          this._willMoveFocusTo = null;
-          return updateSquare(squareValues, activeSquareIndex, null);
-        }
-        if (key === 'Backspace') {
-          const onEmptySquare = squareValues[activeSquareIndex] === null;
-          if (onEmptySquare) {
-            const index = indexOneBeforeActive(prevState, true);
-            this._willMoveFocusTo = index;
-            return updateSquare(squareValues, index, null);
-          } else { // act like a delete key if the square isn't empty
-            this._willMoveFocusTo = null;
-            return updateSquare(squareValues, activeSquareIndex, null);
-          }
-        }
-        if (isArrowKey(key)) {
-          this._willMoveFocusTo = indexDeterminedByArrowKey(prevState, false, key);
-          return null;
-        }
-        return null;
+        return updateStateDueToKeyPress(prevState, event.key);
       },
       () => {
         this.moveFocus();
@@ -121,19 +91,51 @@ class App extends React.Component {
   }
 
   moveFocus() {
-    const index = this._willMoveFocusTo;
+    const index = this.state.willMoveFocusTo;
     if (typeof index !== 'number') return;
+    if (index < 0 || index >= boardWidth * boardHeight) {
+      throw Error(`willMoveFocusTo is out of range`);
+    }
     const element = this.squareRefs[index].current;
-    if (! element) throw Error(`Somehow the dom element for square ${index} was missing`);
+    if (! element) {
+      throw Error(`Somehow the dom element for square ${index} was missing`);
+    }
     element.focus();
-    this._willMoveFocusTo = null;
   }
 }
 
-function updateSquare(squareValues, index, value) {
+function updateStateDueToKeyPress(prevState, key) {
+  const { squareValues, activeSquareIndex } = prevState;
+  if (isLetter(key)) {
+    const willMoveFocusTo = indexOneAfterActive(prevState, true);
+    return updateSquare(squareValues, activeSquareIndex, key.toUpperCase(), willMoveFocusTo);
+  }
+  if (key === 'Enter' || key === ' ') {
+    const willMoveFocusTo = indexOneAfterActive(prevState, true);
+    return updateSquare(squareValues, activeSquareIndex, filledSquareCharacter, willMoveFocusTo);
+  }
+  if (key === 'Delete') {
+    return updateSquare(squareValues, activeSquareIndex, null, null);
+  }
+  if (key === 'Backspace') {
+    const onEmptySquare = squareValues[activeSquareIndex] === null;
+    if (onEmptySquare) {
+      const willMoveFocusTo = indexOneBeforeActive(prevState, true);
+      return updateSquare(squareValues, willMoveFocusTo, null, willMoveFocusTo);
+    } else { // act like a delete key if the square isn't empty
+      return updateSquare(squareValues, activeSquareIndex, null, null);
+    }
+  }
+  if (isArrowKey(key)) {
+    return { willMoveFocusTo: indexDeterminedByArrowKey(prevState, false, key) };
+  }
+  return null;
+}
+
+function updateSquare(squareValues, index, value, willMoveFocusTo) {
   squareValues = arrayShallowCopy(squareValues);
   squareValues[index] = value;
-  return { squareValues };
+  return { squareValues, willMoveFocusTo };
 }
 
 export default App;
