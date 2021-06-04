@@ -1,6 +1,14 @@
 export const boardWidth = 6;
 export const boardHeight = 6;
 
+export function isMouseNavigation() {
+  return document.body.classList.contains('mouse-navigation');
+}
+
+export function isKeyboardNavigation() {
+  return document.body.classList.contains('keyboard-navigation');
+}
+
 const arrowLeft   = 'ArrowLeft';
 const arrowRight  = 'ArrowRight';
 const arrowUp     = 'ArrowUp';

@@ -8,10 +8,7 @@ class Square extends React.Component {
     return (
       <div
         className={className(this.props)}
-        tabIndex="0"
-        ref={this.props.squareRef}
-        onFocus={this.props.handleSquareFocus}
-        onBlur={this.props.handleSquareBlur}
+        onClick={this.props.handleSquareClick}
       >
         {displayedValue}
       </div>

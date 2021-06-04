@@ -6,7 +6,8 @@ import { computeSuggestions } from '../services/suggestions';
 import {
   boardWidth, boardHeight,
   isArrowKey, indexDeterminedByArrowKey,
-  indexOneBeforeActive, indexOneAfterActive
+  indexOneBeforeActive, indexOneAfterActive,
+  isMouseNavigation
 } from '../services/boardNavigation';
 import { arrayOfSize, arrayShallowCopy } from '../utilities/arrays';
 import { isLetter, filledSquareCharacter } from '../utilities/alphabet';
@@ -17,12 +18,11 @@ class App extends React.Component {
     super(props);
     this.state = {
       squareValues: arrayOfSize(boardWidth * boardHeight),
-      activeSquareIndex: null,
+      boardHasFocus: false,
+      activeSquareIndex: 0,
       canSuggestFill: true,
-      isTypingVertical: false,
-      willMoveFocusTo: null
+      isTypingVertical: false
     };
-    this.squareRefs = this.state.squareValues.map(() => React.createRef());
   }
 
   render() {
@@ -33,10 +33,11 @@ class App extends React.Component {
         <Board
           squareValues={this.state.squareValues}
           activeSquareIndex={this.state.activeSquareIndex}
-          squareRefs={this.squareRefs}
-          handleSquareFocus={this.handleSquareFocus}
-          handleSquareBlur={this.handleSquareBlur}
+          boardHasFocus={this.state.boardHasFocus}
           handleBoardKeyDown={this.handleBoardKeyDown}
+          handleBoardFocus={this.handleBoardFocus}
+          handleBoardBlur={this.handleBoardBlur}
+          handleSquareClick={this.handleSquareClick}
         />
         <Suggestions
           suggestedLetters={suggestedLetters}
@@ -51,31 +52,34 @@ class App extends React.Component {
     );
   }
 
-  handleSquareFocus = (event, k) => {
-    this.setState((prevState) => {
-      if (prevState.activeSquareIndex === k && prevState.willMoveFocusTo === null) return null;
-      return { activeSquareIndex: k, willMoveFocusTo: null };
-    });
-  }
-
-  handleSquareBlur = (event, k) => {
-    // !!! only update state if we're actually leaving the component
-    this.setState((prevState) => {
-      if (prevState.activeSquareIndex !== k) return null;
-      return { activeSquareIndex: null };
-    });
-  }
-
   handleBoardKeyDown = (event) => {
-    if (event.altKey || event.ctrlKey || event.metaKey) return;
-    this.setState(
-      (prevState) => {
-        return updateStateDueToKeyPress(prevState, event.key);
-      },
-      () => {
-        this.moveFocus();
-      }
-    );
+    this.setState((prevState) => {
+      return updateStateDueToKeyPress(prevState, event);
+    });
+  }
+
+  handleBoardFocus = () => {
+    // if the focus was due to a click, update focus in the click handler to avoid blinking
+    if (isMouseNavigation()) return;
+    this.setState(() => {
+      return { boardHasFocus: true };
+    });
+  }
+
+  handleBoardBlur = () => {
+    this.setState(() => {
+      return { boardHasFocus: false };
+    });
+  }
+
+  handleSquareClick = (event, k) => {
+    this.setState((prevState) => {
+      if (prevState.activeSquareIndex === k && prevState.boardHasFocus) return null; // !!! is this check useful?
+      return {
+        boardHasFocus: true,
+        activeSquareIndex: k
+      };
+    });
   }
 
   handleCanSuggestFillToggle = () => {
@@ -89,53 +93,55 @@ class App extends React.Component {
       return { isTypingVertical: ! prevState.isTypingVertical };
     });
   }
-
-  moveFocus() {
-    const index = this.state.willMoveFocusTo;
-    if (typeof index !== 'number') return;
-    if (index < 0 || index >= boardWidth * boardHeight) {
-      throw Error(`willMoveFocusTo is out of range`);
-    }
-    const element = this.squareRefs[index].current;
-    if (! element) {
-      throw Error(`Somehow the dom element for square ${index} was missing`);
-    }
-    element.focus();
-  }
 }
 
-function updateStateDueToKeyPress(prevState, key) {
+function updateStateDueToKeyPress(prevState, event) {
+  if (event.altKey || event.ctrlKey || event.metaKey) return;
+  const { key } = event;
   const { squareValues, activeSquareIndex } = prevState;
   if (isLetter(key)) {
-    const willMoveFocusTo = indexOneAfterActive(prevState, true);
-    return updateSquare(squareValues, activeSquareIndex, key.toUpperCase(), willMoveFocusTo);
+    return {
+      squareValues: updateSquare(squareValues, activeSquareIndex, key.toUpperCase()),
+      activeSquareIndex: indexOneAfterActive(prevState, true)
+    };
   }
   if (key === 'Enter' || key === ' ') {
-    const willMoveFocusTo = indexOneAfterActive(prevState, true);
-    return updateSquare(squareValues, activeSquareIndex, filledSquareCharacter, willMoveFocusTo);
+    return {
+      squareValues: updateSquare(squareValues, activeSquareIndex, filledSquareCharacter),
+      activeSquareIndex: indexOneAfterActive(prevState, true)
+    };
   }
   if (key === 'Delete') {
-    return updateSquare(squareValues, activeSquareIndex, null, null);
+    return {
+      squareValues: updateSquare(squareValues, activeSquareIndex, null)
+    };
   }
   if (key === 'Backspace') {
     const onEmptySquare = squareValues[activeSquareIndex] === null;
     if (onEmptySquare) {
       const willMoveFocusTo = indexOneBeforeActive(prevState, true);
-      return updateSquare(squareValues, willMoveFocusTo, null, willMoveFocusTo);
+      return {
+        squareValues: updateSquare(squareValues, willMoveFocusTo, null),
+        activeSquareIndex: willMoveFocusTo
+      };
     } else { // act like a delete key if the square isn't empty
-      return updateSquare(squareValues, activeSquareIndex, null, null);
+      return {
+        squareValues: updateSquare(squareValues, activeSquareIndex, null)
+      };
     }
   }
   if (isArrowKey(key)) {
-    return { willMoveFocusTo: indexDeterminedByArrowKey(prevState, false, key) };
+    return {
+      activeSquareIndex: indexDeterminedByArrowKey(prevState, false, key)
+    };
   }
   return null;
 }
 
-function updateSquare(squareValues, index, value, willMoveFocusTo) {
-  squareValues = arrayShallowCopy(squareValues);
+function updateSquare(oldSquareValues, index, value) {
+  const squareValues = arrayShallowCopy(oldSquareValues);
   squareValues[index] = value;
-  return { squareValues, willMoveFocusTo };
+  return squareValues;
 }
 
 export default App;

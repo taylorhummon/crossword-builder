@@ -1,5 +1,7 @@
-.board-row:after {
-  clear: both;
-  content: "";
-  display: table;
+.board {
+  display: inline-block;
+}
+
+.board:focus {
+  outline: none; /* prevent default styling of (keyboard) focus */
 }
