@@ -1,13 +1,4 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body { /* !!! merge this with the previous body styling */
-  font: 14px "Century Gothic", Futura, sans-serif;
   margin: 20px;
+  font: 14px "Century Gothic", Futura, sans-serif;
 }
