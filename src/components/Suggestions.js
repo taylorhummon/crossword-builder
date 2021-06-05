@@ -1,5 +1,6 @@
 import React from 'react';
 import './Suggestions.css';
+import filledSquareImage from './filledSquare.svg';
 
 class Suggestions extends React.Component {
   render() {
@@ -13,7 +14,9 @@ class Suggestions extends React.Component {
           onChange={this.props.handleCanSuggestFillToggle}
         />
         <br />
-        Suggestions: {suggestionString(this.props.suggestedLetters)}
+        Suggestions:
+        <img src={filledSquareImage} className="filled-square" alt="filled square" />
+        {suggestionString(this.props.suggestions)}
       </div>
     );
   }

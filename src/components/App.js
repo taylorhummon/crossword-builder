@@ -19,7 +19,8 @@ class App extends React.Component {
     this.state = {
       squareValues: arrayOfSize(boardWidth * boardHeight),
       boardHasFocus: false,
-      activeSquareIndex: 0,
+      activeSquareIndex: null,
+      bookmarkedIndex: 0,
       canSuggestFill: true,
       isTypingVertical: false
     };
@@ -30,6 +31,7 @@ class App extends React.Component {
     const suggestions = computeSuggestions(this.state);
     return (
       <div className="app">
+        <h1>Create a Crossword Puzzle</h1>
         <Board
           squareValues={this.state.squareValues}
           activeSquareIndex={this.state.activeSquareIndex}
@@ -39,14 +41,14 @@ class App extends React.Component {
           handleBoardBlur={this.handleBoardBlur}
           handleSquareClick={this.handleSquareClick}
         />
+        <TypingDirection
+          isTypingVertical={this.state.isTypingVertical}
+          handleTypingDirectionToggle={this.handleTypingDirectionToggle}
+        />
         <Suggestions
           suggestions={suggestions}
           canSuggestFill={this.state.canSuggestFill}
           handleCanSuggestFillToggle={this.handleCanSuggestFillToggle}
-        />
-        <TypingDirection
-          isTypingVertical={this.state.isTypingVertical}
-          handleTypingDirectionToggle={this.handleTypingDirectionToggle}
         />
       </div>
     );
@@ -59,16 +61,25 @@ class App extends React.Component {
   }
 
   handleBoardFocus = () => {
-    // if the focus was due to a click, update focus in the click handler to avoid blinking
+    // if the focus was due to a click, update boardHasFocus in the click handler to avoid blinking
+    // !!! is this still the best way to do this?
     if (isMouseNavigation()) return;
-    this.setState(() => {
-      return { boardHasFocus: true };
+    this.setState(prevState => {
+      return {
+        boardHasFocus: true,
+        activeSquareIndex: prevState.bookmarkedIndex,
+        bookmarkedIndex: null
+      };
     });
   }
 
   handleBoardBlur = () => {
-    this.setState(() => {
-      return { boardHasFocus: false };
+    this.setState(prevState => {
+      return {
+        boardHasFocus: false,
+        activeSquareIndex: null,
+        bookmarkedIndex: prevState.activeSquareIndex
+      };
     });
   }
 
@@ -77,7 +88,8 @@ class App extends React.Component {
       if (prevState.activeSquareIndex === k && prevState.boardHasFocus) return null; // !!! is this check useful?
       return {
         boardHasFocus: true,
-        activeSquareIndex: k
+        activeSquareIndex: k,
+        bookmarkedIndex: null
       };
     });
   }
