@@ -27,7 +27,7 @@ class App extends React.Component {
 
   render() {
     // !!! suggestions should be computed asynchronously (and probably on the back end)
-    const suggestedLetters = computeSuggestions(this.state);
+    const suggestions = computeSuggestions(this.state);
     return (
       <div className="app">
         <Board
@@ -40,7 +40,7 @@ class App extends React.Component {
           handleSquareClick={this.handleSquareClick}
         />
         <Suggestions
-          suggestedLetters={suggestedLetters}
+          suggestions={suggestions}
           canSuggestFill={this.state.canSuggestFill}
           handleCanSuggestFillToggle={this.handleCanSuggestFillToggle}
         />

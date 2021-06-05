@@ -3,5 +3,5 @@
 }
 
 .board:focus {
-  outline: none; /* prevent default styling of (keyboard) focus */
+  outline: none;
 }
