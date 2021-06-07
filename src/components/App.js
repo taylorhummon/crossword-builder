@@ -1,7 +1,7 @@
 import React from 'react';
 import Board from './Board';
+import Options from './Options';
 import Suggestions from './Suggestions';
-import TypingDirection from './TypingDirection';
 import { computeSuggestions } from '../services/suggestions';
 import {
   boardWidth, boardHeight,
@@ -21,7 +21,7 @@ class App extends React.Component {
       boardHasFocus: false,
       activeSquareIndex: null,
       bookmarkedIndex: 0,
-      canSuggestFill: true,
+      canSuggestFill: false,
       isTypingVertical: false
     };
   }
@@ -41,14 +41,14 @@ class App extends React.Component {
           handleBoardBlur={this.handleBoardBlur}
           handleSquareClick={this.handleSquareClick}
         />
-        <TypingDirection
+        <Options
           isTypingVertical={this.state.isTypingVertical}
           handleTypingDirectionToggle={this.handleTypingDirectionToggle}
+          canSuggestFill={this.state.canSuggestFill}
+          handleCanSuggestFillToggle={this.handleCanSuggestFillToggle}
         />
         <Suggestions
           suggestions={suggestions}
-          canSuggestFill={this.state.canSuggestFill}
-          handleCanSuggestFillToggle={this.handleCanSuggestFillToggle}
         />
       </div>
     );
