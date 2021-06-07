@@ -1,6 +1,6 @@
 import React from 'react';
 import './Suggestions.css';
-import filledSquareImage from './filledSquare.svg';
+import filledSquareImage from '../images/filledSquare.svg';
 
 class Suggestions extends React.Component {
   render() {
