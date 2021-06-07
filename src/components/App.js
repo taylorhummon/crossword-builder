@@ -22,7 +22,7 @@ class App extends React.Component {
       boardHasFocus: false,
       activeSquareIndex: null,
       bookmarkedIndex: 0,
-      canSuggestFill: false,
+      canSuggestFill: true,
       isTypingVertical: false
     };
   }

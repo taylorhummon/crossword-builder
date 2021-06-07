@@ -1,6 +1,5 @@
 import React from 'react';
 import { buildUppercaseAlphabet, filledSquareCharacter } from '../utilities/alphabet.js';
-import filledSquareImage from '../images/filledSquare.svg';
 import './Suggestions.css';
 
 class Suggestions extends React.Component {
@@ -41,7 +40,7 @@ function className(letter, suggestions) {
 
 function letterForDisplay(letter) {
   if (letter === filledSquareCharacter) {
-    return <img src={filledSquareImage} className="filled-square" alt="filled square" />
+    return <div className="filled-square"></div>
   }
   return letter;
 }
