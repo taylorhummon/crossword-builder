@@ -2,6 +2,7 @@ import React from 'react';
 import Board from './Board';
 import Options from './Options';
 import Suggestions from './Suggestions';
+import Help from './Help';
 import { computeSuggestions } from '../services/suggestions';
 import {
   boardWidth, boardHeight,
@@ -50,6 +51,7 @@ class App extends React.Component {
         <Suggestions
           suggestions={suggestions}
         />
+        <Help />
       </div>
     );
   }
