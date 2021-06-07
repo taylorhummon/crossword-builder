@@ -5,14 +5,16 @@ import filledSquareImage from './filledSquare.svg';
 class Suggestions extends React.Component {
   render() {
     return (
-      <div className="suggestions">
-        Can suggest fill:
-        <input
-          name="canSuggestFill"
-          type="checkbox"
-          checked={this.props.canSuggestFill}
-          onChange={this.props.handleCanSuggestFillToggle}
-        />
+      <div className="suggestions form-group">
+        <label className="form-switch">
+          <input
+            name="canSuggestFill"
+            type="checkbox"
+            checked={this.props.canSuggestFill}
+            onChange={this.props.handleCanSuggestFillToggle}
+          />
+          <i className="form-icon" /> Can suggest filled square
+        </label>
         <br />
         Suggestions:
         <img src={filledSquareImage} className="filled-square" alt="filled square" />
