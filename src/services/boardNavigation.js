@@ -1,5 +1,5 @@
-export const boardWidth = 6;
-export const boardHeight = 6;
+export const boardWidth = 8;
+export const boardHeight = 8;
 
 export function isMouseNavigation() {
   return document.body.classList.contains('mouse-navigation');
