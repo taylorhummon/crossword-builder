@@ -33,25 +33,31 @@ class App extends React.Component {
     return (
       <div className="app">
         <h1>Create a Crossword Puzzle</h1>
-        <Board
-          squareValues={this.state.squareValues}
-          activeSquareIndex={this.state.activeSquareIndex}
-          boardHasFocus={this.state.boardHasFocus}
-          handleBoardKeyDown={this.handleBoardKeyDown}
-          handleBoardFocus={this.handleBoardFocus}
-          handleBoardBlur={this.handleBoardBlur}
-          handleSquareClick={this.handleSquareClick}
-        />
-        <Options
-          isTypingVertical={this.state.isTypingVertical}
-          handleTypingDirectionToggle={this.handleTypingDirectionToggle}
-          canSuggestFill={this.state.canSuggestFill}
-          handleCanSuggestFillToggle={this.handleCanSuggestFillToggle}
-        />
-        <Suggestions
-          suggestions={suggestions}
-          canSuggestFill={this.state.canSuggestFill}
-        />
+        <div className="content">
+          <div className="content-column content-column-left">
+            <Board
+              squareValues={this.state.squareValues}
+              activeSquareIndex={this.state.activeSquareIndex}
+              boardHasFocus={this.state.boardHasFocus}
+              handleBoardKeyDown={this.handleBoardKeyDown}
+              handleBoardFocus={this.handleBoardFocus}
+              handleBoardBlur={this.handleBoardBlur}
+              handleSquareClick={this.handleSquareClick}
+            />
+          </div>
+          <div className="content-column content-column-right">
+            <Options
+              isTypingVertical={this.state.isTypingVertical}
+              handleTypingDirectionToggle={this.handleTypingDirectionToggle}
+              canSuggestFill={this.state.canSuggestFill}
+              handleCanSuggestFillToggle={this.handleCanSuggestFillToggle}
+            />
+            <Suggestions
+              suggestions={suggestions}
+              canSuggestFill={this.state.canSuggestFill}
+            />
+          </div>
+        </div>
         <Help />
       </div>
     );

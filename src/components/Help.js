@@ -13,7 +13,7 @@ class Help extends React.Component {
         />
         <label
           className="accordion-header"
-          for="help-accordion"
+          htmlFor="help-accordion"
         >
           <i className="icon icon-arrow-right mr-1"></i>
           Need help?
