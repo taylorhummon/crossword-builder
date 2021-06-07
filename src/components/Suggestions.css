@@ -1,3 +1,28 @@
 .suggestions {
-  margin-top: 20px;
+  width: 230px;
+  margin: 20px 0;
+  overflow: hidden;
+}
+
+.suggestions .letter {
+  float: left;
+  width: 26px;
+  height: 26px;
+  margin: 3px 3px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 13px;
+  border-color: rgb(190, 190, 190);
+  color: rgb(190, 190, 190);
+  background-color: white;
+  text-align: center;
+  font-size: 16px;
+  line-height: 24px;
+  cursor: default;
+}
+
+.suggestions .letter.suggested {
+  border-color: black;
+  color: black;
+  background-color: rgb(218, 238, 218);
 }

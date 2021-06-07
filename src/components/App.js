@@ -50,6 +50,7 @@ class App extends React.Component {
         />
         <Suggestions
           suggestions={suggestions}
+          canSuggestFill={this.state.canSuggestFill}
         />
         <Help />
       </div>
