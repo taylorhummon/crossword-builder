@@ -3,6 +3,12 @@ import { filledSquareCharacter } from '../utilities/alphabet';
 import './Square.css';
 
 class Square extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    if (this.props.value !== nextProps.value) return true;
+    if (this.props.isActive !== nextProps.isActive) return true;
+    return false;
+  }
+
   render() {
     return (
       <div

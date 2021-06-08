@@ -54,7 +54,7 @@ class Board extends React.Component {
         key={k}
         value={this.props.squareValues[k]}
         isActive={this.props.activeSquareIndex === k}
-        handleSquareClick={(event) => this.props.handleSquareClick(event, k)}
+        handleSquareClick={(event) => this.props.handleBoardClick(event, k)}
       />
     );
   }

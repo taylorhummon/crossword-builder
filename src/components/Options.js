@@ -1,7 +1,7 @@
 import React from 'react';
 import './Options.css';
 
-class Options extends React.Component {
+class Options extends React.PureComponent {
   render() {
     return (
       <div className="options form-group">

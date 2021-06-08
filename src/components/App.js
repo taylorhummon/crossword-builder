@@ -42,7 +42,7 @@ class App extends React.Component {
               handleBoardKeyDown={this.handleBoardKeyDown}
               handleBoardFocus={this.handleBoardFocus}
               handleBoardBlur={this.handleBoardBlur}
-              handleSquareClick={this.handleSquareClick}
+              handleBoardClick={this.handleBoardClick}
             />
           </div>
           <div className="content-column content-column-right">
@@ -70,10 +70,8 @@ class App extends React.Component {
   }
 
   handleBoardFocus = () => {
-    // if the focus was due to a click, update boardHasFocus in the click handler to avoid blinking
-    // !!! is this still the best way to do this?
-    if (isMouseNavigation()) return;
-    this.setState(prevState => {
+    if (isMouseNavigation()) return; // we'll update state in handleBoardClick instead
+    this.setState((prevState) => {
       return {
         boardHasFocus: true,
         activeSquareIndex: prevState.bookmarkedIndex,
@@ -83,7 +81,7 @@ class App extends React.Component {
   }
 
   handleBoardBlur = () => {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       return {
         boardHasFocus: false,
         activeSquareIndex: null,
@@ -92,8 +90,8 @@ class App extends React.Component {
     });
   }
 
-  handleSquareClick = (event, k) => {
-    this.setState((prevState) => {
+  handleBoardClick = (event, k) => {
+    this.setState(() => {
       return {
         boardHasFocus: true,
         activeSquareIndex: k,

@@ -1,8 +1,15 @@
 import React from 'react';
 import { buildUppercaseAlphabet, filledSquareCharacter } from '../utilities/alphabet.js';
+import { arrayShallowEquivalent } from '../utilities/arrays';
 import './Suggestions.css';
 
 class Suggestions extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    if (this.props.canSuggestFill !== nextProps.canSuggestFill) return true;
+    if (! arrayShallowEquivalent(this.props.suggestions, nextProps.suggestions)) return true;
+    return false;
+  }
+
   render() {
     return (
       <div className="suggestions">
