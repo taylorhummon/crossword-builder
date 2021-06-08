@@ -4,27 +4,31 @@ import './Square.css';
 
 class Square extends React.Component {
   render() {
-    const displayedValue = isFilled(this.props) ? null : this.props.value;
     return (
       <div
-        className={className(this.props)}
+        className={this._className(this.props)}
         onClick={this.props.handleSquareClick}
       >
-        {displayedValue}
+        {this._displayedValue()}
       </div>
     );
   }
-}
 
-function className(props) {
-  const cssClasses = ['square'];
-  if (isFilled(props))  cssClasses.push('is-filled');
-  if (props.isActive)   cssClasses.push('is-active');
-  return cssClasses.join(' ');
-}
+  _displayedValue() {
+    if (this._isFilled()) return null;
+    return this.props.value;
+  }
 
-function isFilled(props) {
-  return props.value === filledSquareCharacter;
+  _className() {
+    const cssClasses = ['square'];
+    if (this._isFilled())     cssClasses.push('is-filled');
+    if (this.props.isActive)  cssClasses.push('is-active');
+    return cssClasses.join(' ');
+  }
+
+  _isFilled() {
+    return this.props.value === filledSquareCharacter;
+  }
 }
 
 export default Square;

@@ -4,45 +4,45 @@ import './Suggestions.css';
 
 class Suggestions extends React.Component {
   render() {
-    const suggestions = this.props.suggestions;
-    const letters = getLetters(this.props.canSuggestFill);
     return (
       <div className="suggestions">
         <h4>Suggested letters</h4>
-        {letters.map(letter => this.renderLetter(letter, suggestions))}
+        {this.renderLetters()}
       </div>
+    );
+  }
+
+  renderLetters() {
+    const letters = buildUppercaseAlphabet();
+    if (this.props.canSuggestFill) letters.push(filledSquareCharacter);
+    return letters.map(
+      letter => this.renderLetter(letter, this.props.suggestions)
     );
   }
 
   renderLetter(letter, suggestions) {
     return (
       <div
-        className={className(letter, suggestions)}
+        className={this._className(letter, suggestions)}
         key={letter}
       >
-        {letterForDisplay(letter)}
+        {this._letterForDisplay(letter)}
       </div>
     );
   }
-}
 
-function getLetters(canSuggestFill) {
-  const letters = buildUppercaseAlphabet();
-  if (canSuggestFill) letters.push(filledSquareCharacter);
-  return letters;
-}
-
-function className(letter, suggestions) {
-  const classNames = ['letter'];
-  if (suggestions && suggestions.includes(letter)) classNames.push('suggested');
-  return classNames.join(' ');
-}
-
-function letterForDisplay(letter) {
-  if (letter === filledSquareCharacter) {
-    return <div className="filled-square"></div>
+  _className(letter, suggestions) {
+    const classNames = ['letter'];
+    if (suggestions && suggestions.includes(letter)) classNames.push('suggested');
+    return classNames.join(' ');
   }
-  return letter;
+
+  _letterForDisplay(letter) {
+    if (letter === filledSquareCharacter) {
+      return <div className="filled-square"></div>
+    }
+    return letter;
+  }
 }
 
 export default Suggestions;

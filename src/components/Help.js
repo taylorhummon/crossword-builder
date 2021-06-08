@@ -45,19 +45,18 @@ class Help extends React.Component {
     );
   }
 
+  handleKeyDown = (event) => {
+    if (event.altKey || event.ctrlKey || event.metaKey) return;
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.handleToggleChecked();
+      return;
+    }
+  }
+
   handleToggleChecked = () => {
     this.setState((prevState) => {
       return { isAccordionOpen: ! prevState.isAccordionOpen };
     });
-  }
-
-  handleKeyDown = (event) => {
-    if (event.altKey || event.ctrlKey || event.metaKey) return;
-    const { key } = event;
-    if (key === 'Enter' || key === ' ') {
-      this.handleToggleChecked();
-      return;
-    }
   }
 }
 

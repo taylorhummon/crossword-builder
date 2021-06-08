@@ -6,33 +6,45 @@ import './Board.css';
 
 class Board extends React.Component {
   render() {
-    const renderedRows = indicesArray(boardHeight).map(
-      i => this.renderRow(i)
-    );
     return (
       <div
-        className={className(this.props)}
+        className={this._boardClassName()}
         tabIndex="0"
         onKeyDown={this.props.handleBoardKeyDown}
         onFocus={this.props.handleBoardFocus}
         onBlur={this.props.handleBoardBlur}
       >
-        {renderedRows}
+        {this.renderRows()}
       </div>
     );
   }
 
-  renderRow(i) {
-    const renderedSquares = indicesArray(boardWidth).map(
-      j => this.renderSquare(i * boardWidth + j)
+  _boardClassName() {
+    const cssClasses = ['board'];
+    if (this.props.boardHasFocus) cssClasses.push('has-focus');
+    return cssClasses.join(' ');
+  }
+
+  renderRows() {
+    return indicesArray(boardHeight).map(
+      i => this.renderRow(i)
     );
+  }
+
+  renderRow(i) {
     return (
       <div
         className="board-row"
         key={i}
       >
-        {renderedSquares}
+        {this.renderSquares(i)}
       </div>
+    );
+  }
+
+  renderSquares(i) {
+    return indicesArray(boardWidth).map(
+      j => this.renderSquare(i * boardWidth + j)
     );
   }
 
@@ -46,12 +58,6 @@ class Board extends React.Component {
       />
     );
   }
-}
-
-function className(props) {
-  const cssClasses = ['board'];
-  if (props.boardHasFocus) cssClasses.push('has-focus');
-  return cssClasses.join(' ');
 }
 
 export default Board;
