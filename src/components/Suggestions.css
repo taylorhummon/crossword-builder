@@ -24,7 +24,7 @@
 .suggestions .letter.suggested {
   border-color: black;
   color: black;
-  background-color: rgb(218, 238, 218);
+  background-color: rgb(255, 236, 214);
 }
 
 .suggestions .letter .filled-square {
