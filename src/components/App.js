@@ -94,7 +94,6 @@ class App extends React.Component {
 
   handleSquareClick = (event, k) => {
     this.setState((prevState) => {
-      if (prevState.activeSquareIndex === k && prevState.boardHasFocus) return null; // !!! is this check useful?
       return {
         boardHasFocus: true,
         activeSquareIndex: k,
@@ -119,48 +118,58 @@ class App extends React.Component {
 function updateStateDueToKeyPress(prevState, event) {
   if (event.altKey || event.ctrlKey || event.metaKey) return;
   const { key } = event;
-  const { squareValues, activeSquareIndex } = prevState;
-  if (isLetter(key)) {
-    return {
-      squareValues: updateSquare(squareValues, activeSquareIndex, key.toUpperCase()),
-      activeSquareIndex: indexOneAfterActive(prevState, true)
-    };
-  }
-  if (key === 'Enter' || key === ' ') {
-    return {
-      squareValues: updateSquare(squareValues, activeSquareIndex, filledSquareCharacter),
-      activeSquareIndex: indexOneAfterActive(prevState, true)
-    };
-  }
-  if (key === 'Delete') {
-    return {
-      squareValues: updateSquare(squareValues, activeSquareIndex, null)
-    };
-  }
-  if (key === 'Backspace') {
-    const onEmptySquare = squareValues[activeSquareIndex] === null;
-    if (onEmptySquare) {
-      const willMoveFocusTo = indexOneBeforeActive(prevState, true);
-      return {
-        squareValues: updateSquare(squareValues, willMoveFocusTo, null),
-        activeSquareIndex: willMoveFocusTo
-      };
-    } else { // act like a delete key if the square isn't empty
-      return {
-        squareValues: updateSquare(squareValues, activeSquareIndex, null)
-      };
-    }
-  }
-  if (isArrowKey(key)) {
-    return {
-      activeSquareIndex: indexDeterminedByArrowKey(prevState, false, key)
-    };
-  }
+  if (isArrowKey(key))      return updateDueToArrowKey(prevState, key);
+  if (isLetter(key))        return updateDueToLetterKey(prevState, key);
+  if (key === 'Enter')      return updateDueToEnterKey(prevState);
+  if (key === ' ')          return updateDueToSpaceKey(prevState);
+  if (key === 'Backspace')  return updateDueToBackspaceKey(prevState);
+  if (key === 'Delete')     return updateDueToDeleteKey(prevState);
   return null;
 }
 
-function updateSquare(oldSquareValues, index, value) {
-  const squareValues = arrayShallowCopy(oldSquareValues);
+function updateDueToArrowKey(prevState, key) {
+  return {
+    activeSquareIndex: indexDeterminedByArrowKey(prevState, false, key)
+  };
+}
+
+function updateDueToLetterKey(prevState, key) {
+  return {
+    squareValues: updateSquare(prevState.squareValues, prevState.activeSquareIndex, key.toUpperCase()),
+    activeSquareIndex: indexOneAfterActive(prevState, true)
+  };
+}
+
+function updateDueToEnterKey(prevState) {
+  return updateDueToSpaceKey(prevState);
+}
+
+function updateDueToSpaceKey(prevState) {
+  return {
+    squareValues: updateSquare(prevState.squareValues, prevState.activeSquareIndex, filledSquareCharacter),
+    activeSquareIndex: indexOneAfterActive(prevState, true)
+  };
+}
+
+function updateDueToBackspaceKey(prevState) {
+  if (prevState.squareValues[prevState.activeSquareIndex] !== null) {
+    return updateDueToDeleteKey(prevState);
+  }
+  const willMoveFocusTo = indexOneBeforeActive(prevState, true);
+  return {
+    squareValues: updateSquare(prevState.squareValues, willMoveFocusTo, null),
+    activeSquareIndex: willMoveFocusTo
+  };
+}
+
+function updateDueToDeleteKey(prevState) {
+  return {
+    squareValues: updateSquare(prevState.squareValues, prevState.activeSquareIndex, null)
+  };
+}
+
+function updateSquare(prevSquareValues, index, value) {
+  const squareValues = arrayShallowCopy(prevSquareValues);
   squareValues[index] = value;
   return squareValues;
 }
