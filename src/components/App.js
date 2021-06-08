@@ -3,14 +3,14 @@ import Board from './Board';
 import Options from './Options';
 import Suggestions from './Suggestions';
 import Help from './Help';
-import { computeSuggestions } from '../services/suggestions';
+import { computeSuggestionsPromise } from '../services/suggestions';
 import {
   boardWidth, boardHeight,
   isArrowKey, indexDeterminedByArrowKey,
   indexOneBeforeActive, indexOneAfterActive,
   isMouseNavigation
 } from '../services/boardNavigation';
-import { arrayOfSize, arrayShallowCopy } from '../utilities/arrays';
+import { arrayOfSize, arrayShallowCopy, arrayShallowEquivalent } from '../utilities/arrays';
 import { isLetter, filledSquareCharacter } from '../utilities/alphabet';
 import './App.css';
 
@@ -23,13 +23,12 @@ class App extends React.Component {
       activeSquareIndex: null,
       bookmarkedIndex: 0,
       canSuggestFill: true,
-      isTypingVertical: false
+      isTypingVertical: false,
+      suggestions: []
     };
   }
 
   render() {
-    // !!! suggestions should be computed asynchronously (and probably on the back end)
-    const suggestions = computeSuggestions(this.state);
     return (
       <div className="app">
         <h1>Create a Crossword Puzzle</h1>
@@ -40,9 +39,9 @@ class App extends React.Component {
               activeSquareIndex={this.state.activeSquareIndex}
               boardHasFocus={this.state.boardHasFocus}
               handleBoardKeyDown={this.handleBoardKeyDown}
+              handleBoardClick={this.handleBoardClick}
               handleBoardFocus={this.handleBoardFocus}
               handleBoardBlur={this.handleBoardBlur}
-              handleBoardClick={this.handleBoardClick}
             />
           </div>
           <div className="content-column content-column-right">
@@ -53,7 +52,7 @@ class App extends React.Component {
               handleCanSuggestFillToggle={this.handleCanSuggestFillToggle}
             />
             <Suggestions
-              suggestions={suggestions}
+              suggestions={this.state.suggestions}
               canSuggestFill={this.state.canSuggestFill}
             />
           </div>
@@ -64,52 +63,106 @@ class App extends React.Component {
   }
 
   handleBoardKeyDown = (event) => {
-    this.setState((prevState) => {
-      return updateStateDueToKeyPress(prevState, event);
-    });
+    this.setState(
+      (prevState) => {
+        return updateStateDueToKeyPress(prevState, event);
+      },
+      () => {
+        this._computeSuggestions();
+      }
+    );
+  }
+
+  handleBoardClick = (event, k) => {
+    this.setState(
+      () => {
+        return {
+          boardHasFocus: true,
+          activeSquareIndex: k,
+          bookmarkedIndex: null
+        };
+      },
+      () => {
+        this._computeSuggestions();
+      }
+    );
   }
 
   handleBoardFocus = () => {
     if (isMouseNavigation()) return; // we'll update state in handleBoardClick instead
-    this.setState((prevState) => {
-      return {
-        boardHasFocus: true,
-        activeSquareIndex: prevState.bookmarkedIndex,
-        bookmarkedIndex: null
-      };
-    });
+    this.setState(
+      (prevState) => {
+        return {
+          boardHasFocus: true,
+          activeSquareIndex: prevState.bookmarkedIndex,
+          bookmarkedIndex: null
+        };
+      },
+      () => {
+        this._computeSuggestions();
+      }
+    );
   }
 
   handleBoardBlur = () => {
-    this.setState((prevState) => {
-      return {
-        boardHasFocus: false,
-        activeSquareIndex: null,
-        bookmarkedIndex: prevState.activeSquareIndex
-      };
-    });
-  }
-
-  handleBoardClick = (event, k) => {
-    this.setState(() => {
-      return {
-        boardHasFocus: true,
-        activeSquareIndex: k,
-        bookmarkedIndex: null
-      };
-    });
+    this.setState(
+      (prevState) => {
+        return {
+          boardHasFocus: false,
+          activeSquareIndex: null,
+          bookmarkedIndex: prevState.activeSquareIndex
+        };
+      },
+      () => {
+        this._computeSuggestions();
+      }
+    );
   }
 
   handleCanSuggestFillToggle = () => {
-    this.setState((prevState) => {
-      return { canSuggestFill: ! prevState.canSuggestFill };
-    });
+    this.setState(
+      (prevState) => {
+        return { canSuggestFill: ! prevState.canSuggestFill };
+      },
+      () => {
+        this._computeSuggestions();
+      }
+    );
   }
 
   handleTypingDirectionToggle = () => {
-    this.setState((prevState) => {
-      return { isTypingVertical: ! prevState.isTypingVertical };
+    this.setState(
+      (prevState) => {
+        return { isTypingVertical: ! prevState.isTypingVertical };
+      },
+      () => {
+        this._computeSuggestions();
+      }
+    );
+  }
+
+  _computeSuggestions() {
+    const { activeSquareIndex, canSuggestFill, squareValues } = this.state;
+    const data = { activeSquareIndex, canSuggestFill, squareValues, boardWidth, boardHeight };
+    if (! activeSquareIndex) {
+      this.setState(() => {
+        return { suggestions: null };
+      });
+      return;
+    }
+    computeSuggestionsPromise(data).then((suggestions) => {
+      this.setState((state) => {
+        if (this._isSuggestionDataOutdated(data, state)) return null;
+        return { suggestions };
+      });
     });
+  }
+
+  _isSuggestionDataOutdated(data, state) {
+    if (data.activeSquareIndex !== state.activeSquareIndex) return true;
+    if (data.canSuggestFill !== state.canSuggestFill) return true;
+    if (! arrayShallowEquivalent(data.squareValues, state.squareValues)) return true;
+    return false;
   }
 }
 

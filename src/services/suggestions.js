@@ -2,17 +2,23 @@ import { findSuggestions1, findSuggestions2, computeSuggestFillTrimLeft, compute
 import { buildUppercaseAlphabet, filledSquareCharacter } from '../utilities/alphabet';
 import { remainderAndQuotient } from '../utilities/math';
 import { inclusiveIndicesArray } from '../utilities/arrays';
-import { boardWidth, boardHeight } from './boardNavigation';
+import { delay } from '../utilities/promises';
 
 // const initialTimeStamp = Date.now();
 // console.log('Search Took', Date.now() - initialTimeStamp);
 
-export function computeSuggestions(state) {
-  if (typeof state.activeSquareIndex !== 'number') return null;
-  const board = buildBoardObject(state);
+export function computeSuggestionsPromise(data) {
+  return delay(500).then(() => {
+    return computeSuggestions(data);
+  });
+}
+
+export function computeSuggestions(data) {
+  if (typeof data.activeSquareIndex !== 'number') return [];
+  const board = buildBoardObject(data);
   const horizontalPattern = computeHorizontalPattern(board, leftBound(board), rightBound(board));
   const verticalPattern = computeVerticalPattern(board, topBound(board), bottomBound(board));
-  if (state.canSuggestFill) {
+  if (data.canSuggestFill) {
     const horizontalSuggestionsSet = findSuggestions2(horizontalPattern);
     const verticalSuggestionsSet = findSuggestions2(verticalPattern);
     const letterSuggestions = toLettersArray(horizontalSuggestionsSet, verticalSuggestionsSet);
@@ -26,12 +32,12 @@ export function computeSuggestions(state) {
   }
 }
 
-function buildBoardObject(state) {
-  const [activeColumn, activeRow] = remainderAndQuotient(state.activeSquareIndex, boardWidth);
+function buildBoardObject(data) {
+  const [activeColumn, activeRow] = remainderAndQuotient(data.activeSquareIndex, data.boardWidth);
   const board = {
-    squareValues: state.squareValues,
-    width: boardWidth,
-    height: boardHeight,
+    squareValues: data.squareValues,
+    width: data.boardWidth,
+    height: data.boardHeight,
     activeColumn,
     activeRow,
     squareValueAt(i, j) { return this.squareValues[j * this.width + i]; }
