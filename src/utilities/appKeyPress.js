@@ -1,9 +1,9 @@
 import {
   isArrowKey, indexDeterminedByArrowKey,
   indexOneBeforeActive, indexOneAfterActive
-} from '../services/boardNavigation';
-import { isLetter, filledSquareCharacter } from '../utilities/alphabet';
-import { arrayShallowCopy } from '../utilities/arrays';
+} from './boardNavigation';
+import { isLetter, filledSquareCharacter } from './alphabet';
+import { arrayShallowCopy } from './arrays';
 
 export function updateStateDueToKeyPress(prevState, event) {
   if (event.altKey || event.ctrlKey || event.metaKey) return;

@@ -9,6 +9,21 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+  <!--
+    <script src="//unpkg.com/@feathersjs/client@^4.3.0/dist/feathers.min.js"></script>
+    <script src="//unpkg.com/@feathersjs/client@^4.3.0/dist/rest.min.js"></script>
+    <script type="text/javascript">
+      const app = feathers();
+      const restClient = rest('http://feathers-api.com')
+      app.configure(restClient.fetch(window.fetch));
+      app.service('suggestions_lists').create({
+      }).then(result => {
+        console.log('RESULT', result);
+      }).catch(error => {
+        console.log('ERROR', error);
+      });
+    </script>
+  -->
     <script>
       window.addEventListener('mousedown', function (event) {
         document.body.classList.add('mouse-navigation');

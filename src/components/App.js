@@ -3,9 +3,9 @@ import Board from './Board';
 import Options from './Options';
 import Suggestions from './Suggestions';
 import Help from './Help';
-import { boardWidth, boardHeight, isMouseNavigation } from '../services/boardNavigation';
-import { updateStateDueToKeyPress } from '../services/appKeyPress';
-import { fetchSuggestions } from '../services/suggestions';
+import { boardWidth, boardHeight, isMouseNavigation } from '../utilities/boardNavigation';
+import { updateStateDueToKeyPress } from '../utilities/appKeyPress';
+import { fetchSuggestions } from '../utilities/suggestions';
 import { arrayOfSize, arrayShallowEquivalent } from '../utilities/arrays';
 import './App.css';
 
