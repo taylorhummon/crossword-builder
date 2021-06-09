@@ -5,7 +5,7 @@ import Suggestions from './Suggestions';
 import Help from './Help';
 import { boardWidth, boardHeight, isMouseNavigation } from '../services/boardNavigation';
 import { updateStateDueToKeyPress } from '../services/appKeyPress';
-import { computeSuggestionsPromise } from '../services/suggestions';
+import { fetchSuggestions } from '../services/suggestions';
 import { arrayOfSize, arrayShallowEquivalent } from '../utilities/arrays';
 import './App.css';
 
@@ -59,12 +59,8 @@ class App extends React.Component {
 
   handleBoardKeyDown = (event) => {
     this.setState(
-      (prevState) => {
-        return updateStateDueToKeyPress(prevState, event);
-      },
-      () => {
-        this._computeSuggestions();
-      }
+      (prevState) => updateStateDueToKeyPress(prevState, event),
+      this._updateSuggestions
     );
   }
 
@@ -77,9 +73,7 @@ class App extends React.Component {
           bookmarkedIndex: null
         };
       },
-      () => {
-        this._computeSuggestions();
-      }
+      this._updateSuggestions
     );
   }
 
@@ -93,9 +87,7 @@ class App extends React.Component {
           bookmarkedIndex: null
         };
       },
-      () => {
-        this._computeSuggestions();
-      }
+      this._updateSuggestions
     );
   }
 
@@ -108,9 +100,7 @@ class App extends React.Component {
           bookmarkedIndex: prevState.activeSquareIndex
         };
       },
-      () => {
-        this._computeSuggestions();
-      }
+      this._updateSuggestions
     );
   }
 
@@ -119,9 +109,7 @@ class App extends React.Component {
       (prevState) => {
         return { canSuggestFill: ! prevState.canSuggestFill };
       },
-      () => {
-        this._computeSuggestions();
-      }
+      this._updateSuggestions
     );
   }
 
@@ -129,27 +117,24 @@ class App extends React.Component {
     this.setState(
       (prevState) => {
         return { isTypingVertical: ! prevState.isTypingVertical };
-      },
-      () => {
-        this._computeSuggestions();
       }
     );
   }
 
-  _computeSuggestions() {
+  _updateSuggestions() {
     const { activeSquareIndex, canSuggestFill, squareValues } = this.state;
-    const data = { activeSquareIndex, canSuggestFill, squareValues, boardWidth, boardHeight };
     if (! activeSquareIndex) {
-      this.setState(() => {
-        return { suggestions: null };
-      });
+      this.setState({ suggestions: null });
       return;
     }
-    computeSuggestionsPromise(data).then((suggestions) => {
+    const data = { activeSquareIndex, canSuggestFill, squareValues, boardWidth, boardHeight };
+    fetchSuggestions(data).then((suggestions) => {
       this.setState((state) => {
         if (this._isSuggestionDataOutdated(data, state)) return null;
         return { suggestions };
       });
+    }).catch((error) => {
+      console.log('Error occurred updating suggestions', error);
     });
   }
 

@@ -7,7 +7,7 @@ import { delay } from '../utilities/promises';
 // const initialTimeStamp = Date.now();
 // console.log('Search Took', Date.now() - initialTimeStamp);
 
-export function computeSuggestionsPromise(data) {
+export function fetchSuggestions(data) {
   return delay(500).then(() => {
     return computeSuggestions(data);
   });
