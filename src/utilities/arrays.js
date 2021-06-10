@@ -16,8 +16,8 @@ export function indicesArray(a, b) {
   if (typeof a !== 'number') {
     throw new Error('indicesArray requires one or two number arguments');
   }
-  if (typeof b === 'number') return buildIndicesArray(a, b);
-  return buildIndicesArray(0, a);
+  if (typeof b !== 'number') return buildIndicesArray(0, a);
+  return buildIndicesArray(a, b);
 }
 
 export function inclusiveIndicesArray(from, to) {

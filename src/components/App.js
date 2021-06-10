@@ -5,7 +5,7 @@ import Suggestions from './Suggestions';
 import Help from './Help';
 import { boardWidth, boardHeight, isMouseNavigation } from '../utilities/boardNavigation';
 import { updateStateDueToKeyPress } from '../utilities/appKeyPress';
-import { fetchSuggestions } from '../utilities/suggestions';
+import { fetchSuggestions } from '../utilities/fetchSuggestions';
 import { arrayOfSize, arrayShallowEquivalent } from '../utilities/arrays';
 import './App.css';
 
