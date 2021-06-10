@@ -2,10 +2,6 @@ export function arrayOfSize(n) {
   return Array(n).fill(null);
 }
 
-export function arrayShallowCopy(a) {
-  return a.slice();
-}
-
 export function arrayShallowEquivalent(a, b) {
   if (! a && ! b) return true;
   if (! a || ! b) return false;

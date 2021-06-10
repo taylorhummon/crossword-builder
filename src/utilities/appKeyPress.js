@@ -3,7 +3,6 @@ import {
   indexOneBeforeActive, indexOneAfterActive
 } from './boardNavigation';
 import { isLetter, filledSquareCharacter } from './alphabet';
-import { arrayShallowCopy } from './arrays';
 
 export function updateStateDueToKeyPress(prevState, event) {
   if (event.altKey || event.ctrlKey || event.metaKey) return;
@@ -59,7 +58,7 @@ function updateDueToDeleteKey(prevState) {
 }
 
 function updateSquare(prevSquareValues, index, value) {
-  const squareValues = arrayShallowCopy(prevSquareValues);
+  const squareValues = [...prevSquareValues];
   squareValues[index] = value;
   return squareValues;
 }
