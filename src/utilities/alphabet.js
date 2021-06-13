@@ -15,6 +15,7 @@ export function buildUppercaseAlphabet() {
 }
 
 export function isLetter(string) {
+  if (typeof string !== 'string') return false;
   return /^[A-Za-z]$/.test(string);
 }
 
