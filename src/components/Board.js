@@ -1,6 +1,6 @@
 import React from 'react';
 import Square from './Square';
-import { boardWidth, boardHeight } from '../utilities/boardNavigation';
+import { boardWidth, boardHeight } from '../utilities/boardSize';
 import { indicesArray } from '../utilities/arrays';
 import './Board.css';
 
