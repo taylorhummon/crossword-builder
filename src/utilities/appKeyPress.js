@@ -5,7 +5,7 @@ import {
 import { isLetter, filledSquareCharacter } from './alphabet';
 
 export function updateStateDueToKeyPress(prevState, event) {
-  if (event.altKey || event.ctrlKey || event.metaKey) return;
+  if (event.altKey || event.ctrlKey || event.metaKey) return null;
   const { key } = event;
   if (isArrowKey(key))      return updateDueToArrowKey(prevState, key);
   if (isLetter(key))        return updateDueToLetterKey(prevState, key);
