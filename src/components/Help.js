@@ -29,7 +29,10 @@ class Help extends React.Component {
           <i className="icon icon-arrow-right mr-1" />
           Need help?
         </label>
-        <div className="accordion-body">
+        <div
+          className="accordion-body"
+          style={{ display: this.state.isAccordionOpen ? undefined : "none" }}
+        >
           <p>
             Want to write a crossword puzzle? Click on the board and start typing!
             Press the space bar to fill in a square with black.
