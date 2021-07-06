@@ -13,6 +13,7 @@ class Board extends React.Component {
         onKeyDown={this.props.handleBoardKeyDown}
         onFocus={this.props.handleBoardFocus}
         onBlur={this.props.handleBoardBlur}
+        data-testid="board"
       >
         {this.renderRows()}
       </div>
@@ -55,6 +56,7 @@ class Board extends React.Component {
         value={this.props.squareValues[k]}
         isActive={this.props.activeSquareIndex === k}
         handleSquareClick={(event) => this.props.handleBoardClick(event, k)}
+        dataTestid={`square-${k}`}
       />
     );
   }

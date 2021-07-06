@@ -6,8 +6,9 @@ import Help from './Help';
 import { boardWidth, boardHeight } from '../utilities/boardSize';
 import { isMouseNavigation } from '../utilities/boardNavigation';
 import { updateStateDueToKeyPress } from '../utilities/appKeyPress';
-import { fetchSuggestions } from '../utilities/fetchSuggestions';
+import { fetchSuggestions } from '../utilities/server';
 import { arrayOfSize, arrayShallowEquivalent } from '../utilities/arrays';
+import { isNumber } from '../utilities/math';
 import './App.css';
 
 class App extends React.Component {
@@ -124,7 +125,7 @@ class App extends React.Component {
 
   _updateSuggestions() {
     const { activeSquareIndex, canSuggestFill, squareValues } = this.state;
-    if (! activeSquareIndex) {
+    if (! isNumber(activeSquareIndex)) {
       this.setState({ suggestions: null });
       return;
     }

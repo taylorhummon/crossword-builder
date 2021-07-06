@@ -14,6 +14,7 @@ class Square extends React.Component {
       <div
         className={this._className(this.props)}
         onClick={this.props.handleSquareClick}
+        data-testid={this.props.dataTestid}
       >
         {this._displayedValue()}
       </div>
