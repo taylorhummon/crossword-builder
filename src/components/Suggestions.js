@@ -32,6 +32,7 @@ class Suggestions extends React.Component {
       <div
         className={this._className(letter, suggestions)}
         key={letter}
+        data-testid={this._testid(letter)}
       >
         {this._letterForDisplay(letter)}
       </div>
@@ -44,9 +45,14 @@ class Suggestions extends React.Component {
     return classNames.join(' ');
   }
 
+  _testid(letter) {
+    if (letter === filledSquareCharacter) return 'suggestion-filled-square';
+    return `suggestion-${letter}`;
+  }
+
   _letterForDisplay(letter) {
     if (letter === filledSquareCharacter) {
-      return <div className="filled-square"></div>
+      return <div className="filled-square" data-testid="letter-filled-square"></div>
     }
     return letter;
   }
