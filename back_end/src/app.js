@@ -1,43 +1,42 @@
-const compress = require('compression');
-const helmet = require('helmet');
-const cors = require('cors');
-const logger = require('./logger');
+// For more information about this file see https://dove.feathersjs.com/guides/cli/application.html
+import { feathers } from '@feathersjs/feathers'
+import configuration from '@feathersjs/configuration'
+import { koa, rest, bodyParser, errorHandler, parseAuthentication, cors, serveStatic } from '@feathersjs/koa'
 
-const feathers = require('@feathersjs/feathers');
-const configuration = require('@feathersjs/configuration');
-const express = require('@feathersjs/express');
+import { configurationValidator } from './configuration.js'
+import { logError } from './hooks/log-error.js'
+import { services } from './services/index.js'
 
-const middleware = require('./middleware');
-const services = require('./services');
-const appHooks = require('./app.hooks');
+const app = koa(feathers())
 
-const app = express(feathers());
+// Load our app configuration (see config/ folder)
+app.configure(configuration(configurationValidator))
 
-// Load app configuration
-app.configure(configuration());
-// Enable security, CORS, compression, and body parsing
-app.use(helmet({
-  contentSecurityPolicy: false
-}));
-app.use(cors());
-app.use(compress());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-// Host the public folder
-app.use('/', express.static(app.get('public')));
+// Set up Koa middleware
+app.use(cors())
+app.use(serveStatic(app.get('public')))
+app.use(errorHandler())
+app.use(parseAuthentication())
+app.use(bodyParser())
 
-// Set up Plugins and providers
-app.configure(express.rest());
+// Configure services and transports
+app.configure(rest())
 
-// Configure other middleware (see `middleware/index.js`)
-app.configure(middleware);
-// Set up our services (see `services/index.js`)
-app.configure(services);
+app.configure(services)
 
-// Configure a middleware for 404s and the error handler
-app.use(express.notFound());
-app.use(express.errorHandler({ logger }));
+// Register hooks that run on all service methods
+app.hooks({
+  around: {
+    all: [logError]
+  },
+  before: {},
+  after: {},
+  error: {}
+})
+// Register application setup and teardown hooks here
+app.hooks({
+  setup: [],
+  teardown: []
+})
 
-app.hooks(appHooks);
-
-module.exports = app;
+export { app }

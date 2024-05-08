@@ -1,12 +1,12 @@
-const fs = require('fs');
-const Stream = require('stream');
-const { inclusiveIndicesArray } = require('../../utilities/arrays');
-const { isNumber } = require('../../utilities/math');
+import fs from 'fs';
+import Stream from 'stream';
+import { inclusiveIndicesArray } from '../../utilities/arrays.js';
+import { isNumber } from '../../utilities/math.js';
 
 const minWordLength = 1;
 const maxWordLength = 10;
 
-exports.Words = class Words {
+export class Words {
   constructor (options, app) {
     this.app = app;
   }

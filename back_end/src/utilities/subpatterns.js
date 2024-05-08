@@ -1,4 +1,4 @@
-function computeSubpatterns(pattern) {
+export function computeSubpatterns(pattern) {
   const subpatterns = computeSubpatternsTrimLeft(pattern).flatMap(
     subpattern => computeSubpatternsTrimRight(subpattern)
   );
@@ -8,7 +8,7 @@ function computeSubpatterns(pattern) {
   return subpatterns;
 }
 
-function computeSubpatternsTrimLeft(pattern) {
+export function computeSubpatternsTrimLeft(pattern) {
   const index = findIndex(pattern);
   const trimPoints = [];
   for (let i = 0; i < index; i++) {
@@ -20,7 +20,7 @@ function computeSubpatternsTrimLeft(pattern) {
   );
 }
 
-function computeSubpatternsTrimRight(pattern) {
+export function computeSubpatternsTrimRight(pattern) {
   const index = findIndex(pattern);
   const trimPoints = [];
   for (let i = index + 1; i < pattern.length; i++) {
@@ -42,9 +42,3 @@ function findIndex(pattern) {
   }
   return index;
 }
-
-module.exports = {
-  computeSubpatterns,
-  computeSubpatternsTrimLeft,
-  computeSubpatternsTrimRight
-};

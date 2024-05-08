@@ -1,10 +1,10 @@
-const { isNumber } = require('./math');
+import { isNumber } from './math.js';
 
-function arrayOfSize(n) {
+export function arrayOfSize(n) {
   return Array(n).fill(null);
 }
 
-function arrayShallowEquivalent(a, b) {
+export function arrayShallowEquivalent(a, b) {
   if (! a && ! b) return true;
   if (! a || ! b) return false;
   if (a.length !== b.length) return false;
@@ -14,7 +14,7 @@ function arrayShallowEquivalent(a, b) {
   return true;
 }
 
-function indicesArray(a, b) {
+export function indicesArray(a, b) {
   if (! isNumber(a)) {
     throw new Error('indicesArray requires one or two number arguments');
   }
@@ -22,7 +22,7 @@ function indicesArray(a, b) {
   return buildIndicesArray(a, b);
 }
 
-function inclusiveIndicesArray(from, to) {
+export function inclusiveIndicesArray(from, to) {
   if (! isNumber(from) || ! isNumber(to)) {
     throw new Error('inclusiveIndicesArray requires two number arguments');
   }
@@ -44,10 +44,3 @@ function buildInclusiveIndicesArray(from, to) {
   }
   return array;
 }
-
-module.exports = {
-  arrayOfSize,
-  arrayShallowEquivalent,
-  indicesArray,
-  inclusiveIndicesArray,
-};

@@ -1,17 +1,17 @@
-const {
+import {
   computeSubpatterns, computeSubpatternsTrimRight, computeSubpatternsTrimLeft
-} = require('../../utilities/subpatterns');
-const {
+} from '../../utilities/subpatterns.js';
+import {
   buildBoard,
   leftBound, rightBound, topBound, bottomBound,
   horizontalPatternFor, verticalPatternFor
-} = require('../../utilities/board');
-const {
+} from '../../utilities/board.js';
+import {
   firstCharacter, lastCharacter,
   trimFirstCharacter, trimLastCharacter
-} = require('../../utilities/strings');
-const { buildUppercaseAlphabet, filledSquareCharacter } = require('../../utilities/alphabet');
-const { isNumber } = require('../../utilities/math');
+} from '../../utilities/strings.js';
+import { buildUppercaseAlphabet, filledSquareCharacter } from '../../utilities/alphabet.js';
+import { isNumber } from '../../utilities/math.js';
 
 function toLettersArray(setA, setB) {
   return buildUppercaseAlphabet().filter(
@@ -19,7 +19,7 @@ function toLettersArray(setA, setB) {
   );
 }
 
-exports.SuggestionsLists = class SuggestionsLists {
+export class SuggestionsLists {
   constructor (options, app) {
     this.app = app;
   }

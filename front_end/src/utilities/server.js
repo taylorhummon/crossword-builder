@@ -4,7 +4,7 @@ import { serverUri } from '../configuration.js';
 
 const server = feathers();
 const restClient = rest(serverUri);
-server.configure(restClient.fetch(window.fetch));
+server.configure(restClient.fetch(window.fetch.bind(window)));
 
 export function fetchSuggestions(data) {
   return server.service('suggestions-lists').create(data).catch((error) => {

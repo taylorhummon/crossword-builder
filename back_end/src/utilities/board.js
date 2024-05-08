@@ -1,8 +1,8 @@
-const { remainderAndQuotient } = require('./math');
-const { inclusiveIndicesArray } = require('./arrays');
-const { filledSquareCharacter } = require('./alphabet');
+import { remainderAndQuotient } from './math.js';
+import { inclusiveIndicesArray } from './arrays.js';
+import { filledSquareCharacter } from './alphabet.js';
 
-function buildBoard(data) {
+export function buildBoard(data) {
   const [activeColumn, activeRow] = remainderAndQuotient(data.activeSquareIndex, data.boardWidth);
   const board = {
     squareValues: data.squareValues,
@@ -15,39 +15,51 @@ function buildBoard(data) {
   return board;
 }
 
-function leftBound(board) {
+export function leftBound(board) {
   let i = board.activeColumn;
-  while (i - 1 >= 0 && board.squareValueAt(i - 1, board.activeRow) !== filledSquareCharacter) {
+  while (
+    i - 1 >= 0 &&
+    board.squareValueAt(i - 1, board.activeRow) !== filledSquareCharacter
+  ) {
     i--;
   }
   return i;
 }
 
-function rightBound(board) {
+export function rightBound(board) {
   let i = board.activeColumn;
-  while (i + 1 < board.width && board.squareValueAt(i + 1, board.activeRow) !== filledSquareCharacter) {
+  while (
+    i + 1 < board.width &&
+    board.squareValueAt(i + 1, board.activeRow) !== filledSquareCharacter
+  ) {
     i++;
   }
   return i;
 }
 
-function topBound(board) {
+export function topBound(board) {
   let j = board.activeRow;
-  while (j - 1 >= 0 && board.squareValueAt(board.activeColumn, j - 1) !== filledSquareCharacter) {
+  while (
+    j - 1 >= 0 &&
+    board.squareValueAt(board.activeColumn, j - 1) !== filledSquareCharacter
+  ) {
     j--;
   }
   return j;
 }
 
-function bottomBound(board) {
+export function bottomBound(board) {
   let j = board.activeRow;
-  while (j + 1 < board.height && board.squareValueAt(board.activeColumn, j + 1) !== filledSquareCharacter) {
+  while (
+    j + 1 < board.height &&
+    board.squareValueAt(board.activeColumn, j + 1) !== filledSquareCharacter
+  ) {
     j++;
   }
   return j;
 }
 
-function horizontalPatternFor(board, from, to) {
+export function horizontalPatternFor(board, from, to) {
   return inclusiveIndicesArray(from, to).map(i => {
     const character = board.squareValueAt(i, board.activeRow);
     if (i === board.activeColumn) return '@';
@@ -57,7 +69,7 @@ function horizontalPatternFor(board, from, to) {
   }).join('');
 }
 
-function verticalPatternFor(board, from, to) {
+export function verticalPatternFor(board, from, to) {
   return inclusiveIndicesArray(from, to).map(j => {
     const character = board.squareValueAt(board.activeColumn, j);
     if (j === board.activeRow) return '@';
@@ -66,13 +78,3 @@ function verticalPatternFor(board, from, to) {
     throw new Error(`Unexpected character: ${character}`);
   }).join('');
 }
-
-module.exports = {
-  buildBoard,
-  leftBound,
-  rightBound,
-  topBound,
-  bottomBound,
-  horizontalPatternFor,
-  verticalPatternFor
-};
