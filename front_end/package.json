@@ -2,6 +2,10 @@
   "name": "crossword-builder",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Taylor Hummon",
+    "email": "taylor@taylorhummon.com"
+  },
   "dependencies": {
     "@feathersjs/feathers": "^4.5.11",
     "@feathersjs/rest-client": "^4.5.11",
