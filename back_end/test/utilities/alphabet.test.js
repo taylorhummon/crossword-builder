@@ -1,35 +1,35 @@
-const assert = require('assert');
-const alphabet = require('../../src/utilities/alphabet');
+import assert from 'assert';
+import { buildLowercaseAlphabet, buildUppercaseAlphabet } from '../../src/utilities/alphabet.js';
 
 describe('"alphabet" utility', () => {
   describe('buildLowercaseAlphabet()', () => {
     it('builds the lowercase alphabet', () => {
-      assert.equal(
-        alphabet.buildLowercaseAlphabet().length,
+      assert.strictEqual(
+        buildLowercaseAlphabet().length,
         26,
       );
-      assert.equal(
-        alphabet.buildLowercaseAlphabet()[0],
+      assert.strictEqual(
+        buildLowercaseAlphabet()[0],
         'a',
       );
-      assert.equal(
-        alphabet.buildLowercaseAlphabet()[25],
+      assert.strictEqual(
+        buildLowercaseAlphabet()[25],
         'z',
       );
     });
   });
   describe('buildUppercaseAlphabet()', () => {
     it('builds the uppercase alphabet', () => {
-      assert.equal(
-        alphabet.buildUppercaseAlphabet().length,
+      assert.strictEqual(
+        buildUppercaseAlphabet().length,
         26,
       );
-      assert.equal(
-        alphabet.buildUppercaseAlphabet()[0],
+      assert.strictEqual(
+        buildUppercaseAlphabet()[0],
         'A',
       );
-      assert.equal(
-        alphabet.buildUppercaseAlphabet()[25],
+      assert.strictEqual(
+        buildUppercaseAlphabet()[25],
         'Z',
       );
     });

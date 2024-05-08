@@ -1,21 +1,12 @@
-const assert = require('assert');
-const app = require('../../src/app');
-const { buildUppercaseAlphabet } = require('../../src/utilities/alphabet');
+import assert from 'assert';
+import { app } from '../../src/app.js';
+import { buildUppercaseAlphabet } from '../../src/utilities/alphabet.js';
 
 const wordsForMock = buildUppercaseAlphabet().concat([
   'AC', 'AT', 'OG', 'LA',
   'CAT', 'ABS', 'ACE', 'DOG', 'SAT', 'SOG',
   'ACED', 'ACES', 'ACER', 'CATS', 'DOGS', 'RACE', 'SOGS'
 ]);
-
-function mockWordService() {
-  const mockedService = {
-    async find({ length }) {
-      return wordsForMock.filter(word => word.length === length);
-    }
-  };
-  app.use('/words', mockedService);
-}
 
 describe('"suggestions_lists" service', () => {
   it('registered the service', () => {
@@ -29,8 +20,16 @@ describe('"suggestions_lists" service', () => {
     let originalWordService;
     before(() => {
       originalWordService = app.service('/words');
+      const mockedWordService = {
+        async find({ length }) {
+          return wordsForMock.filter(word => word.length === length);
+        }
+      };
+      app.unuse('/words'); // stop using the original word service
+      app.use('/words', mockedWordService);
     });
     after(() => {
+      app.unuse('/words'); // stop using the mocked word sernice
       app.use('/words', originalWordService);
     });
     describe('for canSuggestFill=false', () => {
@@ -45,7 +44,6 @@ describe('"suggestions_lists" service', () => {
           activeSquareIndex: 3,
           canSuggestFill
         };
-        mockWordService();
         const results = await app.service('suggestions-lists').create(data);
         assert.deepEqual(
           results,
@@ -62,7 +60,6 @@ describe('"suggestions_lists" service', () => {
           activeSquareIndex: 3,
           canSuggestFill
         };
-        mockWordService();
         const results = await app.service('suggestions-lists').create(data);
         assert.deepEqual(
           results,
@@ -79,7 +76,6 @@ describe('"suggestions_lists" service', () => {
           activeSquareIndex: 3,
           canSuggestFill
         };
-        mockWordService();
         const results = await app.service('suggestions-lists').create(data);
         assert.deepEqual(
           results,
@@ -98,7 +94,6 @@ describe('"suggestions_lists" service', () => {
           activeSquareIndex: 3,
           canSuggestFill
         };
-        mockWordService();
         const results = await app.service('suggestions-lists').create(data);
         assert.deepEqual(
           results,
@@ -118,7 +113,6 @@ describe('"suggestions_lists" service', () => {
           activeSquareIndex: 2,
           canSuggestFill
         };
-        mockWordService();
         const results = await app.service('suggestions-lists').create(data);
         assert.deepEqual(
           results,
@@ -135,7 +129,6 @@ describe('"suggestions_lists" service', () => {
           activeSquareIndex: 1,
           canSuggestFill
         };
-        mockWordService();
         const results = await app.service('suggestions-lists').create(data);
         assert.deepEqual(
           results,
@@ -152,7 +145,6 @@ describe('"suggestions_lists" service', () => {
           activeSquareIndex: 1,
           canSuggestFill
         };
-        mockWordService();
         const results = await app.service('suggestions-lists').create(data);
         assert.deepEqual(
           results,
@@ -169,7 +161,6 @@ describe('"suggestions_lists" service', () => {
           activeSquareIndex: 1,
           canSuggestFill
         };
-        mockWordService();
         const results = await app.service('suggestions-lists').create(data);
         assert.deepEqual(
           results,
@@ -188,7 +179,6 @@ describe('"suggestions_lists" service', () => {
           activeSquareIndex: 3,
           canSuggestFill
         };
-        mockWordService();
         const results = await app.service('suggestions-lists').create(data);
         assert.deepEqual(
           results,

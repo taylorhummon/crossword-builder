@@ -1,6 +1,6 @@
-const assert = require('assert');
-const app = require('../../src/app');
-const { buildUppercaseAlphabet } = require('../../src/utilities/alphabet');
+import assert from 'assert';
+import { app } from '../../src/app.js';
+import { buildUppercaseAlphabet } from '../../src/utilities/alphabet.js';
 
 describe('"words" service', () => {
   it('registered the service', () => {
@@ -13,7 +13,7 @@ describe('"words" service', () => {
   it('finds words of length two', async () => {
     const service = app.service('words');
     const results = await service.find({ length: 2 });
-    assert.equal(
+    assert.strictEqual(
       results.length,
       427,
       'There are many words of length two'
@@ -22,7 +22,7 @@ describe('"words" service', () => {
   it('finds words of length one', async () => {
     const service = app.service('words');
     const results = await service.find({ length: 1 });
-    assert.equal(
+    assert.strictEqual(
       results.length,
       26,
       'Returns twenty six words of length one'
@@ -36,7 +36,7 @@ describe('"words" service', () => {
   it('finds no words of length zero', async () => {
     const service = app.service('words');
     const results = await service.find({ length: 0 });
-    assert.equal(
+    assert.strictEqual(
       results.length,
       0
     );
@@ -44,7 +44,7 @@ describe('"words" service', () => {
   it('finds no words with a very large length', async () => {
     const service = app.service('words');
     const results = await service.find({ length: 400 });
-    assert.equal(
+    assert.strictEqual(
       results.length,
       0
     );

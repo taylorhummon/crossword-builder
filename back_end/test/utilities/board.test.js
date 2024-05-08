@@ -1,5 +1,9 @@
-const assert = require('assert');
-const boardUtility = require('../../src/utilities/board');
+import assert from 'assert';
+import {
+  buildBoard,
+  leftBound, rightBound, topBound, bottomBound,
+  horizontalPatternFor, verticalPatternFor,
+} from '../../src/utilities/board.js';
 
 function buildData(activeSquareIndex) {
   return {
@@ -18,7 +22,7 @@ describe('"board" utility', () => {
   describe('buildBoard()', () => {
     it('builds a board object from the data', () => {
       const data = buildData(7);
-      const board = boardUtility.buildBoard(data);
+      const board = buildBoard(data);
       assert.deepEqual(
         board.squareValues,
         data.squareValues
@@ -31,23 +35,23 @@ describe('"board" utility', () => {
         board.height,
         3
       );
-      assert.equal(
+      assert.strictEqual(
         board.activeColumn,
         3
       );
-      assert.equal(
+      assert.strictEqual(
         board.activeRow,
         1
       );
-      assert.equal(
+      assert.strictEqual(
         board.squareValueAt(0, 0),
         'A'
       );
-      assert.equal(
+      assert.strictEqual(
         board.squareValueAt(0, 2),
         null
       );
-      assert.equal(
+      assert.strictEqual(
         board.squareValueAt(3, 1),
         'O'
       );
@@ -55,116 +59,116 @@ describe('"board" utility', () => {
   });
   describe('leftBound()', () => {
     it('travels left from the active square as far as possible without hitting a ~', () => {
-      assert.equal(
-        boardUtility.leftBound(boardUtility.buildBoard(buildData(7))),
+      assert.strictEqual(
+        leftBound(buildBoard(buildData(7))),
         3
       );
-      assert.equal(
-        boardUtility.leftBound(boardUtility.buildBoard(buildData(6))),
+      assert.strictEqual(
+        leftBound(buildBoard(buildData(6))),
         1
       );
-      assert.equal(
-        boardUtility.leftBound(boardUtility.buildBoard(buildData(2))),
+      assert.strictEqual(
+        leftBound(buildBoard(buildData(2))),
         0
       );
-      assert.equal(
-        boardUtility.leftBound(boardUtility.buildBoard(buildData(8))),
+      assert.strictEqual(
+        leftBound(buildBoard(buildData(8))),
         0
       );
     });
   });
   describe('rightBound()', () => {
     it('travels left from the active square as far as possible without hitting a ~', () => {
-      assert.equal(
-        boardUtility.rightBound(boardUtility.buildBoard(buildData(0))),
+      assert.strictEqual(
+        rightBound(buildBoard(buildData(0))),
         2
       );
-      assert.equal(
-        boardUtility.rightBound(boardUtility.buildBoard(buildData(4))),
+      assert.strictEqual(
+        rightBound(buildBoard(buildData(4))),
         1
       );
-      assert.equal(
-        boardUtility.rightBound(boardUtility.buildBoard(buildData(8))),
+      assert.strictEqual(
+        rightBound(buildBoard(buildData(8))),
         3
       );
     });
   });
   describe('topBound()', () => {
     it('travels up from the active square as far as possible without hitting a ~', () => {
-      assert.equal(
-        boardUtility.topBound(boardUtility.buildBoard(buildData(0))),
+      assert.strictEqual(
+        topBound(buildBoard(buildData(0))),
         0
       );
-      assert.equal(
-        boardUtility.topBound(boardUtility.buildBoard(buildData(8))),
+      assert.strictEqual(
+        topBound(buildBoard(buildData(8))),
         2
       );
-      assert.equal(
-        boardUtility.topBound(boardUtility.buildBoard(buildData(11))),
+      assert.strictEqual(
+        topBound(buildBoard(buildData(11))),
         1
       );
     });
   });
   describe('bottomBound()', () => {
     it('travels down from the active square as far as possible without hitting a ~', () => {
-      assert.equal(
-        boardUtility.bottomBound(boardUtility.buildBoard(buildData(0))),
+      assert.strictEqual(
+        bottomBound(buildBoard(buildData(0))),
         0
       );
-      assert.equal(
-        boardUtility.bottomBound(boardUtility.buildBoard(buildData(1))),
+      assert.strictEqual(
+        bottomBound(buildBoard(buildData(1))),
         2
       );
-      assert.equal(
-        boardUtility.bottomBound(boardUtility.buildBoard(buildData(3))),
+      assert.strictEqual(
+        bottomBound(buildBoard(buildData(3))),
         2
       );
     });
   });
   describe('horizontalPatternFor()', () => {
     it('computes pattern strings from the board', () => {
-      assert.equal(
-        boardUtility.horizontalPatternFor(boardUtility.buildBoard(buildData(0)), 0, 2),
+      assert.strictEqual(
+        horizontalPatternFor(buildBoard(buildData(0)), 0, 2),
         '@CE'
       );
-      assert.equal(
-        boardUtility.horizontalPatternFor(boardUtility.buildBoard(buildData(0)), 0, 1),
+      assert.strictEqual(
+        horizontalPatternFor(buildBoard(buildData(0)), 0, 1),
         '@C'
       );
-      assert.equal(
-        boardUtility.horizontalPatternFor(boardUtility.buildBoard(buildData(0)), 0, 0),
+      assert.strictEqual(
+        horizontalPatternFor(buildBoard(buildData(0)), 0, 0),
         '@'
       );
-      assert.equal(
-        boardUtility.horizontalPatternFor(boardUtility.buildBoard(buildData(1)), 0, 2),
+      assert.strictEqual(
+        horizontalPatternFor(buildBoard(buildData(1)), 0, 2),
         'A@E'
       );
-      assert.equal(
-        boardUtility.horizontalPatternFor(boardUtility.buildBoard(buildData(8)), 0, 3),
+      assert.strictEqual(
+        horizontalPatternFor(buildBoard(buildData(8)), 0, 3),
         '@TAG'
       );
-      assert.equal(
-        boardUtility.horizontalPatternFor(boardUtility.buildBoard(buildData(9)), 0, 3),
+      assert.strictEqual(
+        horizontalPatternFor(buildBoard(buildData(9)), 0, 3),
         '.@AG'
       );
     });
   });
   describe('verticalPatternFor()', () => {
     it('computes pattern strings from the board', () => {
-      assert.equal(
-        boardUtility.verticalPatternFor(boardUtility.buildBoard(buildData(1)), 0, 2),
+      assert.strictEqual(
+        verticalPatternFor(buildBoard(buildData(1)), 0, 2),
         '@AT'
       );
-      assert.equal(
-        boardUtility.verticalPatternFor(boardUtility.buildBoard(buildData(5)), 0, 2),
+      assert.strictEqual(
+        verticalPatternFor(buildBoard(buildData(5)), 0, 2),
         'C@T'
       );
-      assert.equal(
-        boardUtility.verticalPatternFor(boardUtility.buildBoard(buildData(4)), 0, 2),
+      assert.strictEqual(
+        verticalPatternFor(buildBoard(buildData(4)), 0, 2),
         'A@.'
       );
-      assert.equal(
-        boardUtility.verticalPatternFor(boardUtility.buildBoard(buildData(8)), 2, 2),
+      assert.strictEqual(
+        verticalPatternFor(buildBoard(buildData(8)), 2, 2),
         '@'
       );
     });

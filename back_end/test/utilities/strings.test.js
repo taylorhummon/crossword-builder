@@ -1,59 +1,62 @@
-const assert = require('assert');
-const strings = require('../../src/utilities/strings');
+import assert from 'assert';
+import {
+  firstCharacter, lastCharacter,
+  trimFirstCharacter, trimLastCharacter,
+} from '../../src/utilities/strings.js';
 
 describe('"strings" utility', () => {
   describe('firstCharacter()', () => {
     it('returns the first character for a non-empty string', () => {
-      assert.equal(
-        strings.firstCharacter('gazebo'),
+      assert.strictEqual(
+        firstCharacter('gazebo'),
         'g'
       );
     });
     it('returns the empty string for an empty string', () => {
-      assert.equal(
-        strings.firstCharacter(''),
+      assert.strictEqual(
+        firstCharacter(''),
         ''
       );
     });
   });
   describe('lastCharacter()', () => {
     it('returns the last character for a non-empty string', () => {
-      assert.equal(
-        strings.lastCharacter('gazebo'),
+      assert.strictEqual(
+        lastCharacter('gazebo'),
         'o'
       );
     });
     it('returns the empty string for an empty string', () => {
-      assert.equal(
-        strings.lastCharacter(''),
+      assert.strictEqual(
+        lastCharacter(''),
         ''
       );
     });
   });
   describe('trimFirstCharacter()', () => {
     it('returns all of the string except the first character', () => {
-      assert.equal(
-        strings.trimFirstCharacter('gazebo'),
+      assert.strictEqual(
+        trimFirstCharacter('gazebo'),
         'azebo'
       );
     });
     it('returns the empty string for an empty string', () => {
-      assert.equal(
-        strings.trimFirstCharacter(''),
+      assert.strictEqual(
+        trimFirstCharacter(''),
         ''
       );
     });
   });
   describe('trimLastCharacter()', () => {
     it('returns all of the string except the last character', () => {
-      assert.equal(
-        strings.trimLastCharacter('gazebo'),
+      assert.strictEqual(
+        trimLastCharacter('gazebo'),
         'gazeb'
       );
     });
     it('returns the empty string for an empty string', () => {
-      assert.equal(
-        strings.trimLastCharacter(''),
+      assert.strictEqual(
+        trimLastCharacter(''),
         ''
       );
     });
