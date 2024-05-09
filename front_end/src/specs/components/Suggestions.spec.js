@@ -1,39 +1,18 @@
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
-import { screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { render, screen } from '@testing-library/react';
 
 import Suggestions from '../../components/Suggestions';
 import { filledSquareCharacter } from '../../utilities/alphabet.js';
 
-let container = null;
-
-beforeEach(() => {
-  container = document.createElement('div');
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  unmountComponentAtNode(container);
-  container.remove();
-  container = null;
-});
-
-function toRender(suggestions, canSuggestFill) {
-  return (
+it('shows all 26 letters when none are suggested and cannot suggest fill', async () => {
+  const suggestions = [];
+  const canSuggestFill = false;
+  render(
     <Suggestions
       suggestions={suggestions}
       canSuggestFill={canSuggestFill}
     />
   );
-}
-
-it('shows all 26 letters when none are suggested and cannot suggest fill', () => {
-  const suggestions = [];
-  const canSuggestFill = false;
-  act(() => {
-    render(toRender(suggestions, canSuggestFill), container);
-  });
   const letterElements = screen.queryAllByTestId(/^suggestion-/);
   expect(
     letterElements.length
@@ -51,12 +30,15 @@ it('shows all 26 letters when none are suggested and cannot suggest fill', () =>
   });
 });
 
-it('emphasizes the suggested letters when cannot suggest fill', () => {
+it('emphasizes the suggested letters when cannot suggest fill', async () => {
   const suggestions = ['A', 'E', 'C'];
   const canSuggestFill = false;
-  act(() => {
-    render(toRender(suggestions, canSuggestFill), container);
-  });
+  render(
+    <Suggestions
+      suggestions={suggestions}
+      canSuggestFill={canSuggestFill}
+    />
+  );
   expect(
     screen.queryByTestId(/^suggestion-A$/)
   ).toHaveClass('suggested');
@@ -71,12 +53,15 @@ it('emphasizes the suggested letters when cannot suggest fill', () => {
   ).not.toHaveClass('suggested');
 });
 
-it('shows all 27 letters when none are suggested and can suggest fill', () => {
+it('shows all 27 letters when none are suggested and can suggest fill', async () => {
   const suggestions = [];
   const canSuggestFill = true;
-  act(() => {
-    render(toRender(suggestions, canSuggestFill), container);
-  });
+  render(
+    <Suggestions
+      suggestions={suggestions}
+      canSuggestFill={canSuggestFill}
+    />
+  );
   const letterElements = screen.queryAllByTestId(/^suggestion-/);
   expect(
     letterElements.length
@@ -97,12 +82,15 @@ it('shows all 27 letters when none are suggested and can suggest fill', () => {
   });
 });
 
-it('emphasizes the suggested letters when can suggest fill', () => {
+it('emphasizes the suggested letters when can suggest fill', async () => {
   const suggestions = ['A', filledSquareCharacter, 'C'];
   const canSuggestFill = true;
-  act(() => {
-    render(toRender(suggestions, canSuggestFill), container);
-  });
+  render(
+    <Suggestions
+      suggestions={suggestions}
+      canSuggestFill={canSuggestFill}
+    />
+  );
   expect(
     screen.queryByTestId(/^suggestion-A$/)
   ).toHaveClass('suggested');

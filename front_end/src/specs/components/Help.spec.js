@@ -1,40 +1,21 @@
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
-import { screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { act } from 'react-dom/test-utils';
 
 import Help from '../../components/Help';
-
-let container = null;
-
-beforeEach(() => {
-  container = document.createElement('div');
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  unmountComponentAtNode(container);
-  container.remove();
-  container = null;
-});
 
 const accordionLabelText = 'Need help?';
 const accordionBodyRegex = /^Want to write a crossword puzzle\?/;
 
-it('renders the label text', () => {
-  act(() => {
-    render(<Help />, container);
-  });
+it('renders the label text', async () => {
+  render(<Help />);
   expect(
     screen.queryByText(accordionLabelText)
   ).toBeTruthy();
 });
 
-it('does not show the accordion body by default', () => {
-  act(() => {
-    render(<Help />, container);
-  });
+it('does not show the accordion body by default', async () => {
+  render(<Help />);
   const accordionBody = screen.queryByText(accordionBodyRegex);
   expect(
     accordionBody
@@ -44,10 +25,8 @@ it('does not show the accordion body by default', () => {
   ).not.toBeVisible();
 });
 
-it('toggles the accordion body on and off by clicking the accordion label', () => {
-  act(() => {
-    render(<Help />, container);
-  });
+it('toggles the accordion body on and off by clicking the accordion label', async () => {
+  render(<Help />);
   const accordionBody = screen.queryByText(accordionBodyRegex);
   expect(
     accordionBody
@@ -55,15 +34,11 @@ it('toggles the accordion body on and off by clicking the accordion label', () =
   expect(
     accordionBody
   ).not.toBeVisible();
-  act(() => {
-    userEvent.click(screen.queryByText(accordionLabelText));
-  });
+  await userEvent.click(screen.queryByText(accordionLabelText));
   expect(
     accordionBody
   ).toBeVisible();
-  act(() => {
-    userEvent.click(screen.queryByText(accordionLabelText));
-  });
+  await userEvent.click(screen.queryByText(accordionLabelText));
   expect(
     accordionBody
   ).not.toBeVisible();
