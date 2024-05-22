@@ -14,7 +14,7 @@
   "contributors": [],
   "bugs": {},
   "engines": {
-    "node": ">= 19.0.1"
+    "node": ">= 20.0.0"
   },
   "feathers": {
     "language": "js",
