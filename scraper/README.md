@@ -2,8 +2,8 @@
 
 This tool scrapes answers from a popular crossword puzzle and saves them in
 text files according to the length of answer:
-* words2.txt has answers of length 2,
-* words3.txt has answers of length 3,
+* `words2.txt` has answers of length 2,
+* `words3.txt` has answers of length 3,
 * etc.
 
 
@@ -29,12 +29,12 @@ python -m pip install beautifulsoup4
 
 ## Usage ##
 
-To download the crossword puzzle answers.
+To download the crossword puzzle answers run:
 ```
 python download.py
 ```
 
-Once that's done, you can dump the results into text files by running the following.
+Once that's done you can dump the results into text files.
 ```
 python dump.py
 ```
