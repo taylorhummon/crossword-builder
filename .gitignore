@@ -1,4 +1,6 @@
 /front_end/build
+/scraper/.virtual_environment
+/scraper/dictionary.pkl
 
 .env.local
 .env.development.local
