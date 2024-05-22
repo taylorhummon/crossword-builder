@@ -1,41 +1,32 @@
-# crossword-builder-api
+# Crossword Builder Back End #
 
-> Backend for the Crossword Builder app
+This is the API for the Crossword Builder app.
 
-## About
 
-This project uses [Feathers](http://feathersjs.com). An open source framework for building APIs and real-time applications.
+## Installing Dependencies ##
 
-## Getting Started
-
-1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
-2. Install your dependencies
-
-    ```
-    cd path/to/crossword-builder-api
-    npm install
-    ```
-
-3. Start your app
-
-    ```
-    npm run migrate # Run migrations to set up the database
-    npm start
-    ```
-
-## Testing
-
-Run `npm test` and all your tests in the `test/` directory will be run.
-
-## Scaffolding
-
-This app comes with a powerful command line interface for Feathers. Here are a few things it can do:
-
+Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
+Then install dependencies:
 ```
-$ npx feathers help                           # Show all commands
-$ npx feathers generate service               # Generate a new Service
+cd crossword-builder/back_end/
+npm install
 ```
 
-## Help
 
-For more information on all the things you can do with Feathers visit [docs.feathersjs.com](http://docs.feathersjs.com).
+## Development ##
+
+To start an instance of the API in development mode, run:
+```
+npm start
+```
+
+To check that everything is working, visit [http://localhost:3030](http://localhost:3030) in a 
+web browser and you should see an image of a feather.
+
+
+## Testing ##
+
+To execute the API's testsuite, run:
+```
+npm test
+```

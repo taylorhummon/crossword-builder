@@ -1,4 +1,4 @@
-# About #
+# Crossword Builder Scraper #
 
 This tool scrapes answers from a popular crossword puzzle and saves them in
 text files according to the length of answer:
@@ -8,7 +8,7 @@ text files according to the length of answer:
 
 
 
-# Installation
+## Installation ##
 
 Create a virtual environment.
 ```
@@ -27,7 +27,7 @@ python -m pip install beautifulsoup4
 ```
 
 
-# Usage
+## Usage ##
 
 To download the crossword puzzle answers.
 ```
