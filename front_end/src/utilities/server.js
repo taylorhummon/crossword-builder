@@ -1,9 +1,8 @@
 import feathers from '@feathersjs/feathers';
 import rest from '@feathersjs/rest-client';
-import { serverUri } from '../configuration.js';
 
 const server = feathers();
-const restClient = rest(serverUri);
+const restClient = rest(process.env.REACT_APP_SERVER_URI);
 server.configure(restClient.fetch(window.fetch.bind(window)));
 
 export function fetchSuggestions(data) {
