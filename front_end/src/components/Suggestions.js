@@ -1,6 +1,6 @@
 import { buildUppercaseAlphabet, filledSquareCharacter } from '../utilities/alphabet.js';
 import { buildClassString } from '../utilities/css';
-import cssModule from './Suggestions.module.css';
+import cssModule from './Suggestions.module.scss';
 
 export default function Suggestions({
   suggestions,

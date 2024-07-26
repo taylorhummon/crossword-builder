@@ -2,8 +2,8 @@
   margin: 16px 0;
   display: inline-block;
   min-width: 264px;
-}
 
-.board:focus {
-  outline: none;
+  &:focus {
+    outline: none;
+  }
 }

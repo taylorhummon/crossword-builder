@@ -12,17 +12,17 @@
   line-height: 34px;
   cursor: default;
   background: white;
-}
 
-.square.is-filled {
-  background: rgb(0, 0, 0);
-}
+  &.is-filled {
+    background: rgb(0, 0, 0);
+  }
 
-.square.is-active.board-has-focus {
-  background: rgb(216, 222, 253);
-  color: rgb(123, 131, 167);
-}
+  &.is-active.board-has-focus {
+    background: rgb(216, 222, 253);
+    color: rgb(123, 131, 167);
+  }
 
-.square.is-filled.is-active.board-has-focus {
-  background: rgb(123, 131, 167);
+  &.is-filled.is-active.board-has-focus {
+    background: rgb(123, 131, 167);
+  }
 }

@@ -2,7 +2,7 @@ import Square from './Square';
 import { boardWidth, boardHeight } from '../utilities/boardSize';
 import { indicesArray } from '../utilities/arrays';
 import { buildClassString } from '../utilities/css';
-import cssModule from './Board.module.css';
+import cssModule from './Board.module.scss';
 
 export default function Board({
   squareValues,

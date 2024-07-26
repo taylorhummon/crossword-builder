@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { buildClassString } from '../utilities/css';
-import cssModule from './Help.module.css';
+import cssModule from './Help.module.scss';
 
 export default function Help() {
   const [isAccordionOpen, setIsAccoordionOpen] = useState(false);

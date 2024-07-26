@@ -1,6 +1,6 @@
 import { filledSquareCharacter } from '../utilities/alphabet';
 import { buildClassString } from '../utilities/css';
-import cssModule from './Square.module.css';
+import cssModule from './Square.module.scss';
 
 export default function Square({
   value,

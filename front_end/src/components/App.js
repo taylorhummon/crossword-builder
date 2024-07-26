@@ -10,7 +10,7 @@ import { fetchSuggestions } from '../utilities/server';
 import { arrayOfSize, arrayShallowEquivalent } from '../utilities/arrays';
 import { isNumber } from '../utilities/math';
 import { buildClassString } from '../utilities/css';
-import cssModule from './App.module.css';
+import cssModule from './App.module.scss';
 
 class App extends React.Component {
   constructor(props) {

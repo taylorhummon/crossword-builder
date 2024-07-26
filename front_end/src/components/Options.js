@@ -1,5 +1,5 @@
 import { buildClassString } from '../utilities/css';
-import cssModule from './Options.module.css';
+import cssModule from './Options.module.scss';
 
 export default function Options({
   isTypingVertical,
