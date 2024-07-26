@@ -12,7 +12,7 @@ export default function Help() {
     }
   }
   function handleToggleChecked () {
-    setIsAccoordionOpen(isAccordionOpen => ! isAccordionOpen);
+    setIsAccoordionOpen(prevIsAccordionOpen => ! prevIsAccordionOpen);
   }
   return (
     <div className={buildClassString(cssModule, ['help'], ['accordion'])}>
