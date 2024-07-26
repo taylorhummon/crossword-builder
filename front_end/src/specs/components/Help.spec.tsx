@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -7,14 +6,14 @@ import Help from '../../components/Help';
 const accordionLabelText = 'Need help?';
 const accordionBodyRegex = /^Want to write a crossword puzzle\?/;
 
-it('renders the label text', async () => {
+it('renders the label text', () => {
   render(<Help />);
   expect(
     screen.queryByText(accordionLabelText)
   ).toBeTruthy();
 });
 
-it('does not show the accordion body by default', async () => {
+it('does not show the accordion body by default', () => {
   render(<Help />);
   const accordionBody = screen.queryByText(accordionBodyRegex);
   expect(
@@ -25,7 +24,7 @@ it('does not show the accordion body by default', async () => {
   ).not.toBeVisible();
 });
 
-it('toggles the accordion body on and off by clicking the accordion label', async () => {
+it('toggles the accordion body on and off by clicking the accordion label', () => {
   render(<Help />);
   const accordionBody = screen.queryByText(accordionBodyRegex);
   expect(
@@ -34,11 +33,22 @@ it('toggles the accordion body on and off by clicking the accordion label', asyn
   expect(
     accordionBody
   ).not.toBeVisible();
-  await userEvent.click(screen.queryByText(accordionLabelText));
+  let htmlElement = null;
+  htmlElement = screen.queryByText(accordionLabelText);
+  expect(
+    htmlElement
+  ).toBeTruthy();
+  if (! htmlElement) return;
+  userEvent.click(htmlElement);
   expect(
     accordionBody
   ).toBeVisible();
-  await userEvent.click(screen.queryByText(accordionLabelText));
+  htmlElement = screen.queryByText(accordionLabelText)
+  expect(
+    htmlElement
+  ).toBeTruthy();
+  if (! htmlElement) return;
+  userEvent.click(htmlElement);
   expect(
     accordionBody
   ).not.toBeVisible();

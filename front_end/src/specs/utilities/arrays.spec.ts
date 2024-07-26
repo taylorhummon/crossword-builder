@@ -99,6 +99,7 @@ describe('inclusiveIndicesArray()', () => {
   });
   it('throws an exception if missing an argument', () => {
     expect(() => {
+      // @ts-ignore: this line is intentionally incorrect
       inclusiveIndicesArray(6);
     }).toThrow();
   });

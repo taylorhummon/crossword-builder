@@ -2,13 +2,21 @@ import { filledSquareCharacter } from '../utilities/alphabet';
 import { buildClassString } from '../utilities/css';
 import cssModule from './Square.module.scss';
 
+interface SquareProps {
+  value: string | null;
+  isActive: boolean;
+  boardHasFocus: boolean;
+  handleSquareClick: (event: React.MouseEvent) => void;
+  dataTestid: string;
+}
+
 export default function Square({
   value,
   isActive,
   boardHasFocus,
   handleSquareClick,
   dataTestid
-}) {
+}: SquareProps): JSX.Element {
   return (
     <div
       className={className(value, isActive, boardHasFocus)}
@@ -20,7 +28,11 @@ export default function Square({
   );
 }
 
-function className(value, isActive, boardHasFocus) {
+function className(
+  value: string | null,
+  isActive: boolean,
+  boardHasFocus: boolean
+): string {
   const classNames = ['square'];
   if (isFilled(value)) classNames.push('is-filled');
   if (isActive) classNames.push('is-active');
@@ -28,11 +40,16 @@ function className(value, isActive, boardHasFocus) {
   return buildClassString(cssModule, classNames);
 }
 
-function displayedValue(value) {
+function displayedValue(
+  value: string | null
+): string | null {
+  if (value === null) return null;
   if (isFilled(value)) return null;
   return value;
 }
 
-function isFilled(value) {
+function isFilled(
+  value: string | null
+): boolean {
   return value === filledSquareCharacter;
 }

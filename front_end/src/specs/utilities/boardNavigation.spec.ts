@@ -1,16 +1,17 @@
+import { State } from '../../types';
+import { BOARD_WIDTH, BOARD_HEIGHT } from '../../constants';
 import {
   isArrowKey,
   indexDeterminedByArrowKey,
   indexOneBeforeActive,
   indexOneAfterActive
 } from '../../utilities/boardNavigation';
-import { boardWidth, boardHeight } from '../../utilities/boardSize';
 
-jest.mock('../../utilities/boardSize', () => {
+jest.mock('../../constants', () => {
   // using a non-square board for testing
   return {
-    boardWidth: 5,
-    boardHeight: 7
+    BOARD_WIDTH: 5,
+    BOARD_HEIGHT: 7
   };
 });
 
@@ -58,9 +59,8 @@ describe('indexDeterminedByArrowKey()', () => {
     describe('when pressing the left arrow key', () => {
       const key = 'ArrowLeft';
       it('moves left if theres room', () => {
-        const state = {
-          activeSquareIndex: 2
-        };
+        const activeSquareIndex = 2;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
@@ -68,9 +68,8 @@ describe('indexDeterminedByArrowKey()', () => {
         );
       });
       it('does not move left when in first row and first column', () => {
-        const state = {
-          activeSquareIndex: 0
-        };
+        const activeSquareIndex = 0;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
@@ -78,22 +77,20 @@ describe('indexDeterminedByArrowKey()', () => {
         );
       });
       it('does not move left when in last row and first column', () => {
-        const state = {
-          activeSquareIndex: boardWidth * (boardHeight - 1)
-        };
+        const activeSquareIndex = BOARD_WIDTH * (BOARD_HEIGHT - 1);
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
-          boardWidth * (boardHeight - 1)
+          BOARD_WIDTH * (BOARD_HEIGHT - 1)
         );
       });
     });
     describe('when pressing the right arrow key', () => {
       const key = 'ArrowRight';
       it('moves right if theres room', () => {
-        const state = {
-          activeSquareIndex: 2
-        };
+        const activeSquareIndex = 2;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
@@ -101,32 +98,29 @@ describe('indexDeterminedByArrowKey()', () => {
         );
       });
       it('does not move right when in first row and last column', () => {
-        const state = {
-          activeSquareIndex: boardWidth - 1
-        };
+        const activeSquareIndex = BOARD_WIDTH - 1;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
-          boardWidth - 1
+          BOARD_WIDTH - 1
         );
       });
       it('does not move right when in last row and last column', () => {
-        const state = {
-          activeSquareIndex: boardWidth * boardHeight - 1
-        };
+        const activeSquareIndex = BOARD_WIDTH * BOARD_HEIGHT - 1;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
-          boardWidth * boardHeight - 1
+          BOARD_WIDTH * BOARD_HEIGHT - 1
         );
       });
     });
     describe('when pressing the up arrow key', () => {
       const key = 'ArrowUp';
       it('moves up if theres room', () => {
-        const state = {
-          activeSquareIndex: boardWidth
-        };
+        const activeSquareIndex = BOARD_WIDTH;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
@@ -134,9 +128,8 @@ describe('indexDeterminedByArrowKey()', () => {
         );
       });
       it('does not move up when in first row and first column', () => {
-        const state = {
-          activeSquareIndex: 0
-        };
+        const activeSquareIndex = 0;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
@@ -144,46 +137,42 @@ describe('indexDeterminedByArrowKey()', () => {
         );
       });
       it('does not move up when in first row and last column', () => {
-        const state = {
-          activeSquareIndex: boardWidth - 1
-        };
+        const activeSquareIndex = BOARD_WIDTH - 1;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
-          boardWidth - 1
+          BOARD_WIDTH - 1
         );
       });
     });
     describe('when pressing the down arrow key', () => {
       const key = 'ArrowDown';
       it('moves down if theres room', () => {
-        const state = {
-          activeSquareIndex: 2
-        };
+        const activeSquareIndex = 2;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
-          2 + boardWidth
+          2 + BOARD_WIDTH
         );
       });
       it('does not move down when in last row and first column', () => {
-        const state = {
-          activeSquareIndex: boardWidth * (boardHeight - 1)
-        };
+        const activeSquareIndex = BOARD_WIDTH * (BOARD_HEIGHT - 1);
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
-          boardWidth * (boardHeight - 1)
+          BOARD_WIDTH * (BOARD_HEIGHT - 1)
         );
       });
       it('does not move down when in last row and last column', () => {
-        const state = {
-          activeSquareIndex: boardWidth * boardHeight - 1
-        };
+        const activeSquareIndex = BOARD_WIDTH * BOARD_HEIGHT - 1;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
-          boardWidth * boardHeight - 1
+          BOARD_WIDTH * BOARD_HEIGHT - 1
         );
       });
     });
@@ -193,9 +182,8 @@ describe('indexDeterminedByArrowKey()', () => {
     describe('when pressing the left arrow key', () => {
       const key = 'ArrowLeft';
       it('moves left if theres room', () => {
-        const state = {
-          activeSquareIndex: 2
-        };
+        const activeSquareIndex = 2;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
@@ -203,32 +191,29 @@ describe('indexDeterminedByArrowKey()', () => {
         );
       });
       it('wraps when in first row and first column', () => {
-        const state = {
-          activeSquareIndex: 0
-        };
+        const activeSquareIndex = 0;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
-          boardWidth - 1
+          BOARD_WIDTH - 1
         );
       });
       it('wraps when in last row and first column', () => {
-        const state = {
-          activeSquareIndex: boardWidth * (boardHeight - 1)
-        };
+        const activeSquareIndex = BOARD_WIDTH * (BOARD_HEIGHT - 1);
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
-          boardWidth * boardHeight - 1
+          BOARD_WIDTH * BOARD_HEIGHT - 1
         );
       });
     });
     describe('when pressing the right arrow key', () => {
       const key = 'ArrowRight';
       it('moves right if theres room', () => {
-        const state = {
-          activeSquareIndex: 2
-        };
+        const activeSquareIndex = 2;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
@@ -236,9 +221,8 @@ describe('indexDeterminedByArrowKey()', () => {
         );
       });
       it('wraps when in first row and last column', () => {
-        const state = {
-          activeSquareIndex: boardWidth - 1
-        };
+        const activeSquareIndex = BOARD_WIDTH - 1;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
@@ -246,22 +230,20 @@ describe('indexDeterminedByArrowKey()', () => {
         );
       });
       it('wraps when in last row and last column', () => {
-        const state = {
-          activeSquareIndex: boardWidth * boardHeight - 1
-        };
+        const activeSquareIndex = BOARD_WIDTH * BOARD_HEIGHT - 1;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
-          boardWidth * (boardHeight - 1)
+          BOARD_WIDTH * (BOARD_HEIGHT - 1)
         );
       });
     });
     describe('when pressing the up arrow key', () => {
       const key = 'ArrowUp';
       it('moves up if theres room', () => {
-        const state = {
-          activeSquareIndex: boardWidth
-        };
+        const activeSquareIndex = BOARD_WIDTH;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
@@ -269,42 +251,38 @@ describe('indexDeterminedByArrowKey()', () => {
         );
       });
       it('wraps when in first row and first column', () => {
-        const state = {
-          activeSquareIndex: 0
-        };
+        const activeSquareIndex = 0;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
-          boardWidth * (boardHeight - 1)
+          BOARD_WIDTH * (BOARD_HEIGHT - 1)
         );
       });
       it('wraps when in first row and last column', () => {
-        const state = {
-          activeSquareIndex: boardWidth - 1
-        };
+        const activeSquareIndex = BOARD_WIDTH - 1;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
-          boardWidth * boardHeight - 1
+          BOARD_WIDTH * BOARD_HEIGHT - 1
         );
       });
     });
     describe('when pressing the down arrow key', () => {
       const key = 'ArrowDown';
       it('moves down if theres room', () => {
-        const state = {
-          activeSquareIndex: 2
-        };
+        const activeSquareIndex = 2;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
-          2 + boardWidth
+          2 + BOARD_WIDTH
         );
       });
       it('wraps when in last row and first column', () => {
-        const state = {
-          activeSquareIndex: boardWidth * (boardHeight - 1)
-        };
+        const activeSquareIndex = BOARD_WIDTH * (BOARD_HEIGHT - 1);
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
@@ -312,13 +290,12 @@ describe('indexDeterminedByArrowKey()', () => {
         );
       });
       it('wraps when in last row and last column', () => {
-        const state = {
-          activeSquareIndex: boardWidth * boardHeight - 1
-        };
+        const activeSquareIndex = BOARD_WIDTH * BOARD_HEIGHT - 1;
+        const state = { activeSquareIndex } as State;
         expect(
           indexDeterminedByArrowKey(state, allowWrap, key)
         ).toEqual(
-          boardWidth - 1
+          BOARD_WIDTH - 1
         );
       });
     });
@@ -332,7 +309,7 @@ describe('indexOneBeforeActive()', () => {
       const isTypingVertical = false;
       it('moves one left when theres room', () => {
         const activeSquareIndex = 3;
-        const state = { activeSquareIndex, isTypingVertical };
+        const state = { activeSquareIndex, isTypingVertical } as State;
         expect(
           indexOneBeforeActive(state, allowWrap)
         ).toEqual(
@@ -340,29 +317,29 @@ describe('indexOneBeforeActive()', () => {
         );
       });
       it('does not move when theres no room', () => {
-        const activeSquareIndex = 2 * boardWidth;
-        const state = { activeSquareIndex, isTypingVertical };
+        const activeSquareIndex = 2 * BOARD_WIDTH;
+        const state = { activeSquareIndex, isTypingVertical } as State;
         expect(
           indexOneBeforeActive(state, allowWrap)
         ).toEqual(
-          2 * boardWidth
+          2 * BOARD_WIDTH
         );
       });
     });
     describe('when typing vertically', () => {
       const isTypingVertical = true;
       it('moves one up when theres room', () => {
-        const activeSquareIndex = boardWidth * 2 + 3;
-        const state = { activeSquareIndex, isTypingVertical };
+        const activeSquareIndex = BOARD_WIDTH * 2 + 3;
+        const state = { activeSquareIndex, isTypingVertical } as State;
         expect(
           indexOneBeforeActive(state, allowWrap)
         ).toEqual(
-          boardWidth + 3
+          BOARD_WIDTH + 3
         );
       });
       it('does not move when theres no room', () => {
         const activeSquareIndex = 2;
-        const state = { activeSquareIndex, isTypingVertical };
+        const state = { activeSquareIndex, isTypingVertical } as State;
         expect(
           indexOneBeforeActive(state, allowWrap)
         ).toEqual(
@@ -377,7 +354,7 @@ describe('indexOneBeforeActive()', () => {
       const isTypingVertical = false;
       it('moves one left when theres room', () => {
         const activeSquareIndex = 3;
-        const state = { activeSquareIndex, isTypingVertical };
+        const state = { activeSquareIndex, isTypingVertical } as State;
         expect(
           indexOneBeforeActive(state, allowWrap)
         ).toEqual(
@@ -385,33 +362,33 @@ describe('indexOneBeforeActive()', () => {
         );
       });
       it('wraps when theres no room', () => {
-        const activeSquareIndex = 2 * boardWidth;
-        const state = { activeSquareIndex, isTypingVertical };
+        const activeSquareIndex = 2 * BOARD_WIDTH;
+        const state = { activeSquareIndex, isTypingVertical } as State;
         expect(
           indexOneBeforeActive(state, allowWrap)
         ).toEqual(
-          3 * boardWidth - 1
+          3 * BOARD_WIDTH - 1
         );
       });
     });
     describe('when typing vertically', () => {
       const isTypingVertical = true;
       it('moves one up when theres room', () => {
-        const activeSquareIndex = boardWidth * 2 + 3;
-        const state = { activeSquareIndex, isTypingVertical };
+        const activeSquareIndex = BOARD_WIDTH * 2 + 3;
+        const state = { activeSquareIndex, isTypingVertical } as State;
         expect(
           indexOneBeforeActive(state, allowWrap)
         ).toEqual(
-          boardWidth + 3
+          BOARD_WIDTH + 3
         );
       });
       it('wraps when theres no room', () => {
         const activeSquareIndex = 2;
-        const state = { activeSquareIndex, isTypingVertical };
+        const state = { activeSquareIndex, isTypingVertical } as State;
         expect(
           indexOneBeforeActive(state, allowWrap)
         ).toEqual(
-          2 + boardWidth * (boardHeight - 1)
+          2 + BOARD_WIDTH * (BOARD_HEIGHT - 1)
         );
       });
     });
@@ -425,7 +402,7 @@ describe('indexOneAfterActive()', () => {
       const isTypingVertical = false;
       it('moves one right when theres room', () => {
         const activeSquareIndex = 3;
-        const state = { activeSquareIndex, isTypingVertical };
+        const state = { activeSquareIndex, isTypingVertical } as State;
         expect(
           indexOneAfterActive(state, allowWrap)
         ).toEqual(
@@ -433,12 +410,12 @@ describe('indexOneAfterActive()', () => {
         );
       });
       it('does not move when theres no room', () => {
-        const activeSquareIndex = boardWidth - 1;
-        const state = { activeSquareIndex, isTypingVertical };
+        const activeSquareIndex = BOARD_WIDTH - 1;
+        const state = { activeSquareIndex, isTypingVertical } as State;
         expect(
           indexOneAfterActive(state, allowWrap)
         ).toEqual(
-          boardWidth - 1
+          BOARD_WIDTH - 1
         );
       });
     });
@@ -446,20 +423,20 @@ describe('indexOneAfterActive()', () => {
       const isTypingVertical = true;
       it('moves one down when theres room', () => {
         const activeSquareIndex = 1;
-        const state = { activeSquareIndex, isTypingVertical };
+        const state = { activeSquareIndex, isTypingVertical } as State;
         expect(
           indexOneAfterActive(state, allowWrap)
         ).toEqual(
-          boardWidth + 1
+          BOARD_WIDTH + 1
         );
       });
       it('does not move when theres no room', () => {
-        const activeSquareIndex = boardWidth * (boardHeight - 1) + 2;
-        const state = { activeSquareIndex, isTypingVertical };
+        const activeSquareIndex = BOARD_WIDTH * (BOARD_HEIGHT - 1) + 2;
+        const state = { activeSquareIndex, isTypingVertical } as State;
         expect(
           indexOneAfterActive(state, allowWrap)
         ).toEqual(
-          boardWidth * (boardHeight - 1) + 2
+          BOARD_WIDTH * (BOARD_HEIGHT - 1) + 2
         );
       });
     });
@@ -470,7 +447,7 @@ describe('indexOneAfterActive()', () => {
       const isTypingVertical = false;
       it('moves one right when theres room', () => {
         const activeSquareIndex = 3;
-        const state = { activeSquareIndex, isTypingVertical };
+        const state = { activeSquareIndex, isTypingVertical } as State;
         expect(
           indexOneAfterActive(state, allowWrap)
         ).toEqual(
@@ -478,12 +455,12 @@ describe('indexOneAfterActive()', () => {
         );
       });
       it('wraps when theres no room', () => {
-        const activeSquareIndex = 2 * boardWidth - 1;
-        const state = { activeSquareIndex, isTypingVertical };
+        const activeSquareIndex = 2 * BOARD_WIDTH - 1;
+        const state = { activeSquareIndex, isTypingVertical } as State;
         expect(
           indexOneAfterActive(state, allowWrap)
         ).toEqual(
-          boardWidth
+          BOARD_WIDTH
         );
       });
     });
@@ -491,16 +468,16 @@ describe('indexOneAfterActive()', () => {
       const isTypingVertical = true;
       it('moves one down when theres room', () => {
         const activeSquareIndex = 1;
-        const state = { activeSquareIndex, isTypingVertical };
+        const state = { activeSquareIndex, isTypingVertical } as State;
         expect(
           indexOneAfterActive(state, allowWrap)
         ).toEqual(
-          boardWidth + 1
+          BOARD_WIDTH + 1
         );
       });
       it('wraps when theres no room', () => {
-        const activeSquareIndex = 2 + boardWidth * (boardHeight - 1);
-        const state = { activeSquareIndex, isTypingVertical };
+        const activeSquareIndex = 2 + BOARD_WIDTH * (BOARD_HEIGHT - 1);
+        const state = { activeSquareIndex, isTypingVertical } as State;
         expect(
           indexOneAfterActive(state, allowWrap)
         ).toEqual(

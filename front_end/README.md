@@ -9,7 +9,7 @@ Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com
 Then install dependencies:
 ```
 cd crossword-builder/front_end/
-npm install
+yarn
 ```
 
 
@@ -23,7 +23,7 @@ get the Crossword Builder API running.
 
 To spin up an instance of the front end in development mode, run:
 ```
-npm start
+yarn start
 ```
 
 You should then be able to view the app at [http://localhost:3000](http://localhost:3000) in your
@@ -34,5 +34,5 @@ browser.
 
 To execute the front end's test suite, run:
 ```
-npm test
+yarn test
 ```

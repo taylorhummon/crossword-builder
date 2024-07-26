@@ -1,11 +1,10 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 
 import Suggestions from '../../components/Suggestions';
-import { filledSquareCharacter } from '../../utilities/alphabet.js';
+import { filledSquareCharacter } from '../../utilities/alphabet';
 
-it('shows all 26 letters when none are suggested and cannot suggest fill', async () => {
-  const suggestions = [];
+it('shows all 26 letters when none are suggested and cannot suggest fill', () => {
+  const suggestions = [] as Array<string>;
   const canSuggestFill = false;
   render(
     <Suggestions
@@ -30,7 +29,7 @@ it('shows all 26 letters when none are suggested and cannot suggest fill', async
   });
 });
 
-it('emphasizes the suggested letters when cannot suggest fill', async () => {
+it('emphasizes the suggested letters when cannot suggest fill', () => {
   const suggestions = ['A', 'E', 'C'];
   const canSuggestFill = false;
   render(
@@ -53,8 +52,8 @@ it('emphasizes the suggested letters when cannot suggest fill', async () => {
   ).not.toHaveClass('suggested');
 });
 
-it('shows all 27 letters when none are suggested and can suggest fill', async () => {
-  const suggestions = [];
+it('shows all 27 letters when none are suggested and can suggest fill', () => {
+  const suggestions = [] as Array<string>;
   const canSuggestFill = true;
   render(
     <Suggestions
@@ -82,7 +81,7 @@ it('shows all 27 letters when none are suggested and can suggest fill', async ()
   });
 });
 
-it('emphasizes the suggested letters when can suggest fill', async () => {
+it('emphasizes the suggested letters when can suggest fill', () => {
   const suggestions = ['A', filledSquareCharacter, 'C'];
   const canSuggestFill = true;
   render(

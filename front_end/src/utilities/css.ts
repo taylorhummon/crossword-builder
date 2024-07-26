@@ -1,7 +1,12 @@
-export function buildClassString(cssModule, classNamesToEncode, classNamesPassThrough) {
-  if (typeof classNamesToEncode === "string" || classNamesPassThrough === "string") {
-    throw new Error("buildClassString expects an arrays of strings, not individual strings");
-  }
+type CssModule = {
+  [className: string]: string;
+}
+
+export function buildClassString(
+  cssModule: CssModule,
+  classNamesToEncode?: Array<string>,
+  classNamesPassThrough?: Array<string>
+): string {
   if (! classNamesToEncode) classNamesToEncode = [];
   if (! classNamesPassThrough) classNamesPassThrough = [];
   const classNamesEncoded = classNamesToEncode.map((className) => cssModule[className]);

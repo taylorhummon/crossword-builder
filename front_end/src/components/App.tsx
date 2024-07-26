@@ -3,7 +3,8 @@ import Board from './Board';
 import Options from './Options';
 import Suggestions from './Suggestions';
 import Help from './Help';
-import { boardWidth, boardHeight } from '../utilities/boardSize';
+import { State, RequestData } from '../types';
+import { BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
 import { isMouseNavigation } from '../utilities/boardNavigation';
 import { nextStateDueToKeyPress } from '../utilities/appKeyPress';
 import { fetchSuggestions } from '../utilities/server';
@@ -12,9 +13,9 @@ import { isNumber } from '../utilities/math';
 import { buildClassString } from '../utilities/css';
 import cssModule from './App.module.scss';
 
-export default function App() {
-  const [state, setState] = useState({
-    squareValues: arrayOfSize(boardWidth * boardHeight),
+export default function App(): JSX.Element {
+  const [state, setState] = useState<State>({
+    squareValues: arrayOfSize(BOARD_WIDTH * BOARD_HEIGHT),
     activeSquareIndex: null,
     bookmarkedIndex: 0,
     boardHasFocus: false,
@@ -29,9 +30,15 @@ export default function App() {
         setState(latestState => ({ ...latestState, suggestions: [] }));
         return;
       }
-      const requestData = { boardWidth, boardHeight, squareValues, activeSquareIndex, canSuggestFill };
+      const requestData = {
+        boardWidth: BOARD_WIDTH,
+        boardHeight: BOARD_HEIGHT,
+        squareValues,
+        activeSquareIndex,
+        canSuggestFill
+      };
       fetchSuggestions(requestData).then(suggestions => {
-        setState(latestState => {
+        setState((latestState: State) => {
           if (_areSuggestionsOutdated(latestState, requestData)) return latestState;
           return ({ ...latestState, suggestions });
         });
@@ -41,38 +48,43 @@ export default function App() {
     },
     [squareValues, activeSquareIndex, canSuggestFill]
   );
-  function handleBoardKeyDown(event) {
-    setState(latestState => nextStateDueToKeyPress(latestState, event));
+  function handleBoardKeyDown(
+    event: React.KeyboardEvent
+  ): void {
+    setState((latestState: State) => nextStateDueToKeyPress(latestState, event));
   }
-  function handleBoardClick (_, k) {
-    setState(latestState => ({
+  function handleBoardClick (
+    _: React.MouseEvent,
+    k: number
+  ): void {
+    setState((latestState: State) => ({
       ...latestState,
       activeSquareIndex: k,
       bookmarkedIndex: null,
       boardHasFocus: true
     }));
   }
-  function handleBoardFocus() {
+  function handleBoardFocus(): void {
     if (isMouseNavigation()) return; // we'll update state in handleBoardClick instead
-    setState(latestState => ({
+    setState((latestState: State) => ({
       ...latestState,
       activeSquareIndex: latestState.bookmarkedIndex,
       bookmarkedIndex: null,
       boardHasFocus: true
     }));
   }
-  function handleBoardBlur() {
-    setState(latestState => ({
+  function handleBoardBlur(): void {
+    setState((latestState: State) => ({
       ...latestState,
       activeSquareIndex: null,
       bookmarkedIndex: latestState.activeSquareIndex,
       boardHasFocus: false
     }));
   }
-  function handleCanSuggestFillToggle() {
+  function handleCanSuggestFillToggle(): void {
     setState(latestState => ({ ...latestState, canSuggestFill: ! latestState.canSuggestFill }));
   }
-  function handleTypingDirectionToggle() {
+  function handleTypingDirectionToggle(): void {
     setState(latestState => ({ ...latestState, isTypingVertical: ! latestState.isTypingVertical }));
   }
   return (
@@ -108,9 +120,12 @@ export default function App() {
   );
 }
 
-function _areSuggestionsOutdated(latestState, data) {
-  if (data.activeSquareIndex !== latestState.activeSquareIndex) return true;
-  if (data.canSuggestFill !== latestState.canSuggestFill) return true;
-  if (! arrayShallowEquivalent(data.squareValues, latestState.squareValues)) return true;
+function _areSuggestionsOutdated(
+  latestState: State,
+  requestData: RequestData
+): boolean {
+  if (requestData.activeSquareIndex !== latestState.activeSquareIndex) return true;
+  if (requestData.canSuggestFill !== latestState.canSuggestFill) return true;
+  if (! arrayShallowEquivalent(requestData.squareValues, latestState.squareValues)) return true;
   return false;
 }

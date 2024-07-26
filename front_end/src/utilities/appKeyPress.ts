@@ -1,10 +1,14 @@
+import { State } from '../types';
 import {
   isArrowKey, indexDeterminedByArrowKey,
   indexOneBeforeActive, indexOneAfterActive
 } from './boardNavigation';
 import { isLetter, filledSquareCharacter } from './alphabet';
 
-export function nextStateDueToKeyPress(state, event) {
+export function nextStateDueToKeyPress(
+  state: State,
+  event: React.KeyboardEvent
+): State {
   if (event.altKey || event.ctrlKey || event.metaKey) return state;
   const { key } = event;
   if (isArrowKey(key))      return dueToArrowKey(state, key);
@@ -16,14 +20,20 @@ export function nextStateDueToKeyPress(state, event) {
   return state;
 }
 
-function dueToArrowKey(state, key) {
+function dueToArrowKey(
+  state: State,
+  key: string
+): State {
   return {
     ...state,
     activeSquareIndex: indexDeterminedByArrowKey(state, false, key)
   };
 }
 
-function dueToLetterKey(state, key) {
+function dueToLetterKey(
+  state: State,
+  key: string
+): State {
   const { squareValues, activeSquareIndex } = state;
   return {
     ...state,
@@ -32,11 +42,15 @@ function dueToLetterKey(state, key) {
   };
 }
 
-function dueToEnterKey(state) {
+function dueToEnterKey(
+  state: State
+): State {
   return dueToSpaceKey(state);
 }
 
-function dueToSpaceKey(state) {
+function dueToSpaceKey(
+  state: State
+): State {
   const { squareValues, activeSquareIndex } = state;
   return {
     ...state,
@@ -45,9 +59,11 @@ function dueToSpaceKey(state) {
   };
 }
 
-function dueToBackspaceKey(state) {
+function dueToBackspaceKey(
+  state: State
+): State {
   const { squareValues, activeSquareIndex } = state;
-  if (squareValues[activeSquareIndex] !== null) {
+  if (activeSquareIndex !== null && squareValues[activeSquareIndex] !== null) {
     return dueToDeleteKey(state);
   }
   const willMoveFocusTo = indexOneBeforeActive(state, true);
@@ -58,7 +74,9 @@ function dueToBackspaceKey(state) {
   };
 }
 
-function dueToDeleteKey(state) {
+function dueToDeleteKey(
+  state: State
+): State {
   const { squareValues, activeSquareIndex } = state;
   return {
     ...state,
@@ -66,8 +84,14 @@ function dueToDeleteKey(state) {
   };
 }
 
-function updatedSquareValues(prevSquareValues, index, value) {
+function updatedSquareValues(
+  prevSquareValues: Array<string | null>,
+  index: number | null,
+  value: string | null
+): Array<string | null> {
   const squareValues = [...prevSquareValues];
-  squareValues[index] = value;
+  if (index !== null) {
+    squareValues[index] = value;
+  }
   return squareValues;
 }

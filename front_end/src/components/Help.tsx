@@ -2,16 +2,16 @@ import { useState } from 'react';
 import { buildClassString } from '../utilities/css';
 import cssModule from './Help.module.scss';
 
-export default function Help() {
+export default function Help(): JSX.Element {
   const [isAccordionOpen, setIsAccoordionOpen] = useState(false);
-  function handleKeyDown(event) {
+  function handleKeyDown(event: React.KeyboardEvent): void {
     if (event.altKey || event.ctrlKey || event.metaKey) return;
     if (event.key === 'Enter' || event.key === ' ') {
       handleToggleChecked();
       return;
     }
   }
-  function handleToggleChecked () {
+  function handleToggleChecked (): void {
     setIsAccoordionOpen(prevIsAccordionOpen => ! prevIsAccordionOpen);
   }
   return (
@@ -27,7 +27,7 @@ export default function Help() {
       <label
         className={buildClassString(cssModule, ['help-header'], ['accordion-header'])}
         htmlFor="help-accordion"
-        tabIndex="0"
+        tabIndex={0}
         onKeyDown={handleKeyDown}
       >
         <i className={buildClassString(cssModule, [], ['icon', 'icon-arrow-right', 'mr-1'])} />

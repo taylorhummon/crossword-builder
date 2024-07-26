@@ -1,11 +1,16 @@
-import { buildUppercaseAlphabet, filledSquareCharacter } from '../utilities/alphabet.js';
+import { buildUppercaseAlphabet, filledSquareCharacter } from '../utilities/alphabet';
 import { buildClassString } from '../utilities/css';
 import cssModule from './Suggestions.module.scss';
+
+interface SuggestionsProps {
+  suggestions: Array<string>;
+  canSuggestFill: boolean;
+}
 
 export default function Suggestions({
   suggestions,
   canSuggestFill
-}) {
+}: SuggestionsProps): JSX.Element {
   return (
     <div className={buildClassString(cssModule, ['suggestions'])}>
       <h4>Suggested letters</h4>
@@ -14,7 +19,10 @@ export default function Suggestions({
   );
 }
 
-function renderLetters(suggestions, canSuggestFill) {
+function renderLetters(
+  suggestions: Array<string>,
+  canSuggestFill: boolean
+): Array<JSX.Element> {
   const letters = buildUppercaseAlphabet();
   if (canSuggestFill) letters.push(filledSquareCharacter);
   return letters.map(
@@ -22,7 +30,10 @@ function renderLetters(suggestions, canSuggestFill) {
   );
 }
 
-function renderLetter(suggestions, letter) {
+function renderLetter(
+  suggestions: Array<string>,
+  letter: string
+): JSX.Element {
   return (
     <div
       className={className(suggestions, letter)}
@@ -34,18 +45,27 @@ function renderLetter(suggestions, letter) {
   );
 }
 
-function className(suggestions, letter) {
+function className(
+  suggestions: Array<string>,
+  letter: string
+): string {
   const classNames = ['letter'];
-  if (suggestions && suggestions.includes(letter)) classNames.push('suggested');
+  if (suggestions.includes(letter)) {
+    classNames.push('suggested');
+  }
   return buildClassString(cssModule, classNames);
 }
 
-function testid(letter) {
+function testid(
+  letter: string
+): string {
   if (letter === filledSquareCharacter) return 'suggestion-filled-square';
   return `suggestion-${letter}`;
 }
 
-function letterForDisplay(letter) {
+function letterForDisplay(
+  letter: string
+): JSX.Element | string {
   if (letter === filledSquareCharacter) {
     return (
       <div
