@@ -1,15 +1,17 @@
 import { filledSquareCharacter } from '../utilities/alphabet';
-import './Square.css';
+import { buildClassString } from '../utilities/css';
+import cssModule from './Square.module.css';
 
 export default function Square({
   value,
   isActive,
+  boardHasFocus,
   handleSquareClick,
   dataTestid
 }) {
   return (
     <div
-      className={className(value, isActive)}
+      className={className(value, isActive, boardHasFocus)}
       onClick={handleSquareClick}
       data-testid={dataTestid}
     >
@@ -18,11 +20,12 @@ export default function Square({
   );
 }
 
-function className(value, isActive) {
-  const cssClasses = ['square'];
-  if (isFilled(value)) cssClasses.push('is-filled');
-  if (isActive) cssClasses.push('is-active');
-  return cssClasses.join(' ');
+function className(value, isActive, boardHasFocus) {
+  const classNames = ['square'];
+  if (isFilled(value)) classNames.push('is-filled');
+  if (isActive) classNames.push('is-active');
+  if (boardHasFocus) classNames.push('board-has-focus');
+  return buildClassString(cssModule, classNames);
 }
 
 function displayedValue(value) {

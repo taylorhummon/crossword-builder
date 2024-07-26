@@ -9,7 +9,8 @@ import { updateStateDueToKeyPress } from '../utilities/appKeyPress';
 import { fetchSuggestions } from '../utilities/server';
 import { arrayOfSize, arrayShallowEquivalent } from '../utilities/arrays';
 import { isNumber } from '../utilities/math';
-import './App.css';
+import { buildClassString } from '../utilities/css';
+import cssModule from './App.module.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -27,10 +28,10 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="app">
+      <div className={buildClassString(cssModule, ['app'])}>
         <h1>Create a Crossword Puzzle</h1>
-        <div className="content">
-          <div className="content-column content-column-left">
+        <div className={buildClassString(cssModule, ['content'])}>
+          <div className={buildClassString(cssModule, ['content-column', 'content-column-left'])}>
             <Board
               squareValues={this.state.squareValues}
               activeSquareIndex={this.state.activeSquareIndex}
@@ -41,7 +42,7 @@ class App extends React.Component {
               handleBoardBlur={this.handleBoardBlur}
             />
           </div>
-          <div className="content-column content-column-right">
+          <div className={buildClassString(cssModule, ['content-column', 'content-column-right'])}>
             <Options
               isTypingVertical={this.state.isTypingVertical}
               handleTypingDirectionToggle={this.handleTypingDirectionToggle}

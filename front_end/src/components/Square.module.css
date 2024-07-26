@@ -18,11 +18,11 @@
   background: rgb(0, 0, 0);
 }
 
-.board.has-focus .square.is-active {
+.square.is-active.board-has-focus {
   background: rgb(216, 222, 253);
   color: rgb(123, 131, 167);
 }
 
-.board.has-focus .square.is-filled.is-active {
+.square.is-filled.is-active.board-has-focus {
   background: rgb(123, 131, 167);
 }

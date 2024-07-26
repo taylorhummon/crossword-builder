@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import './Help.css';
+import { buildClassString } from '../utilities/css';
+import cssModule from './Help.module.css';
 
 export default function Help() {
   const [isAccordionOpen, setIsAccoordionOpen] = useState(false);
@@ -14,7 +15,7 @@ export default function Help() {
     setIsAccoordionOpen(isAccordionOpen => ! isAccordionOpen);
   }
   return (
-    <div className="help accordion">
+    <div className={buildClassString(cssModule, ['help'], ['accordion'])}>
       <input
         type="checkbox"
         id="help-accordion"
@@ -24,17 +25,17 @@ export default function Help() {
         hidden
       />
       <label
-        className="accordion-header"
+        className={buildClassString(cssModule, ['help-header'], ['accordion-header'])}
         htmlFor="help-accordion"
         tabIndex="0"
         onKeyDown={handleKeyDown}
       >
-        <i className="icon icon-arrow-right mr-1" />
+        <i className={buildClassString(cssModule, [], ['icon', 'icon-arrow-right', 'mr-1'])} />
         Need help?
       </label>
       <div
-        className="accordion-body"
-        style={{ display: isAccordionOpen ? undefined : "none" }}
+        className={buildClassString(cssModule, ['help-body'], ['accordion-body'])}
+        style={{ display: isAccordionOpen ? undefined : 'none' }}
       >
         <p>
           Want to write a crossword puzzle? Click on the board and start typing!

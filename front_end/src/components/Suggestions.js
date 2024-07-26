@@ -1,12 +1,13 @@
 import { buildUppercaseAlphabet, filledSquareCharacter } from '../utilities/alphabet.js';
-import './Suggestions.css';
+import { buildClassString } from '../utilities/css';
+import cssModule from './Suggestions.module.css';
 
 export default function Suggestions({
   suggestions,
   canSuggestFill
 }) {
   return (
-    <div className="suggestions">
+    <div className={buildClassString(cssModule, ['suggestions'])}>
       <h4>Suggested letters</h4>
       {renderLetters(suggestions, canSuggestFill)}
     </div>
@@ -36,7 +37,7 @@ function renderLetter(suggestions, letter) {
 function className(suggestions, letter) {
   const classNames = ['letter'];
   if (suggestions && suggestions.includes(letter)) classNames.push('suggested');
-  return classNames.join(' ');
+  return buildClassString(cssModule, classNames);
 }
 
 function testid(letter) {
@@ -46,7 +47,12 @@ function testid(letter) {
 
 function letterForDisplay(letter) {
   if (letter === filledSquareCharacter) {
-    return <div className="filled-square" data-testid="letter-filled-square"></div>
+    return (
+      <div
+        className={buildClassString(cssModule, ['filled-square'])}
+        data-testid="letter-filled-square"
+      ></div>
+    )
   }
   return letter;
 }

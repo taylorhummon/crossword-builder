@@ -1,4 +1,5 @@
-import './Options.css';
+import { buildClassString } from '../utilities/css';
+import cssModule from './Options.module.css';
 
 export default function Options({
   isTypingVertical,
@@ -7,24 +8,24 @@ export default function Options({
   handleCanSuggestFillToggle
 }) {
   return (
-    <div className="options form-group">
-      <label className="form-switch">
+    <div className={buildClassString(cssModule, ['options'], ['form-group'])}>
+      <label className={buildClassString(cssModule, [], ['form-switch'])}>
         <input
           name="typeVertically"
           type="checkbox"
           checked={isTypingVertical}
           onChange={handleTypingDirectionToggle}
         />
-        <i className="form-icon" /> Type vertically
+        <i className={buildClassString(cssModule, [], ['form-icon'])} /> Type vertically
       </label>
-      <label className="form-switch">
+      <label className={buildClassString(cssModule, [], ['form-switch'])}>
         <input
           name="canSuggestFilledSquare"
           type="checkbox"
           checked={canSuggestFill}
           onChange={handleCanSuggestFillToggle}
         />
-        <i className="form-icon" /> Can suggest filled square
+        <i className={buildClassString(cssModule, [], ['form-icon'])} /> Can suggest filled square
       </label>
     </div>
   );
