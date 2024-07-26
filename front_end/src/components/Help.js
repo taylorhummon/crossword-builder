@@ -11,7 +11,7 @@ export default function Help() {
     }
   }
   function handleToggleChecked () {
-    setIsAccoordionOpen(prevState => ! prevState);
+    setIsAccoordionOpen(isAccordionOpen => ! isAccordionOpen);
   }
   return (
     <div className="help accordion">
