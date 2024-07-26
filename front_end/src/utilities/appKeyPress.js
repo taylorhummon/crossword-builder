@@ -4,60 +4,69 @@ import {
 } from './boardNavigation';
 import { isLetter, filledSquareCharacter } from './alphabet';
 
-export function updateStateDueToKeyPress(prevState, event) {
-  if (event.altKey || event.ctrlKey || event.metaKey) return null;
+export function nextStateDueToKeyPress(state, event) {
+  if (event.altKey || event.ctrlKey || event.metaKey) return state;
   const { key } = event;
-  if (isArrowKey(key))      return updateDueToArrowKey(prevState, key);
-  if (isLetter(key))        return updateDueToLetterKey(prevState, key);
-  if (key === 'Enter')      return updateDueToEnterKey(prevState);
-  if (key === ' ')          return updateDueToSpaceKey(prevState);
-  if (key === 'Backspace')  return updateDueToBackspaceKey(prevState);
-  if (key === 'Delete')     return updateDueToDeleteKey(prevState);
-  return null;
+  if (isArrowKey(key))      return dueToArrowKey(state, key);
+  if (isLetter(key))        return dueToLetterKey(state, key);
+  if (key === 'Enter')      return dueToEnterKey(state);
+  if (key === ' ')          return dueToSpaceKey(state);
+  if (key === 'Backspace')  return dueToBackspaceKey(state);
+  if (key === 'Delete')     return dueToDeleteKey(state);
+  return state;
 }
 
-function updateDueToArrowKey(prevState, key) {
+function dueToArrowKey(state, key) {
   return {
-    activeSquareIndex: indexDeterminedByArrowKey(prevState, false, key)
+    ...state,
+    activeSquareIndex: indexDeterminedByArrowKey(state, false, key)
   };
 }
 
-function updateDueToLetterKey(prevState, key) {
+function dueToLetterKey(state, key) {
+  const { squareValues, activeSquareIndex } = state;
   return {
-    squareValues: updateSquare(prevState.squareValues, prevState.activeSquareIndex, key.toUpperCase()),
-    activeSquareIndex: indexOneAfterActive(prevState, true)
+    ...state,
+    squareValues: updatedSquareValues(squareValues, activeSquareIndex, key.toUpperCase()),
+    activeSquareIndex: indexOneAfterActive(state, true)
   };
 }
 
-function updateDueToEnterKey(prevState) {
-  return updateDueToSpaceKey(prevState);
+function dueToEnterKey(state) {
+  return dueToSpaceKey(state);
 }
 
-function updateDueToSpaceKey(prevState) {
+function dueToSpaceKey(state) {
+  const { squareValues, activeSquareIndex } = state;
   return {
-    squareValues: updateSquare(prevState.squareValues, prevState.activeSquareIndex, filledSquareCharacter),
-    activeSquareIndex: indexOneAfterActive(prevState, true)
+    ...state,
+    squareValues: updatedSquareValues(squareValues, activeSquareIndex, filledSquareCharacter),
+    activeSquareIndex: indexOneAfterActive(state, true)
   };
 }
 
-function updateDueToBackspaceKey(prevState) {
-  if (prevState.squareValues[prevState.activeSquareIndex] !== null) {
-    return updateDueToDeleteKey(prevState);
+function dueToBackspaceKey(state) {
+  const { squareValues, activeSquareIndex } = state;
+  if (squareValues[activeSquareIndex] !== null) {
+    return dueToDeleteKey(state);
   }
-  const willMoveFocusTo = indexOneBeforeActive(prevState, true);
+  const willMoveFocusTo = indexOneBeforeActive(state, true);
   return {
-    squareValues: updateSquare(prevState.squareValues, willMoveFocusTo, null),
+    ...state,
+    squareValues: updatedSquareValues(squareValues, willMoveFocusTo, null),
     activeSquareIndex: willMoveFocusTo
   };
 }
 
-function updateDueToDeleteKey(prevState) {
+function dueToDeleteKey(state) {
+  const { squareValues, activeSquareIndex } = state;
   return {
-    squareValues: updateSquare(prevState.squareValues, prevState.activeSquareIndex, null)
+    ...state,
+    squareValues: updatedSquareValues(squareValues, activeSquareIndex, null)
   };
 }
 
-function updateSquare(prevSquareValues, index, value) {
+function updatedSquareValues(prevSquareValues, index, value) {
   const squareValues = [...prevSquareValues];
   squareValues[index] = value;
   return squareValues;

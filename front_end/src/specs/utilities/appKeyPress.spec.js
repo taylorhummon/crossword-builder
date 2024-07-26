@@ -1,4 +1,4 @@
-import { updateStateDueToKeyPress } from '../../utilities/appKeyPress';
+import { nextStateDueToKeyPress } from '../../utilities/appKeyPress';
 import { boardWidth, boardHeight } from '../../utilities/boardSize';
 import { arrayOfSize } from '../../utilities/arrays';
 import { filledSquareCharacter } from '../../utilities/alphabet';
@@ -11,106 +11,119 @@ jest.mock('../../utilities/boardSize', () => {
   };
 });
 
-describe('updateStateDueToKeyPress()', () => {
+describe('nextStateDueToKeyPress()', () => {
   it('handles arrow keys', () => {
-    const prevState = {
+    const state = {
       squareValues: arrayOfSize(boardHeight * boardWidth),
       activeSquareIndex: 1,
       isTypingVertical: false
     };
     const event = { key: 'ArrowDown' };
+    const nextState = nextStateDueToKeyPress(state, event);
     expect(
-      updateStateDueToKeyPress(prevState, event)
+      nextState.activeSquareIndex
     ).toEqual(
-      { activeSquareIndex: 4 }
+      4
     );
   });
   it('handles uppercase letter keys', () => {
-    const prevState = {
+    const state = {
       squareValues: arrayOfSize(boardHeight * boardWidth),
       activeSquareIndex: 1,
       isTypingVertical: false
     };
     const event = { key: 'Q' };
+    const nextState = nextStateDueToKeyPress(state, event);
     expect(
-      updateStateDueToKeyPress(prevState, event)
+      nextState.activeSquareIndex
     ).toEqual(
-      {
-        activeSquareIndex: 2,
-        squareValues: [
-          null, 'Q', null,
-          null, null, null,
-          null, null, null,
-          null, null, null
-        ]
-      }
+      2
+    );
+    expect(
+      nextState.squareValues
+    ).toEqual(
+      [
+        null, 'Q', null,
+        null, null, null,
+        null, null, null,
+        null, null, null
+      ]
     );
   });
   it('handles lowercase letter keys', () => {
-    const prevState = {
+    const state = {
       squareValues: arrayOfSize(boardHeight * boardWidth),
       activeSquareIndex: 1,
       isTypingVertical: false
     };
     const event = { key: 'b' };
+    const nextState = nextStateDueToKeyPress(state, event)
     expect(
-      updateStateDueToKeyPress(prevState, event)
+      nextState.activeSquareIndex
     ).toEqual(
-      {
-        activeSquareIndex: 2,
-        squareValues: [
-          null, 'B', null,
-          null, null, null,
-          null, null, null,
-          null, null, null
-        ]
-      }
+      2
+    );
+    expect(
+      nextState.squareValues
+    ).toEqual(
+      [
+        null, 'B', null,
+        null, null, null,
+        null, null, null,
+        null, null, null
+      ]
     );
   });
   it('handles the enter key', () => {
-    const prevState = {
+    const state = {
       squareValues: arrayOfSize(boardHeight * boardWidth),
       activeSquareIndex: 1,
       isTypingVertical: false
     };
     const event = { key: 'Enter' };
+    const nextState = nextStateDueToKeyPress(state, event);
     expect(
-      updateStateDueToKeyPress(prevState, event)
+      nextState.activeSquareIndex
     ).toEqual(
-      {
-        activeSquareIndex: 2,
-        squareValues: [
-          null, filledSquareCharacter, null,
-          null, null, null,
-          null, null, null,
-          null, null, null
-        ]
-      }
+      2
+    );
+    expect(
+      nextState.squareValues
+    ).toEqual(
+      [
+        null, filledSquareCharacter, null,
+        null, null, null,
+        null, null, null,
+        null, null, null
+      ]
     );
   });
   it('handles the space key', () => {
-    const prevState = {
+    const state = {
       squareValues: arrayOfSize(boardHeight * boardWidth),
       activeSquareIndex: 1,
       isTypingVertical: false
     };
     const event = { key: ' ' };
+    const nextState = nextStateDueToKeyPress(state, event);
     expect(
-      updateStateDueToKeyPress(prevState, event)
+      nextState.activeSquareIndex
     ).toEqual(
-      {
-        activeSquareIndex: 2,
-        squareValues: [
-          null, filledSquareCharacter, null,
-          null, null, null,
-          null, null, null,
-          null, null, null
-        ]
-      }
+      2
+    );
+    expect(
+      nextState.squareValues
+    ).toEqual(
+      [
+        null, filledSquareCharacter, null,
+        null, null, null,
+        null, null, null,
+        null, null, null
+      ]
     );
   });
   it('handles the backspace key when the active square is unoccupied', () => {
-    const prevState = {
+    const state = {
       squareValues: [
         'A', null, null,
         null, null, null,
@@ -121,22 +134,25 @@ describe('updateStateDueToKeyPress()', () => {
       isTypingVertical: false
     };
     const event = { key: 'Backspace' };
+    const nextState = nextStateDueToKeyPress(state, event);
     expect(
-      updateStateDueToKeyPress(prevState, event)
+      nextState.activeSquareIndex
     ).toEqual(
-      {
-        activeSquareIndex: 0,
-        squareValues: [
-          null, null, null,
-          null, null, null,
-          null, null, null,
-          null, null, null
-        ]
-      }
+      0
+    );
+    expect(
+      nextState.squareValues
+    ).toEqual(
+      [
+        null, null, null,
+        null, null, null,
+        null, null, null,
+        null, null, null
+      ]
     );
   });
   it('handles the backspace key when the active square is occupied', () => {
-    const prevState = {
+    const state = {
       squareValues: [
         'A', 'B', null,
         null, null, null,
@@ -147,21 +163,20 @@ describe('updateStateDueToKeyPress()', () => {
       isTypingVertical: false
     };
     const event = { key: 'Backspace' };
+    const nextState = nextStateDueToKeyPress(state, event);
     expect(
-      updateStateDueToKeyPress(prevState, event)
+      nextState.squareValues
     ).toEqual(
-      {
-        squareValues: [
-          'A', null, null,
-          null, null, null,
-          null, null, null,
-          null, null, null
-        ]
-      }
+      [
+        'A', null, null,
+        null, null, null,
+        null, null, null,
+        null, null, null
+      ]
     );
   });
   it('handles the delete key', () => {
-    const prevState = {
+    const state = {
       squareValues: [
         'A', 'B', null,
         null, null, null,
@@ -172,34 +187,34 @@ describe('updateStateDueToKeyPress()', () => {
       isTypingVertical: false
     };
     const event = { key: 'Delete' };
+    const nextState = nextStateDueToKeyPress(state, event);
     expect(
-      updateStateDueToKeyPress(prevState, event)
+      nextState.squareValues
     ).toEqual(
-      {
-        squareValues: [
-          'A', null, null,
-          null, null, null,
-          null, null, null,
-          null, null, null
-        ]
-      }
+      [
+        'A', null, null,
+        null, null, null,
+        null, null, null,
+        null, null, null
+      ]
     );
   });
   it('ignores unknown keys', () => {
-    const prevState = {
+    const state = {
       squareValues: arrayOfSize(boardHeight * boardWidth),
       activeSquareIndex: 1,
       isTypingVertical: false
     };
     const event = { key: '.' };
+    const nextState = nextStateDueToKeyPress(state, event);
     expect(
-      updateStateDueToKeyPress(prevState, event)
+      nextState
     ).toEqual(
-      null
+      state
     );
   });
   it('ignores keystrokes that involves a control modifier key', () => {
-    const prevState = {
+    const state = {
       squareValues: arrayOfSize(boardHeight * boardWidth),
       activeSquareIndex: 1,
       isTypingVertical: false
@@ -208,10 +223,11 @@ describe('updateStateDueToKeyPress()', () => {
       key: 'a',
       ctrlKey: true
     };
+    const nextState = nextStateDueToKeyPress(state, event);
     expect(
-      updateStateDueToKeyPress(prevState, event)
+      nextState
     ).toEqual(
-      null
+      state
     );
   });
 });

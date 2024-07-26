@@ -1,152 +1,116 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import Board from './Board';
 import Options from './Options';
 import Suggestions from './Suggestions';
 import Help from './Help';
 import { boardWidth, boardHeight } from '../utilities/boardSize';
 import { isMouseNavigation } from '../utilities/boardNavigation';
-import { updateStateDueToKeyPress } from '../utilities/appKeyPress';
+import { nextStateDueToKeyPress } from '../utilities/appKeyPress';
 import { fetchSuggestions } from '../utilities/server';
 import { arrayOfSize, arrayShallowEquivalent } from '../utilities/arrays';
 import { isNumber } from '../utilities/math';
 import { buildClassString } from '../utilities/css';
 import cssModule from './App.module.scss';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      squareValues: arrayOfSize(boardWidth * boardHeight),
-      boardHasFocus: false,
-      activeSquareIndex: null,
-      bookmarkedIndex: 0,
-      canSuggestFill: true,
-      isTypingVertical: false,
-      suggestions: []
-    };
-  }
-
-  render() {
-    return (
-      <div className={buildClassString(cssModule, ['app'])}>
-        <h1>Create a Crossword Puzzle</h1>
-        <div className={buildClassString(cssModule, ['content'])}>
-          <div className={buildClassString(cssModule, ['content-column', 'content-column-left'])}>
-            <Board
-              squareValues={this.state.squareValues}
-              activeSquareIndex={this.state.activeSquareIndex}
-              boardHasFocus={this.state.boardHasFocus}
-              handleBoardKeyDown={this.handleBoardKeyDown}
-              handleBoardClick={this.handleBoardClick}
-              handleBoardFocus={this.handleBoardFocus}
-              handleBoardBlur={this.handleBoardBlur}
-            />
-          </div>
-          <div className={buildClassString(cssModule, ['content-column', 'content-column-right'])}>
-            <Options
-              isTypingVertical={this.state.isTypingVertical}
-              handleTypingDirectionToggle={this.handleTypingDirectionToggle}
-              canSuggestFill={this.state.canSuggestFill}
-              handleCanSuggestFillToggle={this.handleCanSuggestFillToggle}
-            />
-            <Suggestions
-              suggestions={this.state.suggestions}
-              canSuggestFill={this.state.canSuggestFill}
-            />
-          </div>
-        </div>
-        <Help />
-      </div>
-    );
-  }
-
-  handleBoardKeyDown = (event) => {
-    this.setState(
-      (prevState) => updateStateDueToKeyPress(prevState, event),
-      this._updateSuggestions
-    );
-  }
-
-  handleBoardClick = (event, k) => {
-    this.setState(
-      () => {
-        return {
-          boardHasFocus: true,
-          activeSquareIndex: k,
-          bookmarkedIndex: null
-        };
-      },
-      this._updateSuggestions
-    );
-  }
-
-  handleBoardFocus = () => {
-    if (isMouseNavigation()) return; // we'll update state in handleBoardClick instead
-    this.setState(
-      (prevState) => {
-        return {
-          boardHasFocus: true,
-          activeSquareIndex: prevState.bookmarkedIndex,
-          bookmarkedIndex: null
-        };
-      },
-      this._updateSuggestions
-    );
-  }
-
-  handleBoardBlur = () => {
-    this.setState(
-      (prevState) => {
-        return {
-          boardHasFocus: false,
-          activeSquareIndex: null,
-          bookmarkedIndex: prevState.activeSquareIndex
-        };
-      },
-      this._updateSuggestions
-    );
-  }
-
-  handleCanSuggestFillToggle = () => {
-    this.setState(
-      (prevState) => {
-        return { canSuggestFill: ! prevState.canSuggestFill };
-      },
-      this._updateSuggestions
-    );
-  }
-
-  handleTypingDirectionToggle = () => {
-    this.setState(
-      (prevState) => {
-        return { isTypingVertical: ! prevState.isTypingVertical };
+export default function App() {
+  const [state, setState] = useState({
+    squareValues: arrayOfSize(boardWidth * boardHeight),
+    activeSquareIndex: null,
+    bookmarkedIndex: 0,
+    boardHasFocus: false,
+    canSuggestFill: true,
+    isTypingVertical: false,
+    suggestions: []
+  });
+  const { squareValues, activeSquareIndex, canSuggestFill } = state;
+  useEffect(
+    () => {
+      if (! isNumber(activeSquareIndex)) {
+        setState(latestState => ({ ...latestState, suggestions: [] }));
+        return;
       }
-    );
-  }
-
-  _updateSuggestions() {
-    const { activeSquareIndex, canSuggestFill, squareValues } = this.state;
-    if (! isNumber(activeSquareIndex)) {
-      this.setState({ suggestions: null });
-      return;
-    }
-    const data = { activeSquareIndex, canSuggestFill, squareValues, boardWidth, boardHeight };
-    fetchSuggestions(data).then((suggestions) => {
-      this.setState((state) => {
-        if (this._isSuggestionDataOutdated(data, state)) return null;
-        return { suggestions };
+      const requestData = { boardWidth, boardHeight, squareValues, activeSquareIndex, canSuggestFill };
+      fetchSuggestions(requestData).then(suggestions => {
+        setState(latestState => {
+          if (_areSuggestionsOutdated(latestState, requestData)) return latestState;
+          return ({ ...latestState, suggestions });
+        });
+      }).catch(error => {
+        console.log('Error occurred updating suggestions', error);
       });
-    }).catch((error) => {
-      console.log('Error occurred updating suggestions', error);
-    });
+    },
+    [squareValues, activeSquareIndex, canSuggestFill]
+  );
+  function handleBoardKeyDown(event) {
+    setState(latestState => nextStateDueToKeyPress(latestState, event));
   }
-
-  _isSuggestionDataOutdated(data, state) {
-    if (data.activeSquareIndex !== state.activeSquareIndex) return true;
-    if (data.canSuggestFill !== state.canSuggestFill) return true;
-    if (! arrayShallowEquivalent(data.squareValues, state.squareValues)) return true;
-    return false;
+  function handleBoardClick (_, k) {
+    setState(latestState => ({
+      ...latestState,
+      activeSquareIndex: k,
+      bookmarkedIndex: null,
+      boardHasFocus: true
+    }));
   }
+  function handleBoardFocus() {
+    if (isMouseNavigation()) return; // we'll update state in handleBoardClick instead
+    setState(latestState => ({
+      ...latestState,
+      activeSquareIndex: latestState.bookmarkedIndex,
+      bookmarkedIndex: null,
+      boardHasFocus: true
+    }));
+  }
+  function handleBoardBlur() {
+    setState(latestState => ({
+      ...latestState,
+      activeSquareIndex: null,
+      bookmarkedIndex: latestState.activeSquareIndex,
+      boardHasFocus: false
+    }));
+  }
+  function handleCanSuggestFillToggle() {
+    setState(latestState => ({ ...latestState, canSuggestFill: ! latestState.canSuggestFill }));
+  }
+  function handleTypingDirectionToggle() {
+    setState(latestState => ({ ...latestState, isTypingVertical: ! latestState.isTypingVertical }));
+  }
+  return (
+    <div className={buildClassString(cssModule, ['app'])}>
+      <h1>Create a Crossword Puzzle</h1>
+      <div className={buildClassString(cssModule, ['content'])}>
+        <div className={buildClassString(cssModule, ['content-column', 'content-column-left'])}>
+          <Board
+            squareValues={state.squareValues}
+            activeSquareIndex={state.activeSquareIndex}
+            boardHasFocus={state.boardHasFocus}
+            handleBoardKeyDown={handleBoardKeyDown}
+            handleBoardClick={handleBoardClick}
+            handleBoardFocus={handleBoardFocus}
+            handleBoardBlur={handleBoardBlur}
+          />
+        </div>
+        <div className={buildClassString(cssModule, ['content-column', 'content-column-right'])}>
+          <Options
+            isTypingVertical={state.isTypingVertical}
+            handleTypingDirectionToggle={handleTypingDirectionToggle}
+            canSuggestFill={state.canSuggestFill}
+            handleCanSuggestFillToggle={handleCanSuggestFillToggle}
+          />
+          <Suggestions
+            suggestions={state.suggestions}
+            canSuggestFill={state.canSuggestFill}
+          />
+        </div>
+      </div>
+      <Help />
+    </div>
+  );
 }
 
-export default App;
+function _areSuggestionsOutdated(latestState, data) {
+  if (data.activeSquareIndex !== latestState.activeSquareIndex) return true;
+  if (data.canSuggestFill !== latestState.canSuggestFill) return true;
+  if (! arrayShallowEquivalent(data.squareValues, latestState.squareValues)) return true;
+  return false;
+}
