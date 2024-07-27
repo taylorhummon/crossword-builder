@@ -14,8 +14,16 @@ jest.mock('../../constants', () => {
 
 jest.mock('../../utilities/server', () => {
   return {
-    fetchSuggestions() {
-      return Promise.resolve([]);
+    getServer() {
+      return {
+        service() {
+          return {
+            create() {
+              return [];
+            }
+          }
+        }
+      }
     }
   };
 });
