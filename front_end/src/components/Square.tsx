@@ -1,4 +1,4 @@
-import { filledSquareCharacter } from '../utilities/alphabet';
+import { FILLED_SQUARE_CHARACTER } from '../utilities/alphabet';
 import { buildClassString } from '../utilities/css';
 import cssModule from './Square.module.scss';
 
@@ -51,5 +51,5 @@ function displayedValue(
 function isFilled(
   value: string | null
 ): boolean {
-  return value === filledSquareCharacter;
+  return value === FILLED_SQUARE_CHARACTER;
 }

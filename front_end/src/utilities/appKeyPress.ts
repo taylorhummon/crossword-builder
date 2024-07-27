@@ -3,7 +3,7 @@ import {
   isArrowKey, indexDeterminedByArrowKey,
   indexOneBeforeActive, indexOneAfterActive
 } from './boardNavigation';
-import { isLetter, filledSquareCharacter } from './alphabet';
+import { isLetter, FILLED_SQUARE_CHARACTER } from './alphabet';
 
 export function nextStateDueToKeyPress(
   state: State,
@@ -54,7 +54,7 @@ function dueToSpaceKey(
   const { squareValues, activeSquareIndex } = state;
   return {
     ...state,
-    squareValues: updatedSquareValues(squareValues, activeSquareIndex, filledSquareCharacter),
+    squareValues: updatedSquareValues(squareValues, activeSquareIndex, FILLED_SQUARE_CHARACTER),
     activeSquareIndex: indexOneAfterActive(state, true)
   };
 }

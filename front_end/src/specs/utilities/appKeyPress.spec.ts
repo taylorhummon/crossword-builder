@@ -2,7 +2,7 @@ import { State } from '../../types';
 import { BOARD_WIDTH, BOARD_HEIGHT } from '../../constants';
 import { nextStateDueToKeyPress } from '../../utilities/appKeyPress';
 import { arrayOfSize } from '../../utilities/arrays';
-import { filledSquareCharacter } from '../../utilities/alphabet';
+import { FILLED_SQUARE_CHARACTER } from '../../utilities/alphabet';
 
 jest.mock('../../constants', () => {
   // using a non-square board for testing
@@ -92,7 +92,7 @@ describe('nextStateDueToKeyPress()', () => {
       nextState.squareValues
     ).toEqual(
       [
-        null, filledSquareCharacter, null,
+        null, FILLED_SQUARE_CHARACTER, null,
         null, null, null,
         null, null, null,
         null, null, null
@@ -116,7 +116,7 @@ describe('nextStateDueToKeyPress()', () => {
       nextState.squareValues
     ).toEqual(
       [
-        null, filledSquareCharacter, null,
+        null, FILLED_SQUARE_CHARACTER, null,
         null, null, null,
         null, null, null,
         null, null, null

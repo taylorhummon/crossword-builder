@@ -1,6 +1,6 @@
 import { remainderAndQuotient } from '../utilities/math.js';
 import { inclusiveIndicesArray } from '../utilities/arrays.js';
-import { filledSquareCharacter } from '../utilities/alphabet.js';
+import { FILLED_SQUARE_CHARACTER } from '../utilities/alphabet.js';
 
 export function buildBoard(data) {
   const [activeColumn, activeRow] = remainderAndQuotient(data.activeSquareIndex, data.boardWidth);
@@ -19,7 +19,7 @@ export function leftBound(board) {
   let i = board.activeColumn;
   while (
     i - 1 >= 0 &&
-    board.squareValueAt(i - 1, board.activeRow) !== filledSquareCharacter
+    board.squareValueAt(i - 1, board.activeRow) !== FILLED_SQUARE_CHARACTER
   ) {
     i--;
   }
@@ -30,7 +30,7 @@ export function rightBound(board) {
   let i = board.activeColumn;
   while (
     i + 1 < board.width &&
-    board.squareValueAt(i + 1, board.activeRow) !== filledSquareCharacter
+    board.squareValueAt(i + 1, board.activeRow) !== FILLED_SQUARE_CHARACTER
   ) {
     i++;
   }
@@ -41,7 +41,7 @@ export function topBound(board) {
   let j = board.activeRow;
   while (
     j - 1 >= 0 &&
-    board.squareValueAt(board.activeColumn, j - 1) !== filledSquareCharacter
+    board.squareValueAt(board.activeColumn, j - 1) !== FILLED_SQUARE_CHARACTER
   ) {
     j--;
   }
@@ -52,7 +52,7 @@ export function bottomBound(board) {
   let j = board.activeRow;
   while (
     j + 1 < board.height &&
-    board.squareValueAt(board.activeColumn, j + 1) !== filledSquareCharacter
+    board.squareValueAt(board.activeColumn, j + 1) !== FILLED_SQUARE_CHARACTER
   ) {
     j++;
   }

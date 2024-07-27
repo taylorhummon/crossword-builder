@@ -1,4 +1,4 @@
-import { buildUppercaseAlphabet, filledSquareCharacter } from '../utilities/alphabet.js';
+import { buildUppercaseAlphabet, FILLED_SQUARE_CHARACTER } from '../utilities/alphabet.js';
 import { firstCharacter, lastCharacter, trimFirstCharacter, trimLastCharacter } from '../utilities/strings.js';
 import { isNumber } from '../utilities/math.js';
 import {
@@ -32,7 +32,7 @@ function whenCanSuggestFill(wordsFinder, board) {
   const suggestionsSetA = getSuggestionsSetForAllSubpatterns(wordsFinder, horizontalPattern);
   const suggestionsSetB = getSuggestionsSetForAllSubpatterns(wordsFinder, verticalPattern);
   const letters = toLettersArray(suggestionsSetA, suggestionsSetB);
-  if (willSuggestFill(wordsFinder, board)) return letters.concat(filledSquareCharacter);
+  if (willSuggestFill(wordsFinder, board)) return letters.concat(FILLED_SQUARE_CHARACTER);
   return letters;
 }
 
