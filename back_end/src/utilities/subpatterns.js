@@ -37,7 +37,7 @@ function findIndex(pattern) {
   if (index === -1) {
     throw new Error('Did not find @ in pattern');
   }
-  if (pattern.indexOf('@', index + 1) !== -1) {
+  if (pattern.lastIndexOf('@') !== index) {
     throw new Error('Found multiple @ in pattern');
   }
   return index;

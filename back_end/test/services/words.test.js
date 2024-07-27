@@ -11,8 +11,8 @@ describe('"words" service', () => {
     );
   });
   it('finds words of length two', async () => {
-    const service = app.service('words');
-    const results = await service.find({ length: 2 });
+    const wordFinder = await app.service('words').find();
+    const results = wordFinder(2);
     assert.strictEqual(
       results.length,
       427,
@@ -20,8 +20,8 @@ describe('"words" service', () => {
     );
   });
   it('finds words of length one', async () => {
-    const service = app.service('words');
-    const results = await service.find({ length: 1 });
+    const wordFinder = await app.service('words').find();
+    const results = wordFinder(1)
     assert.strictEqual(
       results.length,
       26,
@@ -34,16 +34,16 @@ describe('"words" service', () => {
     );
   });
   it('finds no words of length zero', async () => {
-    const service = app.service('words');
-    const results = await service.find({ length: 0 });
+    const wordFinder = await app.service('words').find();
+    const results = wordFinder(0);
     assert.strictEqual(
       results.length,
       0
     );
   });
   it('finds no words with a very large length', async () => {
-    const service = app.service('words');
-    const results = await service.find({ length: 400 });
+    const wordFinder = await app.service('words').find();
+    const results = wordFinder(400);
     assert.strictEqual(
       results.length,
       0

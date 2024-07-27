@@ -7,17 +7,19 @@ const minWordLength = 1;
 const maxWordLength = 10;
 
 export class Words {
-  constructor (options, app) {
+  constructor (_, app) {
     this.app = app;
   }
 
-  async find(params) {
+  async find() {
     try {
       await this._ensureWordsLoaded();
-      const { length } = params;
-      if (! isNumber(length)) throw Error('Words service find() expects a length');
-      if (length < minWordLength || length > maxWordLength) return [];
-      return this._wordsOfLength(length);
+      const wordsFinder = (length) => {
+        if (! isNumber(length)) throw Error('words finder expects a numerical length argument');
+        if (length < minWordLength || length > maxWordLength) return [];
+        return this._wordsOfLength(length);
+      }
+      return wordsFinder;
     } catch (error) {
       console.error('Error occurred in find method of words service:', error);
     }
@@ -25,17 +27,17 @@ export class Words {
 
   // END OF STANDARD METHODS
 
-  _ensureWordsLoaded() {
-    if (this._loadingWordsPromise) return this._loadingWordsPromise;
-    this._loadingWordsPromise = this._loadWords();
-    return this._loadingWordsPromise;
-  }
-
   _wordsOfLength(i) {
     if (! this._wordsLists || ! this._wordsLists[i]) {
       throw Error('Words lists were not initialized');
     }
     return this._wordsLists[i];
+  }
+
+  _ensureWordsLoaded() {
+    if (this._loadingWordsPromise) return this._loadingWordsPromise;
+    this._loadingWordsPromise = this._loadWords();
+    return this._loadingWordsPromise;
   }
 
   async _loadWords() {
