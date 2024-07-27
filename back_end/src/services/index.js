@@ -1,7 +1,11 @@
-import { setupSuggestionsListsService } from './suggestions_lists/suggestions_lists.js';
-import { setupWordsService } from './words/words.js';
+import { SuggestionsLists } from './suggestions_lists.class.js';
+import { Words } from './words.class.js';
 
 export const services = (app) => {
-  app.configure(setupSuggestionsListsService);
-  app.configure(setupWordsService);
+  app.configure(() => {
+    app.use('/words', new Words({}, app));
+  });
+  app.configure(() => {
+    app.use('/suggestions-lists', new SuggestionsLists({}, app));
+  });
 }

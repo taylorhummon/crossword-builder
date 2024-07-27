@@ -1,7 +1,7 @@
 import fs from 'fs';
 import Stream from 'stream';
-import { inclusiveIndicesArray } from '../../utilities/arrays.js';
-import { isNumber } from '../../utilities/math.js';
+import { inclusiveIndicesArray } from '../utilities/arrays.js';
+import { isNumber } from '../utilities/math.js';
 
 const minWordLength = 1;
 const maxWordLength = 10;

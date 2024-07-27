@@ -1,4 +1,4 @@
-import { buildSuggestionsList } from '../../utilities/suggestions.js';
+import { buildSuggestionsList } from '../utilities/suggestions.js';
 
 export class SuggestionsLists {
   constructor (_, app) {
