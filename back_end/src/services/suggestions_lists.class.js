@@ -1,4 +1,5 @@
-import { buildSuggestionsList } from '../utilities/suggestions.js';
+import { buildWordsFinder } from '../lib/words.js';
+import { buildSuggestionsList } from '../lib/suggestions.js';
 
 export class SuggestionsLists {
   constructor (_, app) {
@@ -7,7 +8,7 @@ export class SuggestionsLists {
 
   async create(data) {
     try {
-      const wordsFinder = await this.app.service('words').find();
+      const wordsFinder = await buildWordsFinder();
       return buildSuggestionsList(wordsFinder, data);
     } catch (error) {
       console.error('Error occured in create method of suggestions-lists service:', error);

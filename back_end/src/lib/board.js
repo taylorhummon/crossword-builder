@@ -1,6 +1,6 @@
-import { remainderAndQuotient } from './math.js';
-import { inclusiveIndicesArray } from './arrays.js';
-import { filledSquareCharacter } from './alphabet.js';
+import { remainderAndQuotient } from '../utilities/math.js';
+import { inclusiveIndicesArray } from '../utilities/arrays.js';
+import { filledSquareCharacter } from '../utilities/alphabet.js';
 
 export function buildBoard(data) {
   const [activeColumn, activeRow] = remainderAndQuotient(data.activeSquareIndex, data.boardWidth);

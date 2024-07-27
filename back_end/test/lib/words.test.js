@@ -1,18 +1,17 @@
 import assert from 'assert';
-import { app } from '../../src/app.js';
+import { buildWordsFinder } from '../../src/lib/words.js';
 import { buildUppercaseAlphabet } from '../../src/utilities/alphabet.js';
 
-describe('"words" service', () => {
-  it('registered the service', () => {
-    const service = app.service('words');
+describe('buildWordsFinder()', () => {
+  it('OK', () => {
     assert.ok(
-      service,
-      'Registered the service'
+      true,
+      'YUP'
     );
   });
   it('finds words of length two', async () => {
-    const wordFinder = await app.service('words').find();
-    const results = wordFinder(2);
+    const wordsFinder = await buildWordsFinder();
+    const results = wordsFinder(2);
     assert.strictEqual(
       results.length,
       427,
@@ -20,8 +19,8 @@ describe('"words" service', () => {
     );
   });
   it('finds words of length one', async () => {
-    const wordFinder = await app.service('words').find();
-    const results = wordFinder(1)
+    const wordsFinder = await buildWordsFinder();
+    const results = wordsFinder(1)
     assert.strictEqual(
       results.length,
       26,
@@ -34,16 +33,16 @@ describe('"words" service', () => {
     );
   });
   it('finds no words of length zero', async () => {
-    const wordFinder = await app.service('words').find();
-    const results = wordFinder(0);
+    const wordsFinder = await buildWordsFinder();
+    const results = wordsFinder(0);
     assert.strictEqual(
       results.length,
       0
     );
   });
   it('finds no words with a very large length', async () => {
-    const wordFinder = await app.service('words').find();
-    const results = wordFinder(400);
+    const wordsFinder = await buildWordsFinder();
+    const results = wordsFinder(400);
     assert.strictEqual(
       results.length,
       0

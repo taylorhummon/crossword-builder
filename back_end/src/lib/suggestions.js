@@ -1,6 +1,6 @@
-import { buildUppercaseAlphabet, filledSquareCharacter } from './alphabet.js';
-import { firstCharacter, lastCharacter, trimFirstCharacter, trimLastCharacter } from './strings.js';
-import { isNumber } from './math.js';
+import { buildUppercaseAlphabet, filledSquareCharacter } from '../utilities/alphabet.js';
+import { firstCharacter, lastCharacter, trimFirstCharacter, trimLastCharacter } from '../utilities/strings.js';
+import { isNumber } from '../utilities/math.js';
 import {
   buildBoard,
   leftBound, rightBound, topBound, bottomBound,
