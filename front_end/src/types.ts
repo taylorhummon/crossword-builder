@@ -12,6 +12,6 @@ export interface RequestData {
   boardWidth: number,
   boardHeight: number,
   squareValues: Array<string | null>
-  activeSquareIndex: number | null,
+  activeSquareIndex: number,
   canSuggestFill: boolean
 }
