@@ -1,4 +1,5 @@
-import { buildUppercaseAlphabet, FILLED_SQUARE_CHARACTER } from '../utilities/alphabet.js';
+import { FILLED_SQUARE_CHARACTER } from '../constants.js';
+import { buildUppercaseAlphabet } from '../utilities/alphabet.js';
 import { firstCharacter, lastCharacter, trimFirstCharacter, trimLastCharacter } from '../utilities/strings.js';
 import { isNumber } from '../utilities/math.js';
 import {

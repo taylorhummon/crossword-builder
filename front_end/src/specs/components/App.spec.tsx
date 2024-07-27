@@ -8,7 +8,8 @@ jest.mock('../../constants', () => {
   // using a non-square board for testing
   return {
     BOARD_WIDTH: 3,
-    BOARD_HEIGHT: 4
+    BOARD_HEIGHT: 4,
+    FILLED_SQUARE_CHARACTER: '~'
   };
 });
 

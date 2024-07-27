@@ -1,9 +1,10 @@
 import { State } from '../types';
+import { FILLED_SQUARE_CHARACTER } from '../constants';
 import {
   isArrowKey, indexDeterminedByArrowKey,
   indexOneBeforeActive, indexOneAfterActive
 } from './boardNavigation';
-import { isLetter, FILLED_SQUARE_CHARACTER } from '../utilities/alphabet';
+import { isLetter } from '../utilities/alphabet';
 
 export function nextStateDueToKeyPress(
   state: State,

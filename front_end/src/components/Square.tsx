@@ -1,4 +1,4 @@
-import { FILLED_SQUARE_CHARACTER } from '../utilities/alphabet';
+import { FILLED_SQUARE_CHARACTER } from '../constants';
 import { buildClassString } from '../utilities/css';
 import cssModule from './Square.module.scss';
 

@@ -20,5 +20,3 @@ export function isLetter(
   if (typeof value !== 'string') return false;
   return /^[A-Za-z]$/.test(value);
 }
-
-export const FILLED_SQUARE_CHARACTER = '~';

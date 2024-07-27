@@ -13,5 +13,3 @@ export function buildUppercaseAlphabet() {
     i => String.fromCharCode(charCode + i)
   );
 }
-
-export const FILLED_SQUARE_CHARACTER = '~';

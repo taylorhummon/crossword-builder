@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
+import { FILLED_SQUARE_CHARACTER } from '../../constants';
 import Suggestions from '../../components/Suggestions';
-import { FILLED_SQUARE_CHARACTER } from '../../utilities/alphabet';
 
 it('shows all 26 letters when none are suggested and cannot suggest fill', () => {
   const suggestions = [] as Array<string>;

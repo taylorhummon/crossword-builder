@@ -1,4 +1,5 @@
-import { buildUppercaseAlphabet, FILLED_SQUARE_CHARACTER } from '../utilities/alphabet';
+import { FILLED_SQUARE_CHARACTER } from '../constants';
+import { buildUppercaseAlphabet } from '../utilities/alphabet';
 import { buildClassString } from '../utilities/css';
 import cssModule from './Suggestions.module.scss';
 

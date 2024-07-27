@@ -1,8 +1,7 @@
 import { State } from '../../types';
-import { BOARD_WIDTH, BOARD_HEIGHT } from '../../constants';
+import { BOARD_WIDTH, BOARD_HEIGHT, FILLED_SQUARE_CHARACTER } from '../../constants';
 import { nextStateDueToKeyPress } from '../../lib/appKeyPress';
 import { arrayOfSize } from '../../utilities/arrays';
-import { FILLED_SQUARE_CHARACTER } from '../../utilities/alphabet';
 
 jest.mock('../../constants', () => {
   // using a non-square board for testing
