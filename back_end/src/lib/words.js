@@ -40,24 +40,34 @@ async function loadWords() {
   }
 }
 
-function loadWordsOfLength(i) {
-  wordsLists[i] = [];
+function loadWordsOfLength(length) {
+  wordsLists[length] = [];
   return new Promise((resolve, reject) => {
-    const readWordsStream = fs.createReadStream(`word_lists/words${i}.txt`);
+    const readWordsStream = fs.createReadStream(`word_lists/words${length}.txt`);
     readWordsStream.on('error', (error) => { reject(error); });
-    const storeWordsStream = createStoreWordsStream(wordsLists[i]);
+    const storeWordsStream = createStoreWordsStream(wordsLists[length], length);
     storeWordsStream.on('error', (error) => { reject(error); });
     storeWordsStream.on('finish', () => { resolve(); });
     readWordsStream.pipe(storeWordsStream);
   });
 }
 
-function createStoreWordsStream(array) {
+function createStoreWordsStream(array, length) {
   const storeWordsStream = new Stream.Writable();
+  let leftover = null;
   storeWordsStream._write = (chunk, encoding, next) => {
     const words = chunk.toString().split('\n');
+    if (words.length > 0) {
+      if (leftover !== null) {
+        words[0] = leftover + words[0];
+        leftover = null;
+      }
+      if (words[words.length - 1].length < length) {
+        leftover = words.pop();
+      }
+    }
     for (let word of words) {
-      if (/[A-Z]+/.test(word)) {
+      if (/^[A-Z]+$/.test(word)) {
         array.push(word);
       }
     }
