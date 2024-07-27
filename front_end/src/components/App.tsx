@@ -5,10 +5,10 @@ import Suggestions from './Suggestions';
 import Help from './Help';
 import { State } from '../types';
 import { BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
+import { isMouseNavigation } from '../lib/boardNavigation';
+import { nextStateDueToKeyPress } from '../lib/appKeyPress';
+import { updateSuggestions } from '../lib/suggestions';
 import { arrayOfSize } from '../utilities/arrays';
-import { isMouseNavigation } from '../utilities/boardNavigation';
-import { nextStateDueToKeyPress } from '../utilities/appKeyPress';
-import { updateSuggestions } from '../utilities/suggestions';
 import { buildClassString } from '../utilities/css';
 import cssModule from './App.module.scss';
 

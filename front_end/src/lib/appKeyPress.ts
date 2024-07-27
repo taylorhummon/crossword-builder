@@ -3,7 +3,7 @@ import {
   isArrowKey, indexDeterminedByArrowKey,
   indexOneBeforeActive, indexOneAfterActive
 } from './boardNavigation';
-import { isLetter, FILLED_SQUARE_CHARACTER } from './alphabet';
+import { isLetter, FILLED_SQUARE_CHARACTER } from '../utilities/alphabet';
 
 export function nextStateDueToKeyPress(
   state: State,

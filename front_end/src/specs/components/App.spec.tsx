@@ -12,7 +12,7 @@ jest.mock('../../constants', () => {
   };
 });
 
-jest.mock('../../utilities/server', () => {
+jest.mock('../../lib/server', () => {
   return {
     getServer() {
       return {

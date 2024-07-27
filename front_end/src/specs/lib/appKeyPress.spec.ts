@@ -1,6 +1,6 @@
 import { State } from '../../types';
 import { BOARD_WIDTH, BOARD_HEIGHT } from '../../constants';
-import { nextStateDueToKeyPress } from '../../utilities/appKeyPress';
+import { nextStateDueToKeyPress } from '../../lib/appKeyPress';
 import { arrayOfSize } from '../../utilities/arrays';
 import { FILLED_SQUARE_CHARACTER } from '../../utilities/alphabet';
 
