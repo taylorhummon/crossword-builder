@@ -5,7 +5,7 @@ This is the front end for the Crossword Builder app.
 
 ## Installing Dependencies ##
 
-Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
+Make sure you have [Node.JS](https://nodejs.org/) and [Yarn](https://yarnpkg.com/) installed.
 Then install dependencies:
 ```
 cd crossword-builder/front_end/

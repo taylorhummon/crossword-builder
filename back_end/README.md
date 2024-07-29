@@ -1,11 +1,11 @@
 # Crossword Builder Back End #
 
-This is the API for the Crossword Builder app.
+This is the back end for the Crossword Builder app.
 
 
 ## Installing Dependencies ##
 
-Make sure you have [NodeJS](https://nodejs.org/) and [yarn](https://yarnpkg.com/) installed.
+Make sure you have [Node.JS](https://nodejs.org/) and [Yarn](https://yarnpkg.com/) installed.
 Then install dependencies:
 ```
 cd crossword-builder/back_end/
