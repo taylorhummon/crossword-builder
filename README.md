@@ -1,11 +1,11 @@
 # Crossword Builder Monorepo #
 
-The Crossword Builder app aids in the construction of crossword puzzles.
+The Crossword Builder app allows a user to construct crossword puzzles.
 
 
 ## Overview ##
 
-We have three sub-projects in this monorepo:
+There are three sub-projects in this monorepo:
 
 * front_end/
   
