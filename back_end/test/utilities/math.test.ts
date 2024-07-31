@@ -1,6 +1,6 @@
 import 'mocha';
 import assert from 'assert';
-import { isNumber, remainderAndQuotient } from '../../src/utilities/math';
+import { isNumber, calculateRemainderAndQuotient } from '../../src/utilities/math';
 
 describe('"math" utility', () => {
   describe('isNumber()', () => {
@@ -39,41 +39,46 @@ describe('"math" utility', () => {
       );
     });
   });
-  describe('remainderAndQuotient()', () => {
-    it('returns an array with the remainder at index zero', () => {
-      assert.strictEqual(
-        remainderAndQuotient(14, 3)[0],
-        2
+  describe('calculateRemainderAndQuotient()', () => {
+    it('returns an object with the remainder and the quotient', () => {
+      assert.deepStrictEqual(
+        calculateRemainderAndQuotient(14, 3),
+        { remainder: 2, quotient: 4 }
       );
-      assert.strictEqual(
-        remainderAndQuotient(2, 3)[0],
-        2
+      assert.deepStrictEqual(
+        calculateRemainderAndQuotient(2, 3),
+        { remainder: 2, quotient: 0 }
       );
-      assert.strictEqual(
-        remainderAndQuotient(0, 3)[0],
-        0
+      assert.deepStrictEqual(
+        calculateRemainderAndQuotient(0, 3),
+        { remainder: 0, quotient: 0 }
       );
-    });
-    it('returns an array with the quotient at index one', () => {
-      assert.strictEqual(
-        remainderAndQuotient(14, 3)[1],
-        4
+      assert.deepStrictEqual(
+        calculateRemainderAndQuotient(-0, 3),
+        { remainder: 0, quotient: 0 }
       );
-      assert.strictEqual(
-        remainderAndQuotient(2, 3)[1],
-        0
+      assert.deepStrictEqual(
+        calculateRemainderAndQuotient(-2, 3),
+        { remainder: 1, quotient: -1 }
       );
-      assert.strictEqual(
-        remainderAndQuotient(0, 3)[1],
-        0
+      assert.deepStrictEqual(
+        calculateRemainderAndQuotient(-3, 3),
+        { remainder: 0, quotient: -1 }
+      );
+      assert.deepStrictEqual(
+        calculateRemainderAndQuotient(-4, 3),
+        { remainder: 2, quotient: -2 }
       );
     });
     it('throws an exception when the denominator is zero', () => {
       assert.throws(() => {
-        remainderAndQuotient(5, 0);
+        calculateRemainderAndQuotient(5, 0);
       });
       assert.throws(() => {
-        remainderAndQuotient(0, 0);
+        calculateRemainderAndQuotient(5, -0);
+      });
+      assert.throws(() => {
+        calculateRemainderAndQuotient(0, 0);
       });
     });
   });

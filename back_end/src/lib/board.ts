@@ -1,7 +1,7 @@
 import { SuggestionsListParams } from '../services/suggestions_lists/suggestions_lists.schema';
 import { Board } from '../declarations';
 import { FILLED_SQUARE_CHARACTER } from './constants';
-import { remainderAndQuotient } from '../utilities/math';
+import { calculateRemainderAndQuotient } from '../utilities/math';
 import { inclusiveIndicesArray } from '../utilities/arrays';
 
 export function buildBoard(
@@ -14,13 +14,13 @@ export function buildBoard(
   if (activeSquareIndex >= boardWidth * boardHeight) {
     throw new Error("activeSquareIndex cannot be greater or equal to boardWidth * boardHeight");
   }
-  const [activeColumn, activeRow] = remainderAndQuotient(activeSquareIndex, boardWidth);
+  const remainderAndQuotient = calculateRemainderAndQuotient(activeSquareIndex, boardWidth);
   return {
     width: boardWidth,
     height: boardHeight,
     squareValues,
-    activeColumn,
-    activeRow,
+    activeColumn: remainderAndQuotient.remainder,
+    activeRow: remainderAndQuotient.quotient,
     squareValueAt(i: number, j: number) { return this.squareValues[j * this.width + i]; }
   };
 }
