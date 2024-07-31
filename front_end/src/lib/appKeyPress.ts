@@ -1,4 +1,4 @@
-import { State } from '../types';
+import { State } from '../declarations';
 import { FILLED_SQUARE_CHARACTER } from '../lib/constants';
 import {
   isArrowKey, indexDeterminedByArrowKey,

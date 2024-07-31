@@ -1,5 +1,5 @@
 import { getServer } from './server';
-import { State, RequestData } from '../types';
+import { State, RequestData } from '../declarations';
 import { BOARD_WIDTH, BOARD_HEIGHT } from '../lib/constants';
 import { arrayShallowEquivalent } from '../utilities/arrays';
 

@@ -3,7 +3,7 @@ import Board from './Board';
 import Options from './Options';
 import Suggestions from './Suggestions';
 import Help from './Help';
-import { State } from '../types';
+import { State } from '../declarations';
 import { BOARD_WIDTH, BOARD_HEIGHT } from '../lib/constants';
 import { isMouseNavigation } from '../lib/boardNavigation';
 import { nextStateDueToKeyPress } from '../lib/appKeyPress';
