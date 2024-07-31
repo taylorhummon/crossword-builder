@@ -1,15 +1,19 @@
-import { FILLED_SQUARE_CHARACTER } from '../constants.js';
-import { buildUppercaseAlphabet } from '../utilities/alphabet.js';
-import { firstCharacter, lastCharacter, trimFirstCharacter, trimLastCharacter } from '../utilities/strings.js';
-import { isNumber } from '../utilities/math.js';
+import { Board, WordsFinder } from '../declarations';
+import { FILLED_SQUARE_CHARACTER } from './constants';
+import { buildUppercaseAlphabet } from '../utilities/alphabet';
+import { firstCharacter, lastCharacter, trimFirstCharacter, trimLastCharacter } from '../utilities/strings';
+import { isNumber } from '../utilities/math';
 import {
   buildBoard,
   leftBound, rightBound, topBound, bottomBound,
   horizontalPatternFor, verticalPatternFor
-} from './board.js';
-import { computeSubpatterns, computeSubpatternsTrimRight, computeSubpatternsTrimLeft } from './subpatterns.js';
+} from './board';
+import { computeSubpatterns, computeSubpatternsTrimRight, computeSubpatternsTrimLeft } from './subpatterns';
 
-export function buildSuggestionsList(wordsFinder, data) {
+export function buildSuggestionsList(
+  wordsFinder: WordsFinder,
+  data: any
+): Array<string> {
   if (! isNumber(data.activeSquareIndex)) return [];
   const board = buildBoard(data);
   if (data.canSuggestFill) {
@@ -19,7 +23,10 @@ export function buildSuggestionsList(wordsFinder, data) {
   }
 }
 
-function whenCannotSuggestFill(wordsFinder, board) {
+function whenCannotSuggestFill(
+  wordsFinder: WordsFinder,
+  board: Board
+): Array<string> {
   const horizontalPattern = horizontalPatternFor(board, leftBound(board), rightBound(board));
   const verticalPattern = verticalPatternFor(board, topBound(board), bottomBound(board));
   const suggestionsSetA = getSuggestionsSetForPattern(wordsFinder, horizontalPattern);
@@ -27,7 +34,10 @@ function whenCannotSuggestFill(wordsFinder, board) {
   return toLettersArray(suggestionsSetA, suggestionsSetB);
 }
 
-function whenCanSuggestFill(wordsFinder, board) {
+function whenCanSuggestFill(
+  wordsFinder: WordsFinder,
+  board: Board
+): Array<string> {
   const horizontalPattern = horizontalPatternFor(board, leftBound(board), rightBound(board));
   const verticalPattern = verticalPatternFor(board, topBound(board), bottomBound(board));
   const suggestionsSetA = getSuggestionsSetForAllSubpatterns(wordsFinder, horizontalPattern);
@@ -37,8 +47,11 @@ function whenCanSuggestFill(wordsFinder, board) {
   return letters;
 }
 
-function getSuggestionsSetForAllSubpatterns(wordsFinder, pattern) {
-  const suggestionsSet = new Set();
+function getSuggestionsSetForAllSubpatterns(
+  wordsFinder: WordsFinder,
+  pattern: string
+): Set<string> {
+  const suggestionsSet = new Set() as Set<string>;
   const subpatterns = computeSubpatterns(pattern);
   for (const subpattern of subpatterns) {
     for (const suggestion of getSuggestionsSetForPattern(wordsFinder, subpattern)) {
@@ -48,8 +61,11 @@ function getSuggestionsSetForAllSubpatterns(wordsFinder, pattern) {
   return suggestionsSet;
 }
 
-function getSuggestionsSetForPattern(wordsFinder, pattern) {
-  const suggestionsSet = new Set();
+function getSuggestionsSetForPattern(
+  wordsFinder: WordsFinder,
+  pattern: string
+): Set<string> {
+  const suggestionsSet = new Set() as Set<string>;
   const index = pattern.indexOf('@');
   const regularExpression = regularExpressionFor(pattern);
   const words = wordsFinder(pattern.length);
@@ -61,7 +77,9 @@ function getSuggestionsSetForPattern(wordsFinder, pattern) {
   return suggestionsSet;
 }
 
-function regularExpressionFor(pattern) {
+function regularExpressionFor(
+  pattern: string
+): RegExp {
   const regularExpressionPatternString = (
     pattern
     .split('')
@@ -71,7 +89,10 @@ function regularExpressionFor(pattern) {
   return new RegExp(`^${regularExpressionPatternString}$`);
 }
 
-function willSuggestFill(wordsFinder, board) {
+function willSuggestFill(
+  wordsFinder: WordsFinder,
+  board: Board
+): boolean {
   const leftPattern = horizontalPatternFor(board, leftBound(board), board.activeColumn);
   const rightPattern = horizontalPatternFor(board, board.activeColumn, rightBound(board));
   const topPattern = verticalPatternFor(board, topBound(board), board.activeRow);
@@ -87,7 +108,10 @@ function willSuggestFill(wordsFinder, board) {
   return true
 }
 
-function willSuggestFillTrimLeft(wordsFinder, pattern) {
+function willSuggestFillTrimLeft(
+  wordsFinder: WordsFinder,
+  pattern: string
+): boolean {
   if (lastCharacter(pattern) !== '@') throw new Error('Expected @ as last character');
   const subpatterns = computeSubpatternsTrimLeft(pattern);
   if (subpatterns.includes('@')) return true;
@@ -97,7 +121,10 @@ function willSuggestFillTrimLeft(wordsFinder, pattern) {
   return false;
 }
 
-function willSuggestFillTrimRight(wordsFinder, pattern) {
+function willSuggestFillTrimRight(
+  wordsFinder: WordsFinder,
+  pattern: string
+): boolean {
   if (firstCharacter(pattern) !== '@') throw new Error('Expected @ as first character');
   const subpatterns = computeSubpatternsTrimRight(pattern);
   if (subpatterns.includes('@')) return true;
@@ -107,7 +134,10 @@ function willSuggestFillTrimRight(wordsFinder, pattern) {
   return false;
 }
 
-function hasMatch(wordsFinder, pattern) {
+function hasMatch(
+  wordsFinder: WordsFinder,
+  pattern: string
+): boolean {
   const regularExpression = new RegExp(`^${pattern}$`);
   const words = wordsFinder(pattern.length);
   for (const word of words) {
@@ -116,7 +146,10 @@ function hasMatch(wordsFinder, pattern) {
   return false;
 }
 
-function toLettersArray(setA, setB) {
+function toLettersArray(
+  setA: Set<string>,
+  setB: Set<string>
+): Array<string> {
   return buildUppercaseAlphabet().filter(
     letter => setA.has(letter) && setB.has(letter)
   );

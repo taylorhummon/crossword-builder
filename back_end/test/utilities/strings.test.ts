@@ -1,8 +1,9 @@
+import 'mocha';
 import assert from 'assert';
 import {
   firstCharacter, lastCharacter,
   trimFirstCharacter, trimLastCharacter,
-} from '../../src/utilities/strings.js';
+} from '../../src/utilities/strings';
 
 describe('"strings" utility', () => {
   describe('firstCharacter()', () => {

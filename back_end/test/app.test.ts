@@ -1,12 +1,14 @@
+import 'mocha';
 import assert from 'assert';
 import axios from 'axios';
-import { app } from '../src/app.js';
+import type { Server } from 'http';
+import { app } from '../src/app';
 
 const port = app.get('port');
 const appUrl = `http://${app.get('host')}:${port}`;
 
 describe('Application tests', () => {
-  let server;
+  let server: Server;
 
   before(async () => {
     server = await app.listen(port);
@@ -27,11 +29,11 @@ describe('Application tests', () => {
         responseType: 'json'
       });
       assert.fail('should never get here');
-    } catch (error) {
+    } catch (error: any) {
       const { response } = error;
-      assert.strictEqual(response.status, 404);
-      assert.strictEqual(response.data.code, 404);
-      assert.strictEqual(response.data.name, 'NotFound');
+      assert.strictEqual(response?.status, 404);
+      assert.strictEqual(response?.data?.code, 404);
+      assert.strictEqual(response?.data?.name, 'NotFound');
     }
   });
 });

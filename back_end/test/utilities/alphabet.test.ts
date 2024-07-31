@@ -1,5 +1,6 @@
+import 'mocha';
 import assert from 'assert';
-import { buildLowercaseAlphabet, buildUppercaseAlphabet } from '../../src/utilities/alphabet.js';
+import { buildLowercaseAlphabet, buildUppercaseAlphabet } from '../../src/utilities/alphabet';
 
 describe('"alphabet" utility', () => {
   describe('buildLowercaseAlphabet()', () => {

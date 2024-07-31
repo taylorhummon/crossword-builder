@@ -1,10 +1,11 @@
+import 'mocha';
 import assert from 'assert';
 import {
   arrayOfSize,
   arrayShallowEquivalent,
   indicesArray,
   inclusiveIndicesArray,
-} from '../../src/utilities/arrays.js';
+} from '../../src/utilities/arrays';
 
 describe('"arrays" utility', () => {
   describe('arrayOfSize()', () => {
@@ -89,6 +90,7 @@ describe('"arrays" utility', () => {
     });
     it('throws an exception if missing an argument', () => {
       assert.throws(() => {
+        // @ts-ignore: this line is intentionally incorrect
         inclusiveIndicesArray(6);
       });
     });

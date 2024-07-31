@@ -17,7 +17,7 @@
     "node": ">= 20.15.0"
   },
   "feathers": {
-    "language": "js",
+    "language": "ts",
     "packager": "yarn",
     "database": "other",
     "framework": "koa",
@@ -30,15 +30,18 @@
     "lib": "src",
     "test": "test"
   },
-  "main": "src/client",
-  "type": "module",
+  "files": [
+    "compiled/index.js",
+    "compiled/**/*.d.ts",
+    "compiled/**/*.shared.js"
+  ],
+  "main": "compiled/index",
   "scripts": {
-    "start": "node src",
-    "dev": "nodemon src/",
-    "prettier": "npx prettier \"**/*.js\" --write",
-    "mocha": "cross-env NODE_ENV=test mocha test/ --recursive --exit",
-    "test": "npm run mocha",
-    "bundle:client": "npm pack --pack-destination ./public"
+    "dev": "nodemon -x ts-node src/index.ts",
+    "compile": "shx rm -rf compiled/ && tsc",
+    "start": "node compiled/",
+    "test": "cross-env NODE_ENV=test mocha test/ --require ts-node/register --recursive --extension .ts --exit",
+    "bundle:client": "yarn run compile && npm pack --pack-destination ../public"
   },
   "dependencies": {
     "@feathersjs/adapter-commons": "^5.0.29",
@@ -56,10 +59,17 @@
   "devDependencies": {
     "@feathersjs/cli": "5.0.29",
     "@feathersjs/rest-client": "^5.0.29",
+    "@types/assert": "^1.5.10",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "^22.0.0",
+    "assert": "^2.1.0",
     "axios": "^1.7.2",
     "cross-env": "^7.0.3",
     "mocha": "^10.6.0",
     "nodemon": "^3.1.4",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "shx": "^0.3.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
   }
 }

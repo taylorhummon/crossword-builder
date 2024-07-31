@@ -1,5 +1,6 @@
+import 'mocha';
 import assert from 'assert';
-import { app } from '../../src/app.js';
+import { app } from '../../src/app';
 
 describe('"suggestions_lists" service', () => {
   it('registered the service', () => {

@@ -3,9 +3,9 @@ import { feathers } from '@feathersjs/feathers'
 import configuration from '@feathersjs/configuration'
 import { koa, rest, bodyParser, errorHandler, parseAuthentication, cors, serveStatic } from '@feathersjs/koa'
 
-import { configurationValidator } from './configuration.js'
-import { logError } from './hooks/log-error.js'
-import { services } from './services/index.js'
+import { configurationValidator } from './configuration'
+import { logError } from './hooks/log-error'
+import { services } from './services/index'
 
 const app = koa(feathers())
 

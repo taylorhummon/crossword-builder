@@ -1,11 +1,14 @@
+import 'mocha';
 import assert from 'assert';
 import {
   buildBoard,
   leftBound, rightBound, topBound, bottomBound,
   horizontalPatternFor, verticalPatternFor,
-} from '../../src/lib/board.js';
+} from '../../src/lib/board';
 
-function buildData(activeSquareIndex) {
+function buildData(
+  activeSquareIndex: number
+) {
   return {
     squareValues: [
       'A', 'C', 'E', '~',

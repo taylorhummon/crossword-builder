@@ -1,8 +1,11 @@
-import { FILLED_SQUARE_CHARACTER } from '../constants.js';
-import { remainderAndQuotient } from '../utilities/math.js';
-import { inclusiveIndicesArray } from '../utilities/arrays.js';
+import { Board } from '../declarations';
+import { FILLED_SQUARE_CHARACTER } from './constants';
+import { remainderAndQuotient } from '../utilities/math';
+import { inclusiveIndicesArray } from '../utilities/arrays';
 
-export function buildBoard(data) {
+export function buildBoard(
+  data: any
+): Board {
   const [activeColumn, activeRow] = remainderAndQuotient(data.activeSquareIndex, data.boardWidth);
   const board = {
     squareValues: data.squareValues,
@@ -10,12 +13,14 @@ export function buildBoard(data) {
     height: data.boardHeight,
     activeColumn,
     activeRow,
-    squareValueAt(i, j) { return this.squareValues[j * this.width + i]; }
+    squareValueAt(i: number, j: number) { return this.squareValues[j * this.width + i]; }
   };
   return board;
 }
 
-export function leftBound(board) {
+export function leftBound(
+  board: Board
+): number {
   let i = board.activeColumn;
   while (
     i - 1 >= 0 &&
@@ -26,7 +31,9 @@ export function leftBound(board) {
   return i;
 }
 
-export function rightBound(board) {
+export function rightBound(
+  board: Board
+): number {
   let i = board.activeColumn;
   while (
     i + 1 < board.width &&
@@ -37,7 +44,9 @@ export function rightBound(board) {
   return i;
 }
 
-export function topBound(board) {
+export function topBound(
+  board: Board
+): number {
   let j = board.activeRow;
   while (
     j - 1 >= 0 &&
@@ -48,7 +57,9 @@ export function topBound(board) {
   return j;
 }
 
-export function bottomBound(board) {
+export function bottomBound(
+  board: Board
+): number {
   let j = board.activeRow;
   while (
     j + 1 < board.height &&
@@ -59,7 +70,11 @@ export function bottomBound(board) {
   return j;
 }
 
-export function horizontalPatternFor(board, from, to) {
+export function horizontalPatternFor(
+  board: Board,
+  from: number,
+  to: number
+): string {
   return inclusiveIndicesArray(from, to).map(i => {
     const character = board.squareValueAt(i, board.activeRow);
     if (i === board.activeColumn) return '@';
@@ -69,7 +84,11 @@ export function horizontalPatternFor(board, from, to) {
   }).join('');
 }
 
-export function verticalPatternFor(board, from, to) {
+export function verticalPatternFor(
+  board: Board,
+  from: number,
+  to: number
+): string {
   return inclusiveIndicesArray(from, to).map(j => {
     const character = board.squareValueAt(board.activeColumn, j);
     if (j === board.activeRow) return '@';

@@ -1,8 +1,9 @@
+import 'mocha';
 import assert from 'assert';
 import {
   computeSubpatternsTrimLeft, computeSubpatternsTrimRight,
   computeSubpatterns,
-} from '../../src/lib/subpatterns.js';
+} from '../../src/lib/subpatterns';
 
 describe('computeSubpatternsTrimLeft()', () => {
   it('computes subpatterns on the left', () => {

@@ -1,5 +1,6 @@
+import 'mocha';
 import assert from 'assert';
-import { isNumber, remainderAndQuotient } from '../../src/utilities/math.js';
+import { isNumber, remainderAndQuotient } from '../../src/utilities/math';
 
 describe('"math" utility', () => {
   describe('isNumber()', () => {

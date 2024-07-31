@@ -1,6 +1,7 @@
+import 'mocha';
 import assert from 'assert';
-import { buildWordsFinder } from '../../src/lib/words.js';
-import { buildUppercaseAlphabet } from '../../src/utilities/alphabet.js';
+import { buildWordsFinder } from '../../src/lib/words';
+import { buildUppercaseAlphabet } from '../../src/utilities/alphabet';
 
 describe('buildWordsFinder()', () => {
   it('OK', () => {

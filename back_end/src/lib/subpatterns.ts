@@ -1,4 +1,6 @@
-export function computeSubpatterns(pattern) {
+export function computeSubpatterns(
+  pattern: string
+): Array<string> {
   const subpatterns = computeSubpatternsTrimLeft(pattern).flatMap(
     subpattern => computeSubpatternsTrimRight(subpattern)
   );
@@ -8,7 +10,9 @@ export function computeSubpatterns(pattern) {
   return subpatterns;
 }
 
-export function computeSubpatternsTrimLeft(pattern) {
+export function computeSubpatternsTrimLeft(
+  pattern: string
+): Array<string> {
   const index = findIndex(pattern);
   const trimPoints = [];
   for (let i = 0; i < index; i++) {
@@ -20,7 +24,9 @@ export function computeSubpatternsTrimLeft(pattern) {
   );
 }
 
-export function computeSubpatternsTrimRight(pattern) {
+export function computeSubpatternsTrimRight(
+  pattern: string
+): Array<string> {
   const index = findIndex(pattern);
   const trimPoints = [];
   for (let i = index + 1; i < pattern.length; i++) {
@@ -32,7 +38,9 @@ export function computeSubpatternsTrimRight(pattern) {
   );
 }
 
-function findIndex(pattern) {
+function findIndex(
+  pattern: string
+): number {
   const index = pattern.indexOf('@');
   if (index === -1) {
     throw new Error('Did not find @ in pattern');

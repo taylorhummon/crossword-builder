@@ -1,6 +1,7 @@
+import 'mocha';
 import assert from 'assert';
-import { buildSuggestionsList } from '../../src/lib/suggestions.js';
-import { buildUppercaseAlphabet } from '../../src/utilities/alphabet.js';
+import { buildSuggestionsList } from '../../src/lib/suggestions';
+import { buildUppercaseAlphabet } from '../../src/utilities/alphabet';
 
 const wordsForMock = buildUppercaseAlphabet().concat([
   'AC', 'AT', 'OG', 'LA',
@@ -8,7 +9,9 @@ const wordsForMock = buildUppercaseAlphabet().concat([
   'ACED', 'ACES', 'ACER', 'CATS', 'DOGS', 'RACE', 'SOGS'
 ]);
 
-function wordsFinder(length) {
+function wordsFinder(
+  length: number
+) {
   return wordsForMock.filter(word => word.length === length);
 }
 
