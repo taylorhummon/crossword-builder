@@ -1,3 +1,4 @@
+import { SuggestionsListParams } from '../services/suggestions_lists/suggestions_lists.schema';
 import { Board, WordsFinder } from '../declarations';
 import { FILLED_SQUARE_CHARACTER } from './constants';
 import { buildUppercaseAlphabet } from '../utilities/alphabet';
@@ -12,11 +13,11 @@ import { computeSubpatterns, computeSubpatternsTrimRight, computeSubpatternsTrim
 
 export function buildSuggestionsList(
   wordsFinder: WordsFinder,
-  data: any
+  suggestionsListParams: SuggestionsListParams
 ): Array<string> {
-  if (! isNumber(data.activeSquareIndex)) return [];
-  const board = buildBoard(data);
-  if (data.canSuggestFill) {
+  if (! isNumber(suggestionsListParams.activeSquareIndex)) return [];
+  const board = buildBoard(suggestionsListParams);
+  if (suggestionsListParams.canSuggestFill) {
     return whenCanSuggestFill(wordsFinder, board);
   } else {
     return whenCannotSuggestFill(wordsFinder, board);

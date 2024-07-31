@@ -21,6 +21,8 @@ const formats: FormatsPluginOptions = [
 
 export const dataValidator: Ajv = addFormats(new Ajv({}), formats)
 
+dataValidator.addFormat('uppercase-letter-or-tilde', /^[A-Z]|~$/)
+
 export const queryValidator: Ajv = addFormats(
   new Ajv({
     coerceTypes: true

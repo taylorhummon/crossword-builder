@@ -1,21 +1,28 @@
+import { SuggestionsListParams } from '../services/suggestions_lists/suggestions_lists.schema';
 import { Board } from '../declarations';
 import { FILLED_SQUARE_CHARACTER } from './constants';
 import { remainderAndQuotient } from '../utilities/math';
 import { inclusiveIndicesArray } from '../utilities/arrays';
 
 export function buildBoard(
-  data: any
+  suggestionsListParams: SuggestionsListParams
 ): Board {
-  const [activeColumn, activeRow] = remainderAndQuotient(data.activeSquareIndex, data.boardWidth);
-  const board = {
-    squareValues: data.squareValues,
-    width: data.boardWidth,
-    height: data.boardHeight,
+  const { squareValues, boardWidth, boardHeight, activeSquareIndex } = suggestionsListParams;
+  if (squareValues.length !== boardWidth * boardHeight) {
+    throw new Error("squareValues must be an array of size boardWidth * boardHeight");
+  }
+  if (activeSquareIndex >= boardWidth * boardHeight) {
+    throw new Error("activeSquareIndex cannot be greater or equal to boardWidth * boardHeight");
+  }
+  const [activeColumn, activeRow] = remainderAndQuotient(activeSquareIndex, boardWidth);
+  return {
+    width: boardWidth,
+    height: boardHeight,
+    squareValues,
     activeColumn,
     activeRow,
     squareValueAt(i: number, j: number) { return this.squareValues[j * this.width + i]; }
   };
-  return board;
 }
 
 export function leftBound(

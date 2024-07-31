@@ -5,19 +5,21 @@ import {
   leftBound, rightBound, topBound, bottomBound,
   horizontalPatternFor, verticalPatternFor,
 } from '../../src/lib/board';
+import { SuggestionsListParams } from '../../src/services/suggestions_lists/suggestions_lists.schema';
 
 function buildData(
   activeSquareIndex: number
-) {
+): SuggestionsListParams {
   return {
+    boardWidth: 4,
+    boardHeight: 3,
     squareValues: [
       'A', 'C', 'E', '~',
       '~', 'A', '~', 'O',
       null, 'T', 'A', 'G',
     ],
-    boardWidth: 4,
-    boardHeight: 3,
-    activeSquareIndex
+    activeSquareIndex,
+    canSuggestFill: false
   };
 }
 
