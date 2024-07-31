@@ -1,6 +1,6 @@
 import { getServer } from './server';
 import { State, RequestData } from '../types';
-import { BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
+import { BOARD_WIDTH, BOARD_HEIGHT } from '../lib/constants';
 import { arrayShallowEquivalent } from '../utilities/arrays';
 
 export async function updateSuggestions(

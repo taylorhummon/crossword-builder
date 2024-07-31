@@ -1,13 +1,14 @@
 import { State } from '../../types';
-import { BOARD_WIDTH, BOARD_HEIGHT, FILLED_SQUARE_CHARACTER } from '../../constants';
+import { BOARD_WIDTH, BOARD_HEIGHT, FILLED_SQUARE_CHARACTER } from '../../lib/constants';
 import { nextStateDueToKeyPress } from '../../lib/appKeyPress';
 import { arrayOfSize } from '../../utilities/arrays';
 
-jest.mock('../../constants', () => {
+jest.mock('../../lib/constants', () => {
   // using a non-square board for testing
   return {
     BOARD_WIDTH: 3,
-    BOARD_HEIGHT: 4
+    BOARD_HEIGHT: 4,
+    FILLED_SQUARE_CHARACTER: '~'
   };
 });
 

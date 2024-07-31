@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import { FILLED_SQUARE_CHARACTER } from '../../constants';
+import { FILLED_SQUARE_CHARACTER } from '../../lib/constants';
 import Suggestions from '../../components/Suggestions';
 
 it('shows all 26 letters when none are suggested and cannot suggest fill', () => {

@@ -1,5 +1,5 @@
 import { State } from '../../types';
-import { BOARD_WIDTH, BOARD_HEIGHT } from '../../constants';
+import { BOARD_WIDTH, BOARD_HEIGHT } from '../../lib/constants';
 import {
   isArrowKey,
   indexDeterminedByArrowKey,
@@ -7,11 +7,12 @@ import {
   indexOneAfterActive
 } from '../../lib/boardNavigation';
 
-jest.mock('../../constants', () => {
+jest.mock('../../lib/constants', () => {
   // using a non-square board for testing
   return {
     BOARD_WIDTH: 5,
-    BOARD_HEIGHT: 7
+    BOARD_HEIGHT: 7,
+    FILLED_SQUARE_CHARACTER: '~'
   };
 });
 

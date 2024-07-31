@@ -4,7 +4,7 @@ import Options from './Options';
 import Suggestions from './Suggestions';
 import Help from './Help';
 import { State } from '../types';
-import { BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
+import { BOARD_WIDTH, BOARD_HEIGHT } from '../lib/constants';
 import { isMouseNavigation } from '../lib/boardNavigation';
 import { nextStateDueToKeyPress } from '../lib/appKeyPress';
 import { updateSuggestions } from '../lib/suggestions';

@@ -1,5 +1,5 @@
 import Square from './Square';
-import { BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
+import { BOARD_WIDTH, BOARD_HEIGHT } from '../lib/constants';
 import { indicesArray } from '../utilities/arrays';
 import { buildClassString } from '../utilities/css';
 import cssModule from './Board.module.scss';

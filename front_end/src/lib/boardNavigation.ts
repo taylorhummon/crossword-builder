@@ -1,5 +1,5 @@
 import { State } from '../types';
-import { BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
+import { BOARD_WIDTH, BOARD_HEIGHT } from '../lib/constants';
 
 export function isMouseNavigation(): boolean {
   return document.body.classList.contains('mouse-navigation');

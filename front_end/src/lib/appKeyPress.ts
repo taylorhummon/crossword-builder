@@ -1,5 +1,5 @@
 import { State } from '../types';
-import { FILLED_SQUARE_CHARACTER } from '../constants';
+import { FILLED_SQUARE_CHARACTER } from '../lib/constants';
 import {
   isArrowKey, indexDeterminedByArrowKey,
   indexOneBeforeActive, indexOneAfterActive
