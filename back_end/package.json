@@ -38,6 +38,7 @@
   "main": "compiled/index",
   "scripts": {
     "dev": "nodemon -x ts-node src/index.ts",
+    "check-types": "tsc --noEmit",
     "compile": "shx rm -rf compiled/ && tsc",
     "start": "node compiled/",
     "test": "cross-env NODE_ENV=test mocha test/ --require ts-node/register --recursive --extension .ts --exit",
