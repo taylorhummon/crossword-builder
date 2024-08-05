@@ -4,12 +4,6 @@ import { buildWordsFinder } from '../../src/lib/words';
 import { buildUppercaseAlphabet } from '../../src/utilities/alphabet';
 
 describe('buildWordsFinder()', () => {
-  it('OK', () => {
-    assert.ok(
-      true,
-      'YUP'
-    );
-  });
   it('finds words of length two', async () => {
     const wordsFinder = await buildWordsFinder();
     const results = wordsFinder(2);
