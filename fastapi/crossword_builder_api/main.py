@@ -1,3 +1,4 @@
+from __future__ import annotations
 from fastapi import FastAPI
 
 from crossword_builder_api.models.suggestions_lists import SuggestionsListInParams, SuggestionsListOutParams

@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from crossword_builder_api.lib.board import Board
 
 

@@ -1,6 +1,8 @@
+from __future__ import annotations
 import pytest
 
 from crossword_builder_api.utilities.math import calculate_remainder_and_quotient
+
 
 def test_calculate_remainder_and_quotient():
     assert calculate_remainder_and_quotient(14, 3) == (2, 4)

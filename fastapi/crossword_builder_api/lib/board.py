@@ -1,5 +1,6 @@
 from __future__ import annotations
 import re
+
 from crossword_builder_api.custom_typing import Letter, Tilde
 from crossword_builder_api.utilities.math import calculate_remainder_and_quotient
 

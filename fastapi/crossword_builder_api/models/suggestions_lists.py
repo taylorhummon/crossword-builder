@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import List, Annotated
 from fastapi import Body
 from pydantic import BaseModel, Field

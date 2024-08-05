@@ -1,3 +1,4 @@
+from __future__ import annotations
 
 def compute_subpatterns(
     pattern: str

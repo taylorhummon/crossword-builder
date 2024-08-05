@@ -1,4 +1,6 @@
+from __future__ import annotations
 from typing import Tuple
+
 
 def calculate_remainder_and_quotient(
     numerator: int,
