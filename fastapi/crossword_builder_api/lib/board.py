@@ -3,7 +3,8 @@ import re
 from crossword_builder_api.custom_typing import Letter, Tilde
 from crossword_builder_api.utilities.math import calculate_remainder_and_quotient
 
-uppercase_letter_regular_expression = re.compile('^[A-Z]$')
+
+UPPERCASE_LETTER_REGULAR_EXPRESSION = re.compile('^[A-Z]$')
 
 class Board:
     def __init__(
@@ -114,7 +115,7 @@ class Board:
             return "@"
         if (character == None):
             return "."
-        if (uppercase_letter_regular_expression.match(character)):
+        if (UPPERCASE_LETTER_REGULAR_EXPRESSION.match(character)):
             return character
         raise Exception("unexpected character: #{character}")
 
@@ -127,6 +128,6 @@ class Board:
             return "@"
         if (character == None):
             return "."
-        if (uppercase_letter_regular_expression.match(character)):
+        if (UPPERCASE_LETTER_REGULAR_EXPRESSION.match(character)):
             return character
         raise Exception("unexpected character: #{character}")

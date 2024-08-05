@@ -7,6 +7,7 @@ from crossword_builder_api.lib.subpatterns import (
     compute_subpatterns_trim_right
 )
 
+
 def test_compute_subpatterns():
     assert compute_subpatterns("a..b.@c.d") == ["@c", "@c.d", "b.@c", ".b.@c", "b.@c.d", ".b.@c.d", "a..b.@c", "a..b.@c.d"]
     assert compute_subpatterns("@c.d") == ["@c", "@c.d"]

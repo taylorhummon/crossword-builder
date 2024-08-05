@@ -33,7 +33,6 @@ def compute_subpatterns_trim_right(
         if pattern[i] == ".":
             trim_points.append(i)
     trim_points.append(len(pattern))
-    print(f"trim_points: {trim_points}")
     return [
         pattern[0:trim_point]
         for trim_point in trim_points
