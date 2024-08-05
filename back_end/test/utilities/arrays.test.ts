@@ -22,7 +22,7 @@ describe('"arrays" utility', () => {
       );
     });
     it('creates initializes each of the values in the array to null', () => {
-      assert.deepEqual(
+      assert.deepStrictEqual(
         arrayOfSize(3),
         [null, null, null]
       );
@@ -51,25 +51,25 @@ describe('"arrays" utility', () => {
   });
   describe('indicesArray()', () => {
     it('works when both starting and ending arguments are included', () => {
-      assert.deepEqual(
+      assert.deepStrictEqual(
         indicesArray(3, 7),
         [3, 4, 5, 6]
       );
     });
     it('is an empty array when the arguments are equal', () => {
-      assert.deepEqual(
+      assert.deepStrictEqual(
         indicesArray(4, 4),
         []
       );
     });
     it('starts at zero when only one argument is included', () => {
-      assert.deepEqual(
+      assert.deepStrictEqual(
         indicesArray(3),
         [0, 1, 2]
       );
     });
     it('is an empty array when the only argument is zero', () => {
-      assert.deepEqual(
+      assert.deepStrictEqual(
         indicesArray(0),
         []
       );
@@ -77,13 +77,13 @@ describe('"arrays" utility', () => {
   });
   describe('inclusiveIndicesArray()', () => {
     it('works when both starting and ending arguments are included', () => {
-      assert.deepEqual(
+      assert.deepStrictEqual(
         inclusiveIndicesArray(3, 7),
         [3, 4, 5, 6, 7]
       );
     });
     it('is a singleton array when the arguments are equal', () => {
-      assert.deepEqual(
+      assert.deepStrictEqual(
         inclusiveIndicesArray(4, 4),
         [4]
       );

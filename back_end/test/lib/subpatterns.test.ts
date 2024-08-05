@@ -7,15 +7,15 @@ import {
 
 describe('computeSubpatternsTrimLeft()', () => {
   it('computes subpatterns on the left', () => {
-    assert.deepEqual(
+    assert.deepStrictEqual(
       computeSubpatternsTrimLeft('a..b.@c.d'),
       ['@c.d', 'b.@c.d', '.b.@c.d', 'a..b.@c.d']
     );
-    assert.deepEqual(
+    assert.deepStrictEqual(
       computeSubpatternsTrimLeft('a..b.@'),
       ['@', 'b.@', '.b.@', 'a..b.@']
     );
-    assert.deepEqual(
+    assert.deepStrictEqual(
       computeSubpatternsTrimLeft('@'),
       ['@']
     );
@@ -26,15 +26,15 @@ describe('computeSubpatternsTrimLeft()', () => {
 });
 describe('computeSubpatternsTrimRight()', () => {
   it('computes subpatterns on the right', () => {
-    assert.deepEqual(
+    assert.deepStrictEqual(
       computeSubpatternsTrimRight('a..b.@c.d'),
       ['a..b.@c', 'a..b.@c.d']
     );
-    assert.deepEqual(
+    assert.deepStrictEqual(
       computeSubpatternsTrimRight('@c.d'),
       ['@c', '@c.d']
     );
-    assert.deepEqual(
+    assert.deepStrictEqual(
       computeSubpatternsTrimRight('@'),
       ['@']
     );
@@ -45,23 +45,23 @@ describe('computeSubpatternsTrimRight()', () => {
 });
 describe('computeSubpatterns()', () => {
   it('computes subpatterns trimming on both sides', () => {
-    assert.deepEqual(
+    assert.deepStrictEqual(
       computeSubpatterns('a..b.@c.d').sort(),
       ['@c', '@c.d', 'b.@c', '.b.@c', 'b.@c.d', '.b.@c.d', 'a..b.@c', 'a..b.@c.d'].sort()
     );
-    assert.deepEqual(
+    assert.deepStrictEqual(
       computeSubpatterns('a..b.@c.d').map(pattern => pattern.length),
       [2, 4, 4, 5, 6, 7, 7, 9]
     );
-    assert.deepEqual(
+    assert.deepStrictEqual(
       computeSubpatterns('@c.d'),
       ['@c', '@c.d']
     );
-    assert.deepEqual(
+    assert.deepStrictEqual(
       computeSubpatterns('a..b.@'),
       ['@', 'b.@', '.b.@', 'a..b.@']
     );
-    assert.deepEqual(
+    assert.deepStrictEqual(
       computeSubpatterns('@'),
       ['@']
     );

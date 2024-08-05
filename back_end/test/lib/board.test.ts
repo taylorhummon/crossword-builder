@@ -27,15 +27,15 @@ describe('buildBoard()', () => {
   it('builds a board object from the data', () => {
     const data = buildData(7);
     const board = buildBoard(data);
-    assert.deepEqual(
+    assert.deepStrictEqual(
       board.squareValues,
       data.squareValues
     );
-    assert.deepEqual(
+    assert.deepStrictEqual(
       board.width,
       4
     );
-    assert.deepEqual(
+    assert.deepStrictEqual(
       board.height,
       3
     );

@@ -22,7 +22,7 @@ describe('"suggestions_lists" service', () => {
         canSuggestFill: false
       };
       const results = await app.service('suggestions-lists').create(data);
-      assert.deepEqual(
+      assert.deepStrictEqual(
         results,
         ['E']
       );

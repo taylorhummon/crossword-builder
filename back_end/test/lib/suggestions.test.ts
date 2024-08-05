@@ -29,7 +29,7 @@ describe('buildSuggestionsList()', () => {
         canSuggestFill
       };
       const results = buildSuggestionsList(wordsFinder, data);
-      assert.deepEqual(
+      assert.deepStrictEqual(
         results,
         ['D', 'R', 'S']
       );
@@ -45,7 +45,7 @@ describe('buildSuggestionsList()', () => {
         canSuggestFill
       };
       const results = buildSuggestionsList(wordsFinder, data);
-      assert.deepEqual(
+      assert.deepStrictEqual(
         results,
         ['D', 'R', 'S']
       );
@@ -61,7 +61,7 @@ describe('buildSuggestionsList()', () => {
         canSuggestFill
       };
       const results = buildSuggestionsList(wordsFinder, data);
-      assert.deepEqual(
+      assert.deepStrictEqual(
         results,
         ['D', 'R', 'S']
       );
@@ -79,7 +79,7 @@ describe('buildSuggestionsList()', () => {
         canSuggestFill
       };
       const results = buildSuggestionsList(wordsFinder, data);
-      assert.deepEqual(
+      assert.deepStrictEqual(
         results,
         ['D', 'S']
       );
@@ -97,7 +97,7 @@ describe('buildSuggestionsList()', () => {
           canSuggestFill
         };
         const results = buildSuggestionsList(wordsFinder, data);
-        assert.deepEqual(
+        assert.deepStrictEqual(
           results,
           buildUppercaseAlphabet().concat('~')
         );
@@ -113,7 +113,7 @@ describe('buildSuggestionsList()', () => {
           canSuggestFill
         };
         const results = buildSuggestionsList(wordsFinder, data);
-        assert.deepEqual(
+        assert.deepStrictEqual(
           results,
           ['B', 'C', 'T', '~']
         );
@@ -129,7 +129,7 @@ describe('buildSuggestionsList()', () => {
           canSuggestFill
         };
         const results = buildSuggestionsList(wordsFinder, data);
-        assert.deepEqual(
+        assert.deepStrictEqual(
           results,
           ['B', '~']
         );
@@ -145,7 +145,7 @@ describe('buildSuggestionsList()', () => {
           canSuggestFill
         };
         const results = buildSuggestionsList(wordsFinder, data);
-        assert.deepEqual(
+        assert.deepStrictEqual(
           results,
           ['B', '~']
         );
@@ -163,7 +163,7 @@ describe('buildSuggestionsList()', () => {
           canSuggestFill
         };
         const results = buildSuggestionsList(wordsFinder, data);
-        assert.deepEqual(
+        assert.deepStrictEqual(
           results,
           ['D', 'S', '~']
         );

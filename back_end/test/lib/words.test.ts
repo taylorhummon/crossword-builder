@@ -27,7 +27,7 @@ describe('buildWordsFinder()', () => {
       26,
       'Returns twenty six words of length one'
     );
-    assert.deepEqual(
+    assert.deepStrictEqual(
       results,
       buildUppercaseAlphabet(),
       'The words of length one are just the letters of the alphabet'
