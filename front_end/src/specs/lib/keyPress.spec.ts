@@ -1,4 +1,4 @@
-import { State } from 'declarations';
+import { State } from 'components/app/App';
 import { boardWidth, boardHeight } from 'environment/board';
 import { FILLED_SQUARE_CHARACTER } from 'utilities/alphabet';
 import { nextStateDueToKeyPress } from 'lib/keyPress';

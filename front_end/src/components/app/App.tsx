@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 
-import { State } from 'declarations';
 import Board from 'components/board/Board';
 import Options from 'components/options/Options';
 import Suggestions from 'components/suggestions/Suggestions';
@@ -14,6 +13,16 @@ import { buildClassString } from 'utilities/css';
 
 import cssModule from './App.module.scss';
 
+
+export interface State {
+  squareValues: Array<string | null>;
+  activeSquareIndex: number | null;
+  bookmarkedIndex: number | null;
+  boardHasFocus: boolean;
+  canSuggestFill: boolean;
+  isTypingVertical: boolean;
+  suggestions: Array<string>;
+}
 
 export default function App(): JSX.Element {
   const [state, setState] = useState<State>({

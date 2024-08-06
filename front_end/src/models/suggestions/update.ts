@@ -1,4 +1,4 @@
-import { State } from 'declarations';
+import { State } from 'components/app/App';
 import { boardWidth, boardHeight } from 'environment/board';
 import { arrayShallowEquivalent } from 'utilities/arrays';
 import { SuggestionsRequestData } from 'models/suggestions/type';

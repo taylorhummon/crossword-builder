@@ -1,4 +1,4 @@
-import { State } from 'declarations';
+import { State } from 'components/app/App';
 import { FILLED_SQUARE_CHARACTER } from 'utilities/alphabet';
 import {
   isArrowKey, indexDeterminedByArrowKey,

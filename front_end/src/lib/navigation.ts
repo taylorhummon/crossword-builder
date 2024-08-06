@@ -1,4 +1,4 @@
-import { State } from 'declarations';
+import { State } from 'components/app/App';
 import { boardWidth, boardHeight } from 'environment/board';
 
 
