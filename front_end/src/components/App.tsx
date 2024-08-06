@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+
 import Board from './Board';
 import Options from './Options';
 import Suggestions from './Suggestions';
@@ -7,10 +8,12 @@ import { State } from '../declarations';
 import { BOARD_WIDTH, BOARD_HEIGHT } from '../lib/constants';
 import { isMouseNavigation } from '../lib/boardNavigation';
 import { nextStateDueToKeyPress } from '../lib/appKeyPress';
-import { updateSuggestions } from '../lib/suggestions';
+import { updateSuggestions } from '../models/updateSuggestions';
 import { arrayOfSize } from '../utilities/arrays';
 import { buildClassString } from '../utilities/css';
+
 import cssModule from './App.module.scss';
+
 
 export default function App(): JSX.Element {
   const [state, setState] = useState<State>({

@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { BOARD_WIDTH, BOARD_HEIGHT } from '../../lib/constants';
 import App from '../../components/App';
 
+
 jest.mock('../../lib/constants', () => {
   // using a non-square board for testing
   return {
@@ -13,21 +14,14 @@ jest.mock('../../lib/constants', () => {
   };
 });
 
-jest.mock('../../lib/server', () => {
+jest.mock('../../models/fetchSuggestions', () => {
   return {
-    getServer() {
-      return {
-        service() {
-          return {
-            create() {
-              return [];
-            }
-          }
-        }
-      }
+    fetchSuggestions() {
+      return [];
     }
   };
 });
+
 
 test('the app has a board width the correct number of squares', () => {
   render(<App />);
