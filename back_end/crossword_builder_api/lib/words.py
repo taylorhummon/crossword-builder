@@ -10,7 +10,7 @@ MAX_WORD_LENGTH = 10
 class WordsFinder:
     def __init__(
         self: WordsFinder
-    ):
+    ) -> None:
         self._words_lists: list[list[str]]
         self._words_lists = [
             _load_words_of_length(length)
