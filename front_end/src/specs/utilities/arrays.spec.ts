@@ -5,6 +5,7 @@ import {
   inclusiveIndicesArray
 } from '../../utilities/arrays';
 
+
 describe('arrayOfSize()', () => {
   it('creates an array of size zero', () => {
     expect(

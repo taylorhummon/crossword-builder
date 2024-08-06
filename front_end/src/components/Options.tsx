@@ -1,5 +1,7 @@
 import { buildClassString } from '../utilities/css';
+
 import cssModule from './Options.module.scss';
+
 
 interface OptionsProps {
   isTypingVertical: boolean;

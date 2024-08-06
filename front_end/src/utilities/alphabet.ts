@@ -1,5 +1,6 @@
 import { indicesArray } from './arrays';
 
+
 export function buildLowercaseAlphabet(): Array<string> {
   const charCode = 'a'.charCodeAt(0);
   return indicesArray(26).map(

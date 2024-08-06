@@ -1,5 +1,6 @@
 import { isNumber } from './math';
 
+
 export function arrayOfSize(
   n: number
 ): Array<null> {

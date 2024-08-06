@@ -1,6 +1,8 @@
 import { FILLED_SQUARE_CHARACTER } from '../lib/constants';
 import { buildClassString } from '../utilities/css';
+
 import cssModule from './Square.module.scss';
+
 
 interface SquareProps {
   value: string | null;

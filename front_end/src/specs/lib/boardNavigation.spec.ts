@@ -7,6 +7,7 @@ import {
   indexOneAfterActive
 } from '../../lib/boardNavigation';
 
+
 jest.mock('../../lib/constants', () => {
   // using a non-square board for testing
   return {

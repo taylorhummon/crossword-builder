@@ -3,6 +3,7 @@ import { BOARD_WIDTH, BOARD_HEIGHT, FILLED_SQUARE_CHARACTER } from '../../lib/co
 import { nextStateDueToKeyPress } from '../../lib/appKeyPress';
 import { arrayOfSize } from '../../utilities/arrays';
 
+
 jest.mock('../../lib/constants', () => {
   // using a non-square board for testing
   return {

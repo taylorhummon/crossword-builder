@@ -1,7 +1,9 @@
 import { FILLED_SQUARE_CHARACTER } from '../lib/constants';
 import { buildUppercaseAlphabet } from '../utilities/alphabet';
 import { buildClassString } from '../utilities/css';
+
 import cssModule from './Suggestions.module.scss';
+
 
 interface SuggestionsProps {
   suggestions: Array<string>;

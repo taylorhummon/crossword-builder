@@ -1,5 +1,6 @@
 import { isNumber } from '../../utilities/math';
 
+
 describe('isNumber()', () => {
   it('identifies 7 as a number', () => {
     expect(

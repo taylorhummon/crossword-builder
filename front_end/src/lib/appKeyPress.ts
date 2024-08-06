@@ -6,6 +6,7 @@ import {
 } from './boardNavigation';
 import { isLetter } from '../utilities/alphabet';
 
+
 export function nextStateDueToKeyPress(
   state: State,
   event: React.KeyboardEvent
