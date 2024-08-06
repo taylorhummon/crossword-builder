@@ -7,11 +7,3 @@ export interface State {
   isTypingVertical: boolean;
   suggestions: Array<string>;
 }
-
-export interface RequestData {
-  boardWidth: number,
-  boardHeight: number,
-  squareValues: Array<string | null>
-  activeSquareIndex: number,
-  canSuggestFill: boolean
-}

@@ -1,7 +1,8 @@
-import { State, RequestData } from 'declarations';
+import { State } from 'declarations';
 import { boardWidth, boardHeight } from 'environment/board';
 import { arrayShallowEquivalent } from 'utilities/arrays';
-import { fetchSuggestions } from 'models/fetchSuggestions';
+import { SuggestionsRequestData } from 'models/suggestions/type';
+import { fetchSuggestions } from 'models/suggestions/fetch';
 
 
 export async function updateSuggestions(
@@ -33,7 +34,7 @@ export async function updateSuggestions(
 
 function areSuggestionsOutdated(
   latestState: State,
-  requestData: RequestData
+  requestData: SuggestionsRequestData
 ): boolean {
   if (requestData.activeSquareIndex !== latestState.activeSquareIndex) return true;
   if (requestData.canSuggestFill !== latestState.canSuggestFill) return true;

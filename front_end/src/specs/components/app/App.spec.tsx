@@ -13,7 +13,7 @@ jest.mock('environment/board', () => {
   };
 });
 
-jest.mock('models/fetchSuggestions', () => {
+jest.mock('models/suggestions/fetch', () => {
   return {
     fetchSuggestions() {
       return [];

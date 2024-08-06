@@ -8,7 +8,7 @@ import Help from 'components/help/Help';
 import { boardWidth, boardHeight } from 'environment/board';
 import { isMouseNavigation } from 'lib/navigation';
 import { nextStateDueToKeyPress } from 'lib/keyPress';
-import { updateSuggestions } from 'models/updateSuggestions';
+import { updateSuggestions } from 'models/suggestions/update';
 import { buildArrayOfLength } from 'utilities/arrays';
 import { buildClassString } from 'utilities/css';
 

@@ -1,10 +1,10 @@
-import { RequestData } from 'declarations';
+import { SuggestionsRequestData } from 'models/suggestions/type';
 import { serverBaseUrl, serverPort } from 'environment/server';
 import { SUGGESTION_REGULAR_EXPRESSION } from 'utilities/alphabet';
 
 
 export async function fetchSuggestions(
-  requestData: RequestData
+  requestData: SuggestionsRequestData
 ): Promise<Array<string>> {
   try {
     const url = `${serverBaseUrl}:${serverPort}/suggestions_lists`;
