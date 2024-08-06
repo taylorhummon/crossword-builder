@@ -1,5 +1,5 @@
-import { State } from '../declarations';
-import { BOARD_WIDTH, BOARD_HEIGHT } from '../lib/constants';
+import { State } from 'declarations';
+import { BOARD_WIDTH, BOARD_HEIGHT } from 'lib/constants';
 
 
 export function isMouseNavigation(): boolean {

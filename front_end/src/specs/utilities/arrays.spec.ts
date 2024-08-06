@@ -3,7 +3,7 @@ import {
   arrayShallowEquivalent,
   indicesArray,
   inclusiveIndicesArray
-} from '../../utilities/arrays';
+} from 'utilities/arrays';
 
 
 describe('arrayOfSize()', () => {

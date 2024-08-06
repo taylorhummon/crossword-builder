@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { buildClassString } from "../../utilities/css";
+import { buildClassString } from "utilities/css";
 
 
 describe("buildClassString()", () => {

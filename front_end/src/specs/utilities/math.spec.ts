@@ -1,4 +1,4 @@
-import { isNumber } from '../../utilities/math';
+import { isNumber } from 'utilities/math';
 
 
 describe('isNumber()', () => {

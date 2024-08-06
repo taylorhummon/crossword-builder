@@ -1,4 +1,4 @@
-import { RequestData } from '../declarations';
+import { RequestData } from 'declarations';
 
 
 export async function fetchSuggestions(

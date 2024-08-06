@@ -1,14 +1,14 @@
-import { State } from '../../declarations';
-import { BOARD_WIDTH, BOARD_HEIGHT } from '../../lib/constants';
+import { State } from 'declarations';
+import { BOARD_WIDTH, BOARD_HEIGHT } from 'lib/constants';
 import {
   isArrowKey,
   indexDeterminedByArrowKey,
   indexOneBeforeActive,
   indexOneAfterActive
-} from '../../lib/boardNavigation';
+} from 'lib/boardNavigation';
 
 
-jest.mock('../../lib/constants', () => {
+jest.mock('lib/constants', () => {
   // using a non-square board for testing
   return {
     BOARD_WIDTH: 5,

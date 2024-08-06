@@ -1,11 +1,11 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { BOARD_WIDTH, BOARD_HEIGHT } from '../../../lib/constants';
-import App from '../../../components/app/App';
+import { BOARD_WIDTH, BOARD_HEIGHT } from 'lib/constants';
+import App from 'components/app/App';
 
 
-jest.mock('../../../lib/constants', () => {
+jest.mock('lib/constants', () => {
   // using a non-square board for testing
   return {
     BOARD_WIDTH: 3,
@@ -14,7 +14,7 @@ jest.mock('../../../lib/constants', () => {
   };
 });
 
-jest.mock('../../../models/fetchSuggestions', () => {
+jest.mock('models/fetchSuggestions', () => {
   return {
     fetchSuggestions() {
       return [];

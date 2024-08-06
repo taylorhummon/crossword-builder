@@ -1,7 +1,7 @@
-import { State, RequestData } from '../declarations';
-import { BOARD_WIDTH, BOARD_HEIGHT } from '../lib/constants';
-import { arrayShallowEquivalent } from '../utilities/arrays';
-import { fetchSuggestions } from './fetchSuggestions';
+import { State, RequestData } from 'declarations';
+import { BOARD_WIDTH, BOARD_HEIGHT } from 'lib/constants';
+import { arrayShallowEquivalent } from 'utilities/arrays';
+import { fetchSuggestions } from 'models/fetchSuggestions';
 
 
 export async function updateSuggestions(

@@ -1,10 +1,10 @@
-import { State } from '../declarations';
-import { FILLED_SQUARE_CHARACTER } from '../lib/constants';
+import { State } from 'declarations';
+import { FILLED_SQUARE_CHARACTER } from 'lib/constants';
 import {
   isArrowKey, indexDeterminedByArrowKey,
   indexOneBeforeActive, indexOneAfterActive
-} from './boardNavigation';
-import { isLetter } from '../utilities/alphabet';
+} from 'lib/boardNavigation';
+import { isLetter } from 'utilities/alphabet';
 
 
 export function nextStateDueToKeyPress(

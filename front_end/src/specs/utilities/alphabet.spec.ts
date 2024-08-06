@@ -2,7 +2,7 @@ import {
   buildLowercaseAlphabet,
   buildUppercaseAlphabet,
   isLetter
-} from '../../utilities/alphabet';
+} from 'utilities/alphabet';
 
 
 describe('buildLowercaseAlphabet()', () => {
