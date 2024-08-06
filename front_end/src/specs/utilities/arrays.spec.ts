@@ -1,29 +1,28 @@
 import {
-  arrayOfSize,
+  buildArrayOfLength,
   arrayShallowEquivalent,
-  indicesArray,
-  inclusiveIndicesArray
+  indicesArray
 } from 'utilities/arrays';
 
 
-describe('arrayOfSize()', () => {
+describe('buildArrayOfLength()', () => {
   it('creates an array of size zero', () => {
     expect(
-      arrayOfSize(0).length
+      buildArrayOfLength(0).length
     ).toBe(
       0
     );
   });
   it('creates an array of size three', () => {
     expect(
-      arrayOfSize(3).length
+      buildArrayOfLength(3).length
     ).toBe(
       3
     );
   });
   it('creates initializes each of the values in the array to null', () => {
     expect(
-      arrayOfSize(3)
+      buildArrayOfLength(3)
     ).toEqual(
       [null, null, null]
     );
@@ -81,27 +80,5 @@ describe('indicesArray()', () => {
     ).toEqual(
       []
     );
-  });
-});
-describe('inclusiveIndicesArray()', () => {
-  it('works when both starting and ending arguments are included', () => {
-    expect(
-      inclusiveIndicesArray(3, 7)
-    ).toEqual(
-      [3, 4, 5, 6, 7]
-    );
-  });
-  it('is a singleton array when the arguments are equal', () => {
-    expect(
-      inclusiveIndicesArray(4, 4)
-    ).toEqual(
-      [4]
-    );
-  });
-  it('throws an exception if missing an argument', () => {
-    expect(() => {
-      // @ts-ignore: this line is intentionally incorrect
-      inclusiveIndicesArray(6);
-    }).toThrow();
   });
 });

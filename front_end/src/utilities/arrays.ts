@@ -1,10 +1,10 @@
 import { isNumber } from './math';
 
 
-export function arrayOfSize(
-  n: number
+export function buildArrayOfLength(
+  length: number
 ): Array<null> {
-  return Array(n).fill(null);
+  return Array(length).fill(null);
 }
 
 export function arrayShallowEquivalent(
@@ -24,21 +24,12 @@ export function indicesArray(
   a: number,
   b?: number
 ): Array<number> {
-  if (! isNumber(a)) {
-    throw new Error('indicesArray requires one or two number arguments');
+  if (! isNumber(a)) throw new Error('indicesArray requires one or two number arguments');
+  if (isNumber(b)) {
+    return buildIndicesArray(a, b as number);
+  } else {
+    return buildIndicesArray(0, a);
   }
-  if (! isNumber(b)) return buildIndicesArray(0, a);
-  return buildIndicesArray(a, b as number);
-}
-
-export function inclusiveIndicesArray(
-  from: number,
-  to: number
-): Array<number> {
-  if (! isNumber(from) || ! isNumber(to)) {
-    throw new Error('inclusiveIndicesArray requires two number arguments');
-  }
-  return buildInclusiveIndicesArray(from, to);
 }
 
 function buildIndicesArray(
@@ -46,19 +37,8 @@ function buildIndicesArray(
   to: number
 ): Array<number> {
   const array = [] as Array<number>;
-  for (let i = from; i < to; i++) {
-    array.push(i);
-  }
-  return array;
-}
-
-function buildInclusiveIndicesArray(
-  from: number,
-  to: number
-): Array<number> {
-  const array = [] as Array<number>;
-  for (let i = from; i <= to; i++) {
-    array.push(i);
+  for (let index = from; index < to; index++) {
+    array.push(index);
   }
   return array;
 }

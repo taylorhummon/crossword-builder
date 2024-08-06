@@ -1,7 +1,7 @@
 import { State } from 'declarations';
 import { BOARD_WIDTH, BOARD_HEIGHT, FILLED_SQUARE_CHARACTER } from 'lib/constants';
 import { nextStateDueToKeyPress } from 'lib/appKeyPress';
-import { arrayOfSize } from 'utilities/arrays';
+import { buildArrayOfLength } from 'utilities/arrays';
 
 
 jest.mock('lib/constants', () => {
@@ -16,7 +16,7 @@ jest.mock('lib/constants', () => {
 describe('nextStateDueToKeyPress()', () => {
   it('handles arrow keys', () => {
     const state = {
-      squareValues: arrayOfSize(BOARD_HEIGHT * BOARD_WIDTH),
+      squareValues: buildArrayOfLength(BOARD_HEIGHT * BOARD_WIDTH),
       activeSquareIndex: 1,
       isTypingVertical: false
     } as State;
@@ -30,7 +30,7 @@ describe('nextStateDueToKeyPress()', () => {
   });
   it('handles uppercase letter keys', () => {
     const state = {
-      squareValues: arrayOfSize(BOARD_HEIGHT * BOARD_WIDTH),
+      squareValues: buildArrayOfLength(BOARD_HEIGHT * BOARD_WIDTH),
       activeSquareIndex: 1,
       isTypingVertical: false
     } as State;
@@ -54,7 +54,7 @@ describe('nextStateDueToKeyPress()', () => {
   });
   it('handles lowercase letter keys', () => {
     const state = {
-      squareValues: arrayOfSize(BOARD_HEIGHT * BOARD_WIDTH),
+      squareValues: buildArrayOfLength(BOARD_HEIGHT * BOARD_WIDTH),
       activeSquareIndex: 1,
       isTypingVertical: false
     } as State;
@@ -78,7 +78,7 @@ describe('nextStateDueToKeyPress()', () => {
   });
   it('handles the enter key', () => {
     const state = {
-      squareValues: arrayOfSize(BOARD_HEIGHT * BOARD_WIDTH),
+      squareValues: buildArrayOfLength(BOARD_HEIGHT * BOARD_WIDTH),
       activeSquareIndex: 1,
       isTypingVertical: false
     } as State;
@@ -102,7 +102,7 @@ describe('nextStateDueToKeyPress()', () => {
   });
   it('handles the space key', () => {
     const state = {
-      squareValues: arrayOfSize(BOARD_HEIGHT * BOARD_WIDTH),
+      squareValues: buildArrayOfLength(BOARD_HEIGHT * BOARD_WIDTH),
       activeSquareIndex: 1,
       isTypingVertical: false
     } as State;
@@ -203,7 +203,7 @@ describe('nextStateDueToKeyPress()', () => {
   });
   it('ignores unknown keys', () => {
     const state = {
-      squareValues: arrayOfSize(BOARD_HEIGHT * BOARD_WIDTH),
+      squareValues: buildArrayOfLength(BOARD_HEIGHT * BOARD_WIDTH),
       activeSquareIndex: 1,
       isTypingVertical: false
     } as State;
@@ -217,7 +217,7 @@ describe('nextStateDueToKeyPress()', () => {
   });
   it('ignores keystrokes that involves a control modifier key', () => {
     const state = {
-      squareValues: arrayOfSize(BOARD_HEIGHT * BOARD_WIDTH),
+      squareValues: buildArrayOfLength(BOARD_HEIGHT * BOARD_WIDTH),
       activeSquareIndex: 1,
       isTypingVertical: false
     } as State;

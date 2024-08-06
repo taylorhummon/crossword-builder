@@ -1,29 +1,8 @@
 import {
-  buildLowercaseAlphabet,
   buildUppercaseAlphabet,
   isLetter
 } from 'utilities/alphabet';
 
-
-describe('buildLowercaseAlphabet()', () => {
-  it('builds the lowercase alphabet', () => {
-    expect(
-      buildLowercaseAlphabet().length
-    ).toBe(
-      26
-    );
-    expect(
-      buildLowercaseAlphabet()[0]
-    ).toBe(
-      'a'
-    );
-    expect(
-      buildLowercaseAlphabet()[25]
-    ).toBe(
-      'z'
-    );
-  });
-});
 
 describe('buildUppercaseAlphabet()', () => {
   it('builds the uppercase alphabet', () => {

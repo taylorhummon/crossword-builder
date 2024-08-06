@@ -9,7 +9,7 @@ import { BOARD_WIDTH, BOARD_HEIGHT } from 'lib/constants';
 import { isMouseNavigation } from 'lib/boardNavigation';
 import { nextStateDueToKeyPress } from 'lib/appKeyPress';
 import { updateSuggestions } from 'models/updateSuggestions';
-import { arrayOfSize } from 'utilities/arrays';
+import { buildArrayOfLength } from 'utilities/arrays';
 import { buildClassString } from 'utilities/css';
 
 import cssModule from './App.module.scss';
@@ -17,7 +17,7 @@ import cssModule from './App.module.scss';
 
 export default function App(): JSX.Element {
   const [state, setState] = useState<State>({
-    squareValues: arrayOfSize(BOARD_WIDTH * BOARD_HEIGHT),
+    squareValues: buildArrayOfLength(BOARD_WIDTH * BOARD_HEIGHT),
     activeSquareIndex: null,
     bookmarkedIndex: 0,
     boardHasFocus: false,
