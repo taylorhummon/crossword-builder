@@ -3,7 +3,7 @@ import { FILLED_SQUARE_CHARACTER } from 'lib/constants';
 import {
   isArrowKey, indexDeterminedByArrowKey,
   indexOneBeforeActive, indexOneAfterActive
-} from 'lib/boardNavigation';
+} from 'lib/navigation';
 import { isLetter } from 'utilities/alphabet';
 
 

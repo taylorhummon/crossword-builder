@@ -1,6 +1,6 @@
 import { State } from 'declarations';
 import { BOARD_WIDTH, BOARD_HEIGHT, FILLED_SQUARE_CHARACTER } from 'lib/constants';
-import { nextStateDueToKeyPress } from 'lib/appKeyPress';
+import { nextStateDueToKeyPress } from 'lib/keyPress';
 import { buildArrayOfLength } from 'utilities/arrays';
 
 

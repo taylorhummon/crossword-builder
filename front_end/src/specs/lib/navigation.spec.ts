@@ -5,7 +5,7 @@ import {
   indexDeterminedByArrowKey,
   indexOneBeforeActive,
   indexOneAfterActive
-} from 'lib/boardNavigation';
+} from 'lib/navigation';
 
 
 jest.mock('lib/constants', () => {
