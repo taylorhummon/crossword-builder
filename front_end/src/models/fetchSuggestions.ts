@@ -1,5 +1,6 @@
 import { RequestData } from 'declarations';
 import { serverBaseUrl, serverPort } from 'environment/server';
+import { SUGGESTION_REGULAR_EXPRESSION } from 'utilities/alphabet';
 
 
 export async function fetchSuggestions(
@@ -21,8 +22,6 @@ export async function fetchSuggestions(
     return [];
   }
 }
-
-const SUGGESTION_REGULAR_EXPRESSION = /^([A-Z]|~)$/;
 
 function deserializeSuggestions(
   jsonHash: any

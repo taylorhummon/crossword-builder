@@ -1,3 +1,5 @@
+export const NATURAL_NUMBER_REGULAR_EXPRESSION = /^\d+$/;
+
 export function isNumber(
   value: any
 ): boolean {

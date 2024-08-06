@@ -3,6 +3,8 @@ import { indicesArray } from './arrays';
 
 export const FILLED_SQUARE_CHARACTER = '~';
 
+export const SUGGESTION_REGULAR_EXPRESSION = /^([A-Z]|~)$/;
+
 export function isSuggestion(
   value: any
 ): boolean {
@@ -10,11 +12,13 @@ export function isSuggestion(
   return isLetter(value);
 }
 
+export const LETTER_REGULAR_EXPRESSION = /^[A-Za-z]$/;
+
 export function isLetter(
   value: any
 ): boolean {
   if (typeof value !== 'string') return false;
-  return /^[A-Za-z]$/.test(value);
+  return LETTER_REGULAR_EXPRESSION.test(value);
 }
 
 export function buildUppercaseAlphabet(): Array<string> {

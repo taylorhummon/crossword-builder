@@ -1,7 +1,6 @@
 import { lookupInEnvironment } from 'utilities/environment';
+import { NATURAL_NUMBER_REGULAR_EXPRESSION } from 'utilities/math';
 
-
-const naturalNumberRegularExpression = /^\d+$/;
 
 export const serverBaseUrl = lookupInEnvironment({
   environmentVariable: "REACT_APP_SERVER_BASE_URL",
@@ -22,7 +21,7 @@ export const serverPort = lookupInEnvironment({
     defaultValue: string
   ): string {
     if (serverPort === undefined) return defaultValue;
-    if (! naturalNumberRegularExpression.test(serverPort)) return defaultValue;
+    if (! NATURAL_NUMBER_REGULAR_EXPRESSION.test(serverPort)) return defaultValue;
     return serverPort;
   }
 });
