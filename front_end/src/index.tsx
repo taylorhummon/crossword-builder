@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import reportWebVitals from './reportWebVitals';
 
-import App from './components/app/App';
+import reportWebVitals from 'reportWebVitals';
+import App from 'components/app/App';
 
-import './spectre/spectre.min.css';
-import './spectre/spectre-icons.min.css';
-import './index.css';
+import 'css/spectre.min.css';
+import 'css/spectre-icons.min.css';
+import 'css/index.css';
 
 
 const rootDomElement = document.getElementById('root') as HTMLElement;
