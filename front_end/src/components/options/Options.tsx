@@ -1,4 +1,4 @@
-import { buildClassString } from '../utilities/css';
+import { buildClassString } from '../../utilities/css';
 
 import cssModule from './Options.module.scss';
 

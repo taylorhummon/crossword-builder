@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import Help from '../../components/Help';
+import Help from '../../../components/help/Help';
 
 
 const accordionLabelText = 'Need help?';
