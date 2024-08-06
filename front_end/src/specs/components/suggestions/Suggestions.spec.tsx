@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import { FILLED_SQUARE_CHARACTER } from 'lib/constants';
+import { FILLED_SQUARE_CHARACTER } from 'utilities/alphabet';
 import Suggestions from 'components/suggestions/Suggestions';
 
 

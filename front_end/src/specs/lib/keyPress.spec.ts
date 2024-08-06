@@ -1,6 +1,6 @@
 import { State } from 'declarations';
 import { boardWidth, boardHeight } from 'environment/board';
-import { FILLED_SQUARE_CHARACTER } from 'lib/constants';
+import { FILLED_SQUARE_CHARACTER } from 'utilities/alphabet';
 import { nextStateDueToKeyPress } from 'lib/keyPress';
 import { buildArrayOfLength } from 'utilities/arrays';
 
