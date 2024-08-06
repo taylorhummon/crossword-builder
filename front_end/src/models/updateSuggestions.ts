@@ -1,5 +1,5 @@
 import { State, RequestData } from 'declarations';
-import { BOARD_WIDTH, BOARD_HEIGHT } from 'lib/constants';
+import { boardWidth, boardHeight } from 'environment/board';
 import { arrayShallowEquivalent } from 'utilities/arrays';
 import { fetchSuggestions } from 'models/fetchSuggestions';
 
@@ -17,13 +17,7 @@ export async function updateSuggestions(
     }));
     return;
   }
-  const requestData = {
-    boardWidth: BOARD_WIDTH,
-    boardHeight: BOARD_HEIGHT,
-    squareValues,
-    activeSquareIndex,
-    canSuggestFill
-  };
+  const requestData = { boardWidth, boardHeight, squareValues, activeSquareIndex, canSuggestFill };
   const suggestions = await fetchSuggestions(requestData);
   setState((latestState: State) => {
     if (areSuggestionsOutdated(latestState, requestData)) {

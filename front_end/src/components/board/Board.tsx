@@ -1,5 +1,5 @@
 import Square from 'components/square/Square';
-import { BOARD_WIDTH, BOARD_HEIGHT } from 'lib/constants';
+import { boardWidth, boardHeight } from 'environment/board';
 import { indicesArray } from 'utilities/arrays';
 import { buildClassString } from 'utilities/css';
 
@@ -45,7 +45,7 @@ function getRows(
   boardHasFocus: boolean,
   handleBoardClick: (event: React.MouseEvent, k: number) => void
 ): Array<JSX.Element> {
-  return indicesArray(BOARD_HEIGHT).map(
+  return indicesArray(boardHeight).map(
     i => getRow(squareValues, activeSquareIndex, boardHasFocus, handleBoardClick, i)
   );
 }
@@ -74,13 +74,13 @@ function getSquares(
   handleBoardClick: (event: React.MouseEvent, k: number) => void,
   i: number
 ): Array<JSX.Element> {
-  return indicesArray(BOARD_WIDTH).map(
+  return indicesArray(boardWidth).map(
     j => getSquare(
       squareValues,
       activeSquareIndex,
       boardHasFocus,
       handleBoardClick,
-      i * BOARD_WIDTH + j
+      i * boardWidth + j
     )
   );
 }

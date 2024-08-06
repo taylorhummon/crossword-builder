@@ -1,15 +1,12 @@
 import { RequestData } from 'declarations';
+import { serverBaseUrl, serverPort } from 'environment/server';
 
 
 export async function fetchSuggestions(
   requestData: RequestData
 ): Promise<Array<string>> {
   try {
-    const baseServerUri = process.env.REACT_APP_SERVER_URI;
-    if (baseServerUri === undefined) {
-      throw Error("REACT_APP_SERVER_URI environment variablem must be set");
-    }
-    const url = `${baseServerUri}/suggestions_lists`;
+    const url = `${serverBaseUrl}:${serverPort}/suggestions_lists`;
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },

@@ -1,5 +1,5 @@
 import { State } from 'declarations';
-import { BOARD_WIDTH, BOARD_HEIGHT } from 'lib/constants';
+import { boardWidth, boardHeight } from 'environment/board';
 
 
 export function isMouseNavigation(): boolean {
@@ -62,7 +62,7 @@ function indexOneLeftOf(
   if (index === null) return null;
   if (inFirstColumn(index)) {
     if (! allowWrap) return index;
-    return index - 1 + BOARD_WIDTH;
+    return index - 1 + boardWidth;
   } else {
     return index - 1;
   }
@@ -75,7 +75,7 @@ function indexOneRightOf(
   if (index === null) return null;
   if (inLastColumn(index)) {
     if (! allowWrap) return index;
-    return index + 1 - BOARD_WIDTH;
+    return index + 1 - boardWidth;
   } else {
     return index + 1;
   }
@@ -88,9 +88,9 @@ function indexOneUpFrom(
   if (index === null) return null;
   if (inFirstRow(index)) {
     if (! allowWrap) return index;
-    return index - BOARD_WIDTH + BOARD_WIDTH * BOARD_HEIGHT;
+    return index - boardWidth + boardWidth * boardHeight;
   } else {
-    return index - BOARD_WIDTH;
+    return index - boardWidth;
   }
 }
 
@@ -101,32 +101,32 @@ function indexOneDownFrom(
   if (index === null) return null;
   if (inLastRow(index)) {
     if (! allowWrap) return index;
-    return index + BOARD_WIDTH - BOARD_WIDTH * BOARD_HEIGHT;
+    return index + boardWidth - boardWidth * boardHeight;
   } else {
-    return index + BOARD_WIDTH;
+    return index + boardWidth;
   }
 }
 
 function inFirstColumn(
   index: number
 ): boolean {
-  return index % BOARD_WIDTH === 0;
+  return index % boardWidth === 0;
 }
 
 function inLastColumn(
   index: number
 ): boolean {
-  return index % BOARD_WIDTH === BOARD_WIDTH - 1;
+  return index % boardWidth === boardWidth - 1;
 }
 
 function inFirstRow(
   index: number
 ): boolean {
-  return index < BOARD_WIDTH;
+  return index < boardWidth;
 }
 
 function inLastRow(
   index: number
 ): boolean {
-  return index >= BOARD_WIDTH * BOARD_HEIGHT - BOARD_WIDTH;
+  return index >= boardWidth * boardHeight - boardWidth;
 }

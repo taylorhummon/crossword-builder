@@ -1,4 +1,4 @@
-import { isNumber } from 'utilities/math';
+import { isNumber, integerFromString } from 'utilities/math';
 
 
 describe('isNumber()', () => {
@@ -40,6 +40,41 @@ describe('isNumber()', () => {
       isNumber(- Infinity)
     ).toBe(
       false
+    );
+  });
+});
+
+describe('integerFromString()', () => {
+  it('parses base 10 integers from strings', () => {
+    expect(
+      integerFromString("23")
+    ).toBe(
+      23
+    );
+    expect(
+      integerFromString("+23")
+    ).toBe(
+      23
+    );
+    expect(
+      integerFromString("-23")
+    ).toBe(
+      -23
+    );
+    expect(
+      integerFromString("0")
+    ).toBe(
+      0
+    );
+    expect(
+      integerFromString("+0")
+    ).toBe(
+      0
+    );
+    expect(
+      integerFromString("-0")
+    ).toBe(
+      -0
     );
   });
 });

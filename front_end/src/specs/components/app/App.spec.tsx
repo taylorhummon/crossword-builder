@@ -1,16 +1,15 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { BOARD_WIDTH, BOARD_HEIGHT } from 'lib/constants';
+import { boardWidth, boardHeight } from 'environment/board';
 import App from 'components/app/App';
 
 
-jest.mock('lib/constants', () => {
+jest.mock('environment/board', () => {
   // using a non-square board for testing
   return {
-    BOARD_WIDTH: 3,
-    BOARD_HEIGHT: 4,
-    FILLED_SQUARE_CHARACTER: '~'
+    boardWidth: 3,
+    boardHeight: 4
   };
 });
 
@@ -28,7 +27,7 @@ test('the app has a board width the correct number of squares', () => {
   const letterElements = screen.queryAllByTestId(/^square-/);
   expect(
     letterElements.length
-  ).toEqual(BOARD_WIDTH * BOARD_HEIGHT);
+  ).toEqual(boardWidth * boardHeight);
 });
 
 test('toggling the "Can suggest filled square" switch works', () => {

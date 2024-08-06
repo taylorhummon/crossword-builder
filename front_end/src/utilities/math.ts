@@ -6,3 +6,9 @@ export function isNumber(
   if (value === - Infinity) return false;
   return typeof value === 'number';
 }
+
+export function integerFromString(
+  value: string
+): number {
+  return parseInt(value, 10);
+}
