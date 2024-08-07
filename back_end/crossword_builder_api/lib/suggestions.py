@@ -26,10 +26,10 @@ def _when_cannot_suggest_fill(
     words_finder: WordsFinder,
     board: Board
 ) -> set[str]:
-    horizontal_pattern = board.horizontal_pattern_for(board.left_bound(), board.right_bound())
-    vertical_pattern = board.vertical_pattern_for(board.top_bound(), board.bottom_bound())
-    suggestions_set_a = _get_suggestions_set_for_pattern(words_finder, horizontal_pattern)
-    suggestions_set_b = _get_suggestions_set_for_pattern(words_finder, vertical_pattern)
+    pattern_a = board.horizontal_pattern_for(board.left_bound(), board.right_bound())
+    pattern_b = board.vertical_pattern_for(board.top_bound(), board.bottom_bound())
+    suggestions_set_a = _get_suggestions_set_for_pattern(words_finder, pattern_a)
+    suggestions_set_b = _get_suggestions_set_for_pattern(words_finder, pattern_b)
     return suggestions_set_a.intersection(suggestions_set_b)
 
 def _when_can_suggest_fill(
