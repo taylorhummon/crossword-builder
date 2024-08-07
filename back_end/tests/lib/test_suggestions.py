@@ -3,11 +3,11 @@ from typing import cast
 
 from crossword_builder_api.lib.suggestions import build_suggestions_list
 from crossword_builder_api.lib.words import WordsFinder
-from crossword_builder_api.utilities.alphabet import build_uppercase_alphabet
+from crossword_builder_api.utilities.character import build_letters
 from crossword_builder_api.models.suggestions_lists import SuggestionsListInParams
 
 
-WORDS_FOR_MOCK = build_uppercase_alphabet() + [
+WORDS_FOR_MOCK = build_letters() + [
     "AC", "AT", "OG", "LA",
     "CAT", "ABS", "ACE", "DOG", "SAT", "SOG",
     "ACED", "ACES", "ACER", "CATS", "DOGS", "RACE", "SOGS"
@@ -83,7 +83,7 @@ def test_build_suggestions_list_when_active_square_is_surrounded_by_filled_squar
         canSuggestFill = True
     )
     suggestions_list = build_suggestions_list(mock_words_finder, suggestions_list_in_params)
-    assert suggestions_list == set(["■"]).union(build_uppercase_alphabet())
+    assert suggestions_list == set(["■"]).union(build_letters())
 
 def test_build_suggestions_list_when_active_square_is_adjacent_to_letter_and_can_suggest_fill():
     suggestions_list_in_params = SuggestionsListInParams(

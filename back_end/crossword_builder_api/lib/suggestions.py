@@ -9,6 +9,7 @@ from crossword_builder_api.lib.subpatterns import (
     compute_subpatterns_trim_left,
     compute_subpatterns_trim_right
 )
+from crossword_builder_api.utilities.character import FILLED_SQUARE
 
 
 def build_suggestions_list(
@@ -46,7 +47,7 @@ def _when_can_suggest_fill(
     suggestions_set_b = _get_suggestions_set_for_all_subpatterns(words_finder, vertical_pattern)
     suggestions_set = suggestions_set_a.intersection(suggestions_set_b)
     if _will_suggest_fill(words_finder, board):
-        return suggestions_set.union(["■"])
+        return suggestions_set.union([FILLED_SQUARE])
     else:
         return suggestions_set
 

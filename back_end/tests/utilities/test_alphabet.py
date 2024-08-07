@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-from crossword_builder_api.utilities.alphabet import build_uppercase_alphabet
+from crossword_builder_api.utilities.character import build_letters
 
 
-def test_build_alphabet():
-    alphabet = build_uppercase_alphabet()
-    assert alphabet[0] == "A"
-    assert alphabet[-1] == "Z"
+def test_build_letters():
+    letters = build_letters()
+    assert len(letters) == 26
+    assert letters[0] == "A"
+    assert letters[25] == "Z"
