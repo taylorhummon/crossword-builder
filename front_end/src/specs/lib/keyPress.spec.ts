@@ -15,13 +15,13 @@ describe('nextStateDueToKeyPress()', () => {
   it('handles arrow keys', () => {
     const state = {
       squares: Array(boardWidth * boardHeight).fill('□'),
-      activeSquareIndex: 1,
+      activeIndex: 1,
       isTypingVertical: false
     } as State;
     const event = { key: 'ArrowDown' } as React.KeyboardEvent;
     const nextState = nextStateDueToKeyPress(state, event);
     expect(
-      nextState.activeSquareIndex
+      nextState.activeIndex
     ).toEqual(
       4
     );
@@ -29,13 +29,13 @@ describe('nextStateDueToKeyPress()', () => {
   it('handles uppercase letter keys', () => {
     const state = {
       squares: Array(boardWidth * boardHeight).fill('□'),
-      activeSquareIndex: 1,
+      activeIndex: 1,
       isTypingVertical: false
     } as State;
     const event = { key: 'Q' } as React.KeyboardEvent;
     const nextState = nextStateDueToKeyPress(state, event);
     expect(
-      nextState.activeSquareIndex
+      nextState.activeIndex
     ).toEqual(
       2
     );
@@ -53,13 +53,13 @@ describe('nextStateDueToKeyPress()', () => {
   it('handles lowercase letter keys', () => {
     const state = {
       squares: Array(boardWidth * boardHeight).fill('□'),
-      activeSquareIndex: 1,
+      activeIndex: 1,
       isTypingVertical: false
     } as State;
     const event = { key: 'b' } as React.KeyboardEvent;
     const nextState = nextStateDueToKeyPress(state, event)
     expect(
-      nextState.activeSquareIndex
+      nextState.activeIndex
     ).toEqual(
       2
     );
@@ -77,13 +77,13 @@ describe('nextStateDueToKeyPress()', () => {
   it('handles the enter key', () => {
     const state = {
       squares: Array(boardWidth * boardHeight).fill('□'),
-      activeSquareIndex: 1,
+      activeIndex: 1,
       isTypingVertical: false
     } as State;
     const event = { key: 'Enter' } as React.KeyboardEvent;
     const nextState = nextStateDueToKeyPress(state, event);
     expect(
-      nextState.activeSquareIndex
+      nextState.activeIndex
     ).toEqual(
       2
     );
@@ -101,13 +101,13 @@ describe('nextStateDueToKeyPress()', () => {
   it('handles the space key', () => {
     const state = {
       squares: Array(boardWidth * boardHeight).fill('□'),
-      activeSquareIndex: 1,
+      activeIndex: 1,
       isTypingVertical: false
     } as State;
     const event = { key: ' ' } as React.KeyboardEvent;
     const nextState = nextStateDueToKeyPress(state, event);
     expect(
-      nextState.activeSquareIndex
+      nextState.activeIndex
     ).toEqual(
       2
     );
@@ -130,13 +130,13 @@ describe('nextStateDueToKeyPress()', () => {
         '□', '□', '□',
         '□', '□', '□'
       ],
-      activeSquareIndex: 1,
+      activeIndex: 1,
       isTypingVertical: false
     } as State;
     const event = { key: 'Backspace' } as React.KeyboardEvent;
     const nextState = nextStateDueToKeyPress(state, event);
     expect(
-      nextState.activeSquareIndex
+      nextState.activeIndex
     ).toEqual(
       0
     );
@@ -159,7 +159,7 @@ describe('nextStateDueToKeyPress()', () => {
         '□', '□', '□',
         '□', '□', '□'
       ],
-      activeSquareIndex: 1,
+      activeIndex: 1,
       isTypingVertical: false
     } as State;
     const event = { key: 'Backspace' } as React.KeyboardEvent;
@@ -183,7 +183,7 @@ describe('nextStateDueToKeyPress()', () => {
         '□', '□', '□',
         '□', '□', '□'
       ],
-      activeSquareIndex: 1,
+      activeIndex: 1,
       isTypingVertical: false
     } as State;
     const event = { key: 'Delete' } as React.KeyboardEvent;
@@ -202,7 +202,7 @@ describe('nextStateDueToKeyPress()', () => {
   it('ignores unknown keys', () => {
     const state = {
       squares: Array(boardWidth * boardHeight).fill('□'),
-      activeSquareIndex: 1,
+      activeIndex: 1,
       isTypingVertical: false
     } as State;
     const event = { key: '.' } as React.KeyboardEvent;
@@ -216,7 +216,7 @@ describe('nextStateDueToKeyPress()', () => {
   it('ignores keystrokes that involves a control modifier key', () => {
     const state = {
       squares: Array(boardWidth * boardHeight).fill('□'),
-      activeSquareIndex: 1,
+      activeIndex: 1,
       isTypingVertical: false
     } as State;
     const event = {

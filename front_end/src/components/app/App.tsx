@@ -16,7 +16,7 @@ import cssModule from './App.module.scss';
 
 export interface State {
   squares: Array<string>;
-  activeSquareIndex: number | null;
+  activeIndex: number | null;
   bookmarkedIndex: number | null;
   boardHasFocus: boolean;
   canSuggestFill: boolean;
@@ -27,19 +27,19 @@ export interface State {
 export default function App(): JSX.Element {
   const [state, setState] = useState<State>({
     squares: Array(boardWidth * boardHeight).fill(EMPTY_SQUARE),
-    activeSquareIndex: null,
+    activeIndex: null,
     bookmarkedIndex: 0,
     boardHasFocus: false,
     canSuggestFill: true,
     isTypingVertical: false,
     suggestions: []
   });
-  const { squares, activeSquareIndex, canSuggestFill } = state;
+  const { squares, activeIndex, canSuggestFill } = state;
   useEffect(
     () => {
-      updateSuggestions(setState, squares, activeSquareIndex, canSuggestFill);
+      updateSuggestions(setState, squares, activeIndex, canSuggestFill);
     },
-    [squares, activeSquareIndex, canSuggestFill]
+    [squares, activeIndex, canSuggestFill]
   );
 
   function handleBoardKeyDown(
@@ -54,7 +54,7 @@ export default function App(): JSX.Element {
   ): void {
     setState((latestState: State) => ({
       ...latestState,
-      activeSquareIndex: index,
+      activeIndex: index,
       bookmarkedIndex: null,
       boardHasFocus: true
     }));
@@ -64,7 +64,7 @@ export default function App(): JSX.Element {
     if (isMouseNavigation()) return; // we'll update state in handleBoardClick instead
     setState((latestState: State) => ({
       ...latestState,
-      activeSquareIndex: latestState.bookmarkedIndex,
+      activeIndex: latestState.bookmarkedIndex,
       bookmarkedIndex: null,
       boardHasFocus: true
     }));
@@ -73,8 +73,8 @@ export default function App(): JSX.Element {
   function handleBoardBlur(): void {
     setState((latestState: State) => ({
       ...latestState,
-      activeSquareIndex: null,
-      bookmarkedIndex: latestState.activeSquareIndex,
+      activeIndex: null,
+      bookmarkedIndex: latestState.activeIndex,
       boardHasFocus: false
     }));
   }
@@ -100,7 +100,7 @@ export default function App(): JSX.Element {
         <div className={buildClassString(cssModule, ['content-column', 'content-column-left'])}>
           <Board
             squares={state.squares}
-            activeSquareIndex={state.activeSquareIndex}
+            activeIndex={state.activeIndex}
             boardHasFocus={state.boardHasFocus}
             handleBoardKeyDown={handleBoardKeyDown}
             handleBoardClick={handleBoardClick}

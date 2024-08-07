@@ -27,7 +27,7 @@ function dueToArrowKey(
 ): State {
   return {
     ...state,
-    activeSquareIndex: indexDeterminedByArrowKey(state, false, key)
+    activeIndex: indexDeterminedByArrowKey(state, false, key)
   };
 }
 
@@ -35,12 +35,12 @@ function dueToLetterKey(
   state: State,
   key: string
 ): State {
-  const { squares, activeSquareIndex } = state;
+  const { squares, activeIndex } = state;
   const letter = key.toUpperCase();
   return {
     ...state,
-    squares: updatedSquareValues(squares, activeSquareIndex, letter),
-    activeSquareIndex: indexOneAfterActive(state, true)
+    squares: updatedSquareValues(squares, activeIndex, letter),
+    activeIndex: indexOneAfterActive(state, true)
   };
 }
 
@@ -53,36 +53,36 @@ function dueToEnterKey(
 function dueToSpaceKey(
   state: State
 ): State {
-  const { squares, activeSquareIndex } = state;
+  const { squares, activeIndex } = state;
   return {
     ...state,
-    squares: updatedSquareValues(squares, activeSquareIndex, FILLED_SQUARE),
-    activeSquareIndex: indexOneAfterActive(state, true)
+    squares: updatedSquareValues(squares, activeIndex, FILLED_SQUARE),
+    activeIndex: indexOneAfterActive(state, true)
   };
 }
 
 function dueToBackspaceKey(
   state: State
 ): State {
-  const { squares, activeSquareIndex } = state;
-  if (activeSquareIndex !== null && squares[activeSquareIndex] !== EMPTY_SQUARE) {
+  const { squares, activeIndex } = state;
+  if (activeIndex !== null && squares[activeIndex] !== EMPTY_SQUARE) {
     return dueToDeleteKey(state);
   }
   const willMoveFocusTo = indexOneBeforeActive(state, true);
   return {
     ...state,
     squares: updatedSquareValues(squares, willMoveFocusTo, EMPTY_SQUARE),
-    activeSquareIndex: willMoveFocusTo
+    activeIndex: willMoveFocusTo
   };
 }
 
 function dueToDeleteKey(
   state: State
 ): State {
-  const { squares, activeSquareIndex } = state;
+  const { squares, activeIndex } = state;
   return {
     ...state,
-    squares: updatedSquareValues(squares, activeSquareIndex, EMPTY_SQUARE)
+    squares: updatedSquareValues(squares, activeIndex, EMPTY_SQUARE)
   };
 }
 

@@ -8,7 +8,7 @@ import cssModule from './Board.module.scss';
 
 interface BoardProps {
   squares: Array<string>;
-  activeSquareIndex: number | null;
+  activeIndex: number | null;
   boardHasFocus: boolean;
   handleBoardKeyDown: (event: React.KeyboardEvent) => void;
   handleBoardClick: (event: React.MouseEvent, k: number) => void;
@@ -18,7 +18,7 @@ interface BoardProps {
 
 export default function Board({
   squares,
-  activeSquareIndex,
+  activeIndex,
   boardHasFocus,
   handleBoardKeyDown,
   handleBoardClick,
@@ -34,25 +34,25 @@ export default function Board({
       onBlur={handleBoardBlur}
       data-testid="board"
     >
-      {getRows(squares, activeSquareIndex, boardHasFocus, handleBoardClick)}
+      {getRows(squares, activeIndex, boardHasFocus, handleBoardClick)}
     </div>
   );
 }
 
 function getRows(
   squares: Array<string>,
-  activeSquareIndex: number | null,
+  activeIndex: number | null,
   boardHasFocus: boolean,
   handleBoardClick: (event: React.MouseEvent, k: number) => void
 ): Array<JSX.Element> {
   return indicesArray(boardHeight).map(
-    i => getRow(squares, activeSquareIndex, boardHasFocus, handleBoardClick, i)
+    i => getRow(squares, activeIndex, boardHasFocus, handleBoardClick, i)
   );
 }
 
 function getRow(
   squares: Array<string>,
-  activeSquareIndex: number | null,
+  activeIndex: number | null,
   boardHasFocus: boolean,
   handleBoardClick: (event: React.MouseEvent, k: number) => void,
   i: number
@@ -62,14 +62,14 @@ function getRow(
       className={buildClassString(cssModule, ['board-row'])}
       key={i}
     >
-      {getSquares(squares, activeSquareIndex, boardHasFocus, handleBoardClick, i)}
+      {getSquares(squares, activeIndex, boardHasFocus, handleBoardClick, i)}
     </div>
   );
 }
 
 function getSquares(
   squares: Array<string>,
-  activeSquareIndex: number | null,
+  activeIndex: number | null,
   boardHasFocus: boolean,
   handleBoardClick: (event: React.MouseEvent, k: number) => void,
   i: number
@@ -77,7 +77,7 @@ function getSquares(
   return indicesArray(boardWidth).map(
     j => getSquare(
       squares,
-      activeSquareIndex,
+      activeIndex,
       boardHasFocus,
       handleBoardClick,
       i * boardWidth + j
@@ -87,7 +87,7 @@ function getSquares(
 
 function getSquare(
   squares: Array<string>,
-  activeSquareIndex: number | null,
+  activeIndex: number | null,
   boardHasFocus: boolean,
   handleBoardClick: (event: React.MouseEvent, k: number) => void,
   k: number
@@ -96,7 +96,7 @@ function getSquare(
     <Square
       key={k}
       value={squares[k]}
-      isActive={activeSquareIndex === k}
+      isActive={activeIndex === k}
       boardHasFocus={boardHasFocus}
       handleSquareClick={(event: React.MouseEvent) => handleBoardClick(event, k)}
       dataTestid={`square-${k}`}

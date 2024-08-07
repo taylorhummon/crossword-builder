@@ -12,7 +12,7 @@ example_suggestions_list_in_params = {
     "boardWidth": 2,
     "boardHeight": 2,
     "squares": ["A", FILLED_SQUARE, "B", EMPTY_SQUARE],
-    "activeSquareIndex": 0,
+    "activeIndex": 0,
     "canSuggestFill": True
 }
 
@@ -20,7 +20,7 @@ class SuggestionsListInParams(BaseModel):
     boardWidth: int = Field(ge=1)
     boardHeight: int = Field(ge=1)
     squares: list[Character]
-    activeSquareIndex: int = Field(ge=0)
+    activeIndex: int = Field(ge=0)
     canSuggestFill: bool
 
     model_config = { "json_schema_extra": { "examples": [example_suggestions_list_in_params] } }

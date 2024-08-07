@@ -5,7 +5,7 @@ from crossword_builder_api.lib.pattern import ActivePattern
 
 
 def build_board(
-  active_square_index: int
+  active_index: int
 ) -> Board:
     return Board(
         width = 4,
@@ -15,7 +15,7 @@ def build_board(
             "■", "A", "■", "O",
             "□", "T", "A", "G",
         ],
-        active_square_index = active_square_index
+        active_index = active_index
     )
 
 

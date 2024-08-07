@@ -31,7 +31,7 @@ def test_build_suggestions_when_active_square_is_empty_and_cannot_suggest_fill()
         boardWidth = 4,
         boardHeight = 1,
         squares = ["A", "C", "E", "□"],
-        activeSquareIndex = 3,
+        activeIndex = 3,
         canSuggestFill = False
     )
     suggestions_list = build_suggestions(mock_words_finder, suggestions_list_in_params)
@@ -42,7 +42,7 @@ def test_build_suggestions_when_active_square_is_filled_and_cannot_suggest_fill(
         boardWidth = 4,
         boardHeight = 1,
         squares = ["A", "C", "E", "■"],
-        activeSquareIndex = 3,
+        activeIndex = 3,
         canSuggestFill = False
     )
     suggestions_list = build_suggestions(mock_words_finder, suggestions_list_in_params)
@@ -53,7 +53,7 @@ def test_build_suggestions_when_active_square_is_a_letter_and_cannot_suggest_fil
         boardWidth = 4,
         boardHeight = 1,
         squares = ["A", "C", "E", "D"],
-        activeSquareIndex = 3,
+        activeIndex = 3,
         canSuggestFill = False
     )
     suggestions_list = build_suggestions(mock_words_finder, suggestions_list_in_params)
@@ -68,7 +68,7 @@ def test_build_suggestions_when_constrained_in_two_dimensions_and_cannot_suggest
           "■", "A", "■", "O",
           "□", "T", "A", "G",
         ],
-        activeSquareIndex = 3,
+        activeIndex = 3,
         canSuggestFill = False
     )
     suggestions_list = build_suggestions(mock_words_finder, suggestions_list_in_params)
@@ -79,7 +79,7 @@ def test_build_suggestions_when_active_square_is_surrounded_by_filled_squares_an
         boardWidth = 4,
         boardHeight = 1,
         squares = ["A", "□", "□", "□"],
-        activeSquareIndex = 2,
+        activeIndex = 2,
         canSuggestFill = True
     )
     suggestions_list = build_suggestions(mock_words_finder, suggestions_list_in_params)
@@ -90,7 +90,7 @@ def test_build_suggestions_when_active_square_is_adjacent_to_letter_and_can_sugg
         boardWidth = 4,
         boardHeight = 1,
         squares = ["A", "□", "□", "□"],
-        activeSquareIndex = 1,
+        activeIndex = 1,
         canSuggestFill = True
     )
     suggestions_list = build_suggestions(mock_words_finder, suggestions_list_in_params)
@@ -101,7 +101,7 @@ def test_build_suggestions_when_active_square_is_between_letters_and_can_suggest
         boardWidth = 4,
         boardHeight = 1,
         squares = ["A", "□", "S", "□"],
-        activeSquareIndex = 1,
+        activeIndex = 1,
         canSuggestFill = True
     )
     suggestions_list = build_suggestions(mock_words_finder, suggestions_list_in_params)
@@ -117,7 +117,7 @@ def test_build_suggestions_when_constrained_in_two_dimensions_and_can_suggest_fi
           "■", "A", "■", "O",
           "□", "T", "A", "G",
         ],
-        activeSquareIndex = 3,
+        activeIndex = 3,
         canSuggestFill = True
     )
     suggestions_list = build_suggestions(mock_words_finder, suggestions_list_in_params)

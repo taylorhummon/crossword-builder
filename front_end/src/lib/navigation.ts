@@ -32,10 +32,10 @@ export function indexDeterminedByArrowKey(
   allowWrap: boolean,
   key: string
 ): number | null {
-  if (key === ARROW_LEFT)  return indexOneLeftOf(allowWrap, state.activeSquareIndex);
-  if (key === ARROW_RIGHT) return indexOneRightOf(allowWrap, state.activeSquareIndex);
-  if (key === ARROW_UP)    return indexOneUpFrom(allowWrap, state.activeSquareIndex);
-  if (key === ARROW_DOWN)  return indexOneDownFrom(allowWrap, state.activeSquareIndex);
+  if (key === ARROW_LEFT)  return indexOneLeftOf(allowWrap, state.activeIndex);
+  if (key === ARROW_RIGHT) return indexOneRightOf(allowWrap, state.activeIndex);
+  if (key === ARROW_UP)    return indexOneUpFrom(allowWrap, state.activeIndex);
+  if (key === ARROW_DOWN)  return indexOneDownFrom(allowWrap, state.activeIndex);
   return null;
 }
 
@@ -44,9 +44,9 @@ export function indexOneBeforeActive(
   allowWrap: boolean
 ): number | null {
   if (state.isTypingVertical) {
-    return indexOneUpFrom(allowWrap, state.activeSquareIndex);
+    return indexOneUpFrom(allowWrap, state.activeIndex);
   } else {
-    return indexOneLeftOf(allowWrap, state.activeSquareIndex);
+    return indexOneLeftOf(allowWrap, state.activeIndex);
   }
 }
 
@@ -55,9 +55,9 @@ export function indexOneAfterActive(
   allowWrap: boolean
 ): number | null {
   if (state.isTypingVertical) {
-    return indexOneDownFrom(allowWrap, state.activeSquareIndex);
+    return indexOneDownFrom(allowWrap, state.activeIndex);
   } else {
-    return indexOneRightOf(allowWrap, state.activeSquareIndex);
+    return indexOneRightOf(allowWrap, state.activeIndex);
   }
 }
 

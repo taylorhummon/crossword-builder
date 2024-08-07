@@ -8,17 +8,17 @@ import { fetchSuggestions } from 'models/suggestions/fetch';
 export async function updateSuggestions(
   setState: (updater: (latestState: State) => State) => void,
   squares: Array<string>,
-  activeSquareIndex: number | null,
+  activeIndex: number | null,
   canSuggestFill: boolean
 ): Promise<void> {
-  if (activeSquareIndex === null) {
+  if (activeIndex === null) {
     setState((latestState: State) => ({
       ...latestState,
       suggestions: []
     }));
     return;
   }
-  const requestData = { boardWidth, boardHeight, squares, activeSquareIndex, canSuggestFill };
+  const requestData = { boardWidth, boardHeight, squares, activeIndex, canSuggestFill };
   const suggestions = await fetchSuggestions(requestData);
   setState((latestState: State) => {
     if (areSuggestionsOutdated(latestState, requestData)) {
@@ -36,7 +36,7 @@ function areSuggestionsOutdated(
   latestState: State,
   requestData: SuggestionsRequestData
 ): boolean {
-  if (requestData.activeSquareIndex !== latestState.activeSquareIndex) return true;
+  if (requestData.activeIndex !== latestState.activeIndex) return true;
   if (requestData.canSuggestFill !== latestState.canSuggestFill) return true;
   if (! arrayShallowEquivalent(requestData.squares, latestState.squares)) return true;
   return false;

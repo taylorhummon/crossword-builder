@@ -15,7 +15,7 @@ def build_suggestions(
         width=params.boardWidth,
         height=params.boardHeight,
         squares=params.squares,
-        active_square_index=params.activeSquareIndex
+        active_index=params.activeIndex
     )
     if params.canSuggestFill:
         return _when_can_suggest_fill(words_finder, board)
@@ -62,7 +62,7 @@ def _get_suggestions_set_for_pattern(
     pattern: ActivePattern
 ) -> set[str]:
     suggestions_set = set()
-    i = pattern.active
+    i = pattern.active_index
     regular_expression = pattern.as_regular_expression()
     words = words_finder.words_of_length(len(pattern))
     for word in words:
@@ -97,7 +97,7 @@ def _will_suggest_fill_trim_left(
     words_finder: WordsFinder,
     pattern: ActivePattern
 ) -> bool:
-    if pattern.active != len(pattern) - 1:
+    if pattern.active_index != len(pattern) - 1:
         raise Exception("expected last character to be active")
     subpatterns = pattern.compute_subpatterns_trim_left()
     if any(len(subpattern) == 1 for subpattern in subpatterns):
@@ -111,7 +111,7 @@ def _will_suggest_fill_trim_right(
     words_finder: WordsFinder,
     pattern: ActivePattern
 ) -> bool:
-    if pattern.active != 0:
+    if pattern.active_index != 0:
         raise Exception("expected first character to be active")
     subpatterns = pattern.compute_subpatterns_trim_right()
     if any(len(subpattern) == 1 for subpattern in subpatterns):

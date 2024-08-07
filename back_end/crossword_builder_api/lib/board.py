@@ -14,19 +14,19 @@ class Board:
         width: int,
         height: int,
         squares: list[Character],
-        active_square_index: int,
+        active_index: int,
     ) -> None:
         if len(squares) != width * height:
             raise Exception("squares must be an array of size width * height")
-        if active_square_index >= width * height:
-            raise Exception("active_square_index cannot be greater or equal to width * height")
+        if active_index >= width * height:
+            raise Exception("active_index cannot be greater or equal to width * height")
         self.width: int
         self.width = width
         self.height: int
         self.height = height
         self._squares: list[Character]
-        self._squares = _ensure_active_square_is_empty(squares, active_square_index)
-        remainder_and_quotient = calculate_remainder_and_quotient(active_square_index, width)
+        self._squares = _ensure_active_square_is_empty(squares, active_index)
+        remainder_and_quotient = calculate_remainder_and_quotient(active_index, width)
         self.active_column: int
         self.active_column = remainder_and_quotient[0]
         self.active_row: int
@@ -113,11 +113,11 @@ class Board:
 
 def _ensure_active_square_is_empty(
     squares: list[Character],
-    active_square_index: int
+    active_index: int
 ) -> list[Character]:
-    if squares[active_square_index] == EMPTY_SQUARE:
+    if squares[active_index] == EMPTY_SQUARE:
         return squares
     else:
         squares_copy = squares[:]
-        squares_copy[active_square_index] = EMPTY_SQUARE
+        squares_copy[active_index] = EMPTY_SQUARE
         return squares_copy

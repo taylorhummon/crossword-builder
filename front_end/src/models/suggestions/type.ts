@@ -2,6 +2,6 @@ export interface SuggestionsRequestData {
   boardWidth: number;
   boardHeight: number;
   squares: Array<string>;
-  activeSquareIndex: number;
+  activeIndex: number;
   canSuggestFill: boolean;
 }

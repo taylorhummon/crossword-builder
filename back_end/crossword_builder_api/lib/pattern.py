@@ -39,15 +39,15 @@ class Pattern:
     def drop_first_character(
         self: Pattern
     ) -> Pattern:
-        if len(self._characters) == 1:
-            raise Exception("cannot drop first when pattern is length 1")
+        if len(self._characters) <= 1:
+            raise Exception("pattern too short to drop first character")
         return Pattern(self._characters[1 : len(self._characters)])
 
     def drop_last_character(
         self: Pattern
     ) -> Pattern:
-        if len(self._characters) == 1:
-            raise Exception("cannot drop last when pattern is length 1")
+        if len(self._characters) <= 1:
+            raise Exception("paattern too long to drop last character")
         return Pattern(self._characters[0 : len(self._characters) - 1])
 
 
@@ -67,13 +67,13 @@ class ActivePattern(Pattern):
     def __init__(
         self: ActivePattern,
         characters: list[Character],
-        active: int
+        active_index: int
     ) -> None:
-        if active < 0 or active >= len(characters):
-            raise Exception(f"active={active} is invalid for characters={characters}")
+        if active_index < 0 or active_index >= len(characters):
+            raise Exception(f"active_index={active_index} is invalid for characters={characters}")
         super().__init__(characters)
-        self.active: int
-        self.active = active
+        self.active_index: int
+        self.active_index = active_index
 
     def __eq__(
         self: ActivePattern,
@@ -81,7 +81,7 @@ class ActivePattern(Pattern):
     ) -> bool:
         if type(other) != ActivePattern:
             return False
-        return other._characters == self._characters and other.active == self.active
+        return other._characters == self._characters and other.active_index == self.active_index
 
     def compute_subpatterns(
         self: ActivePattern
@@ -99,11 +99,11 @@ class ActivePattern(Pattern):
     ) -> list[ActivePattern]:
         trim_points = []
         trim_points.append(0)
-        for i in range(0, self.active):
+        for i in range(0, self.active_index):
             if self._characters[i] == EMPTY_SQUARE:
                 trim_points.append(i + 1)
         return [
-            ActivePattern(self._characters[trim_point : len(self)], self.active - trim_point)
+            ActivePattern(self._characters[trim_point : len(self)], self.active_index - trim_point)
             for trim_point in reversed(trim_points)
         ]
 
@@ -111,11 +111,11 @@ class ActivePattern(Pattern):
         self: ActivePattern
     ) -> list[ActivePattern]:
         trim_points = []
-        for i in range(self.active + 1, len(self)):
+        for i in range(self.active_index + 1, len(self)):
             if self._characters[i] == EMPTY_SQUARE:
                 trim_points.append(i)
         trim_points.append(len(self))
         return [
-            ActivePattern(self._characters[0 : trim_point], self.active)
+            ActivePattern(self._characters[0 : trim_point], self.active_index)
             for trim_point in trim_points
         ]
