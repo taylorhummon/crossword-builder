@@ -8,14 +8,14 @@ import { boardWidth, boardHeight } from 'environment/board';
 import { isMouseNavigation } from 'lib/navigation';
 import { nextStateDueToKeyPress } from 'lib/keyPress';
 import { updateSuggestions } from 'models/suggestions/update';
-import { buildArrayOfLength } from 'utilities/arrays';
+import { EMPTY_SQUARE_CHARACTER } from 'utilities/alphabet';
 import { buildClassString } from 'utilities/css';
 
 import cssModule from './App.module.scss';
 
 
 export interface State {
-  squareValues: Array<string | null>;
+  squareValues: Array<string>;
   activeSquareIndex: number | null;
   bookmarkedIndex: number | null;
   boardHasFocus: boolean;
@@ -26,7 +26,7 @@ export interface State {
 
 export default function App(): JSX.Element {
   const [state, setState] = useState<State>({
-    squareValues: buildArrayOfLength(boardWidth * boardHeight),
+    squareValues: Array(boardWidth * boardHeight).fill(EMPTY_SQUARE_CHARACTER),
     activeSquareIndex: null,
     bookmarkedIndex: 0,
     boardHasFocus: false,

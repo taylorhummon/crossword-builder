@@ -7,7 +7,7 @@ import { fetchSuggestions } from 'models/suggestions/fetch';
 
 export async function updateSuggestions(
   setState: (updater: (latestState: State) => State) => void,
-  squareValues: Array<string | null>,
+  squareValues: Array<string>,
   activeSquareIndex: number | null,
   canSuggestFill: boolean
 ): Promise<void> {

@@ -1,10 +1,9 @@
 import { State } from 'components/app/App';
-import { FILLED_SQUARE_CHARACTER } from 'utilities/alphabet';
+import { FILLED_SQUARE_CHARACTER, EMPTY_SQUARE_CHARACTER, isLetter } from 'utilities/alphabet';
 import {
   isArrowKey, indexDeterminedByArrowKey,
   indexOneBeforeActive, indexOneAfterActive
 } from 'lib/navigation';
-import { isLetter } from 'utilities/alphabet';
 
 
 export function nextStateDueToKeyPress(
@@ -65,13 +64,13 @@ function dueToBackspaceKey(
   state: State
 ): State {
   const { squareValues, activeSquareIndex } = state;
-  if (activeSquareIndex !== null && squareValues[activeSquareIndex] !== null) {
+  if (activeSquareIndex !== null && squareValues[activeSquareIndex] !== EMPTY_SQUARE_CHARACTER) {
     return dueToDeleteKey(state);
   }
   const willMoveFocusTo = indexOneBeforeActive(state, true);
   return {
     ...state,
-    squareValues: updatedSquareValues(squareValues, willMoveFocusTo, null),
+    squareValues: updatedSquareValues(squareValues, willMoveFocusTo, EMPTY_SQUARE_CHARACTER),
     activeSquareIndex: willMoveFocusTo
   };
 }
@@ -82,15 +81,15 @@ function dueToDeleteKey(
   const { squareValues, activeSquareIndex } = state;
   return {
     ...state,
-    squareValues: updatedSquareValues(squareValues, activeSquareIndex, null)
+    squareValues: updatedSquareValues(squareValues, activeSquareIndex, EMPTY_SQUARE_CHARACTER)
   };
 }
 
 function updatedSquareValues(
-  prevSquareValues: Array<string | null>,
+  prevSquareValues: Array<string>,
   index: number | null,
-  value: string | null
-): Array<string | null> {
+  value: string
+): Array<string> {
   const squareValues = [...prevSquareValues];
   if (index !== null) {
     squareValues[index] = value;

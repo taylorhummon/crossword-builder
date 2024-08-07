@@ -1,12 +1,6 @@
 import { isNumber } from './math';
 
 
-export function buildArrayOfLength(
-  length: number
-): Array<null> {
-  return Array(length).fill(null);
-}
-
 export function arrayShallowEquivalent(
   a: Array<any>,
   b: Array<any>

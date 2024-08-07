@@ -11,5 +11,5 @@ Letter = Annotated[
         pattern="^[A-Z]$"
     )
 ]
-
-Tilde = Literal["~"]
+FilledSquareType = Literal["■"]
+EmptySquareType = Literal["□"]

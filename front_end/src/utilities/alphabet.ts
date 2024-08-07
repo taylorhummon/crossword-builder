@@ -1,9 +1,10 @@
 import { indicesArray } from './arrays';
 
 
-export const FILLED_SQUARE_CHARACTER = '~';
+export const FILLED_SQUARE_CHARACTER = '■';
+export const EMPTY_SQUARE_CHARACTER = '□';
 
-export const SUGGESTION_REGULAR_EXPRESSION = /^([A-Z]|~)$/;
+export const SUGGESTION_REGULAR_EXPRESSION = /^([A-Z]|■)$/;
 
 export function isSuggestion(
   value: any

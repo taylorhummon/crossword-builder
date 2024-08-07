@@ -1,11 +1,11 @@
-import { FILLED_SQUARE_CHARACTER } from 'utilities/alphabet';
+import { FILLED_SQUARE_CHARACTER, EMPTY_SQUARE_CHARACTER } from 'utilities/alphabet';
 import { buildClassString } from 'utilities/css';
 
 import cssModule from './Square.module.scss';
 
 
 interface SquareProps {
-  value: string | null;
+  value: string;
   isActive: boolean;
   boardHasFocus: boolean;
   handleSquareClick: (event: React.MouseEvent) => void;
@@ -31,7 +31,7 @@ export default function Square({
 }
 
 function className(
-  value: string | null,
+  value: string,
   isActive: boolean,
   boardHasFocus: boolean
 ): string {
@@ -43,15 +43,20 @@ function className(
 }
 
 function displayedValue(
-  value: string | null
+  value: string
 ): string | null {
-  if (value === null) return null;
-  if (isFilled(value)) return null;
+  if (isEmpty(value) || isFilled(value)) return null;
   return value;
 }
 
+function isEmpty(
+  value: string
+): boolean {
+  return value === EMPTY_SQUARE_CHARACTER;
+}
+
 function isFilled(
-  value: string | null
+  value: string
 ): boolean {
   return value === FILLED_SQUARE_CHARACTER;
 }

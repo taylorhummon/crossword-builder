@@ -7,7 +7,7 @@ import cssModule from './Board.module.scss';
 
 
 interface BoardProps {
-  squareValues: Array<string | null>;
+  squareValues: Array<string>;
   activeSquareIndex: number | null;
   boardHasFocus: boolean;
   handleBoardKeyDown: (event: React.KeyboardEvent) => void;
@@ -40,7 +40,7 @@ export default function Board({
 }
 
 function getRows(
-  squareValues: Array<string | null>,
+  squareValues: Array<string>,
   activeSquareIndex: number | null,
   boardHasFocus: boolean,
   handleBoardClick: (event: React.MouseEvent, k: number) => void
@@ -51,7 +51,7 @@ function getRows(
 }
 
 function getRow(
-  squareValues: Array<string | null>,
+  squareValues: Array<string>,
   activeSquareIndex: number | null,
   boardHasFocus: boolean,
   handleBoardClick: (event: React.MouseEvent, k: number) => void,
@@ -68,7 +68,7 @@ function getRow(
 }
 
 function getSquares(
-  squareValues: Array<string | null>,
+  squareValues: Array<string>,
   activeSquareIndex: number | null,
   boardHasFocus: boolean,
   handleBoardClick: (event: React.MouseEvent, k: number) => void,
@@ -86,7 +86,7 @@ function getSquares(
 }
 
 function getSquare(
-  squareValues: Array<string | null>,
+  squareValues: Array<string>,
   activeSquareIndex: number | null,
   boardHasFocus: boolean,
   handleBoardClick: (event: React.MouseEvent, k: number) => void,

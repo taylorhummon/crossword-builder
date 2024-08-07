@@ -1,7 +1,7 @@
 from __future__ import annotations
 import re
 
-from crossword_builder_api.custom_typing import Letter, Tilde
+from crossword_builder_api.custom_typing import Letter, FilledSquareType, EmptySquareType
 from crossword_builder_api.utilities.math import calculate_remainder_and_quotient
 
 
@@ -12,7 +12,7 @@ class Board:
         self: Board,
         width: int,
         height: int,
-        square_values: list[Letter | Tilde | None],
+        square_values: list[Letter | FilledSquareType | EmptySquareType],
         active_square_index: int,
     ) -> None:
         if len(square_values) != width * height:
@@ -23,7 +23,7 @@ class Board:
         self.width = width
         self.height: int
         self.height = height
-        self._square_values: list[Letter | Tilde | None]
+        self._square_values: list[Letter | FilledSquareType | EmptySquareType]
         self._square_values = square_values
         remainder_and_quotient = calculate_remainder_and_quotient(active_square_index, width)
         self.active_column: int
@@ -35,7 +35,7 @@ class Board:
         self: Board,
         i: int,
         j: int
-    ) -> Letter | Tilde | None:
+    ) -> Letter | FilledSquareType | EmptySquareType:
         index = j * self.width + i
         if (index < 0 or index >= self.width * self.height):
             raise Exception(f"indices out of bounds: {i}, {j}")
@@ -47,7 +47,7 @@ class Board:
         i = self.active_column
         while (
             i - 1 >= 0 and
-            self.square_value_at(i - 1, self.active_row) != "~"
+            self.square_value_at(i - 1, self.active_row) != "■"
         ):
             i -= 1
         return i
@@ -58,7 +58,7 @@ class Board:
         i = self.active_column
         while (
             i + 1 < self.width and
-            self.square_value_at(i + 1, self.active_row) != "~"
+            self.square_value_at(i + 1, self.active_row) != "■"
         ):
             i += 1
         return i
@@ -69,7 +69,7 @@ class Board:
         j = self.active_row
         while (
             j - 1 >= 0 and
-            self.square_value_at(self.active_column, j - 1) != "~"
+            self.square_value_at(self.active_column, j - 1) != "■"
         ):
             j -= 1
         return j
@@ -80,7 +80,7 @@ class Board:
         j = self.active_row
         while (
             j + 1 < self.height and
-            self.square_value_at(self.active_column, j + 1) != "~"
+            self.square_value_at(self.active_column, j + 1) != "■"
         ):
             j += 1
         return j
@@ -114,7 +114,7 @@ class Board:
         character = self.square_value_at(i, self.active_row)
         if (i == self.active_column):
             return "@"
-        if (character == None):
+        if (character == "□"):
             return "."
         if (UPPERCASE_LETTER_REGULAR_EXPRESSION.match(character)):
             return character
@@ -127,7 +127,7 @@ class Board:
         character = self.square_value_at(self.active_column, j)
         if (j == self.active_row):
             return "@"
-        if (character == None):
+        if (character == "□"):
             return "."
         if (UPPERCASE_LETTER_REGULAR_EXPRESSION.match(character)):
             return character

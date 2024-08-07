@@ -1,33 +1,9 @@
 import {
-  buildArrayOfLength,
   arrayShallowEquivalent,
   indicesArray
 } from 'utilities/arrays';
 
 
-describe('buildArrayOfLength()', () => {
-  it('creates an array of size zero', () => {
-    expect(
-      buildArrayOfLength(0).length
-    ).toBe(
-      0
-    );
-  });
-  it('creates an array of size three', () => {
-    expect(
-      buildArrayOfLength(3).length
-    ).toBe(
-      3
-    );
-  });
-  it('creates initializes each of the values in the array to null', () => {
-    expect(
-      buildArrayOfLength(3)
-    ).toEqual(
-      [null, null, null]
-    );
-  });
-});
 describe('arrayShallowEquivalent()', () => {
   it('says that equal arrays are equivalent', () => {
     const a = ['a', 'b', 'c'];
