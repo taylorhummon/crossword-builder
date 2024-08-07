@@ -10,10 +10,10 @@ export function isKeyboardNavigation(): boolean {
   return document.body.classList.contains('keyboard-navigation');
 }
 
-const arrowLeft   = 'ArrowLeft';
-const arrowRight  = 'ArrowRight';
-const arrowUp     = 'ArrowUp';
-const arrowDown   = 'ArrowDown';
+const ARROW_LEFT   = 'ArrowLeft';
+const ARROW_RIGHT  = 'ArrowRight';
+const ARROW_UP     = 'ArrowUp';
+const ARROW_DOWN   = 'ArrowDown';
 
 export function isLetterKey(
   key: string
@@ -24,7 +24,7 @@ export function isLetterKey(
 export function isArrowKey(
   key: string
 ): boolean {
-  return key === arrowLeft || key === arrowRight || key === arrowUp || key === arrowDown;
+  return key === ARROW_LEFT || key === ARROW_RIGHT || key === ARROW_UP || key === ARROW_DOWN;
 }
 
 export function indexDeterminedByArrowKey(
@@ -32,10 +32,10 @@ export function indexDeterminedByArrowKey(
   allowWrap: boolean,
   key: string
 ): number | null {
-  if (key === arrowLeft)  return indexOneLeftOf(allowWrap, state.activeSquareIndex);
-  if (key === arrowRight) return indexOneRightOf(allowWrap, state.activeSquareIndex);
-  if (key === arrowUp)    return indexOneUpFrom(allowWrap, state.activeSquareIndex);
-  if (key === arrowDown)  return indexOneDownFrom(allowWrap, state.activeSquareIndex);
+  if (key === ARROW_LEFT)  return indexOneLeftOf(allowWrap, state.activeSquareIndex);
+  if (key === ARROW_RIGHT) return indexOneRightOf(allowWrap, state.activeSquareIndex);
+  if (key === ARROW_UP)    return indexOneUpFrom(allowWrap, state.activeSquareIndex);
+  if (key === ARROW_DOWN)  return indexOneDownFrom(allowWrap, state.activeSquareIndex);
   return null;
 }
 
