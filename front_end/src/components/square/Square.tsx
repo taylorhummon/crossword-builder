@@ -1,4 +1,4 @@
-import { FILLED_SQUARE_CHARACTER, EMPTY_SQUARE_CHARACTER } from 'utilities/alphabet';
+import { EMPTY_SQUARE, FILLED_SQUARE } from 'utilities/character';
 import { buildClassString } from 'utilities/css';
 
 import cssModule from './Square.module.scss';
@@ -52,11 +52,11 @@ function displayedValue(
 function isEmpty(
   value: string
 ): boolean {
-  return value === EMPTY_SQUARE_CHARACTER;
+  return value === EMPTY_SQUARE;
 }
 
 function isFilled(
   value: string
 ): boolean {
-  return value === FILLED_SQUARE_CHARACTER;
+  return value === FILLED_SQUARE;
 }

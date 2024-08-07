@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import { FILLED_SQUARE_CHARACTER } from 'utilities/alphabet';
+import { FILLED_SQUARE } from 'utilities/character';
 import Suggestions from 'components/suggestions/Suggestions';
 
 
@@ -83,7 +83,7 @@ it('shows all 27 letters when none are suggested and can suggest fill', () => {
 });
 
 it('emphasizes the suggested letters when can suggest fill', () => {
-  const suggestions = ['A', FILLED_SQUARE_CHARACTER, 'C'];
+  const suggestions = ['A', FILLED_SQUARE, 'C'];
   const canSuggestFill = true;
   render(
     <Suggestions

@@ -1,7 +1,7 @@
 import { State } from 'components/app/App';
-import { FILLED_SQUARE_CHARACTER, EMPTY_SQUARE_CHARACTER, isLetter } from 'utilities/alphabet';
+import { EMPTY_SQUARE, FILLED_SQUARE } from 'utilities/character';
 import {
-  isArrowKey, indexDeterminedByArrowKey,
+  isLetterKey, isArrowKey, indexDeterminedByArrowKey,
   indexOneBeforeActive, indexOneAfterActive
 } from 'lib/navigation';
 
@@ -13,7 +13,7 @@ export function nextStateDueToKeyPress(
   if (event.altKey || event.ctrlKey || event.metaKey) return state;
   const { key } = event;
   if (isArrowKey(key))      return dueToArrowKey(state, key);
-  if (isLetter(key))        return dueToLetterKey(state, key);
+  if (isLetterKey(key))     return dueToLetterKey(state, key);
   if (key === 'Enter')      return dueToEnterKey(state);
   if (key === ' ')          return dueToSpaceKey(state);
   if (key === 'Backspace')  return dueToBackspaceKey(state);
@@ -36,9 +36,10 @@ function dueToLetterKey(
   key: string
 ): State {
   const { squareValues, activeSquareIndex } = state;
+  const letter = key.toUpperCase();
   return {
     ...state,
-    squareValues: updatedSquareValues(squareValues, activeSquareIndex, key.toUpperCase()),
+    squareValues: updatedSquareValues(squareValues, activeSquareIndex, letter),
     activeSquareIndex: indexOneAfterActive(state, true)
   };
 }
@@ -55,7 +56,7 @@ function dueToSpaceKey(
   const { squareValues, activeSquareIndex } = state;
   return {
     ...state,
-    squareValues: updatedSquareValues(squareValues, activeSquareIndex, FILLED_SQUARE_CHARACTER),
+    squareValues: updatedSquareValues(squareValues, activeSquareIndex, FILLED_SQUARE),
     activeSquareIndex: indexOneAfterActive(state, true)
   };
 }
@@ -64,13 +65,13 @@ function dueToBackspaceKey(
   state: State
 ): State {
   const { squareValues, activeSquareIndex } = state;
-  if (activeSquareIndex !== null && squareValues[activeSquareIndex] !== EMPTY_SQUARE_CHARACTER) {
+  if (activeSquareIndex !== null && squareValues[activeSquareIndex] !== EMPTY_SQUARE) {
     return dueToDeleteKey(state);
   }
   const willMoveFocusTo = indexOneBeforeActive(state, true);
   return {
     ...state,
-    squareValues: updatedSquareValues(squareValues, willMoveFocusTo, EMPTY_SQUARE_CHARACTER),
+    squareValues: updatedSquareValues(squareValues, willMoveFocusTo, EMPTY_SQUARE),
     activeSquareIndex: willMoveFocusTo
   };
 }
@@ -81,7 +82,7 @@ function dueToDeleteKey(
   const { squareValues, activeSquareIndex } = state;
   return {
     ...state,
-    squareValues: updatedSquareValues(squareValues, activeSquareIndex, EMPTY_SQUARE_CHARACTER)
+    squareValues: updatedSquareValues(squareValues, activeSquareIndex, EMPTY_SQUARE)
   };
 }
 

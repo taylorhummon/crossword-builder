@@ -1,12 +1,13 @@
 import { State } from 'components/app/App';
 import { boardWidth, boardHeight } from 'environment/board';
 import {
+  isLetterKey,
   isArrowKey,
   indexDeterminedByArrowKey,
   indexOneBeforeActive,
   indexOneAfterActive
 } from 'lib/navigation';
-
+import { EMPTY_SQUARE, FILLED_SQUARE } from 'utilities/character';
 
 jest.mock('environment/board', () => {
   // using a non-square board for testing
@@ -14,6 +15,37 @@ jest.mock('environment/board', () => {
     boardHeight: 5,
     boardWidth: 7,
   };
+});
+
+describe('isLetterKey()', () => {
+  it('recognizes uppercase letters', () => {
+    expect(
+      isLetterKey('R')
+    ).toEqual(
+      true
+    );
+  });
+  it('recognizes lowercase letters', () => {
+    expect(
+      isLetterKey('t')
+    ).toEqual(
+      true
+    );
+  });
+  it('does not recognize empty square', () => {
+    expect(
+      isLetterKey(EMPTY_SQUARE)
+    ).toEqual(
+      false
+    );
+  });
+  it('does not recognize filled square', () => {
+    expect(
+      isLetterKey(FILLED_SQUARE)
+    ).toEqual(
+      false
+    );
+  });
 });
 
 describe('isArrowKey()', () => {

@@ -1,6 +1,6 @@
 import { SuggestionsRequestData } from 'models/suggestions/type';
 import { serverBaseUrl, serverPort } from 'environment/server';
-import { SUGGESTION_REGULAR_EXPRESSION } from 'utilities/alphabet';
+import { isSuggestableCharacter } from 'utilities/character';
 
 
 export async function fetchSuggestions(
@@ -29,7 +29,7 @@ function deserializeSuggestions(
   if (! Array.isArray(jsonHash)) throw new Error('Expected response to be an array', jsonHash);
   const suggestions = [] as Array<string>;
   for (const entry of jsonHash) {
-    if (typeof entry === "string" && SUGGESTION_REGULAR_EXPRESSION.test(entry)) {
+    if (isSuggestableCharacter(entry)) {
       suggestions.push(entry);
     }
   }

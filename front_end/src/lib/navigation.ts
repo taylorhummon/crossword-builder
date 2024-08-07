@@ -15,6 +15,12 @@ const arrowRight  = 'ArrowRight';
 const arrowUp     = 'ArrowUp';
 const arrowDown   = 'ArrowDown';
 
+export function isLetterKey(
+  key: string
+): boolean {
+  return /^[A-Za-z]$/.test(key);
+}
+
 export function isArrowKey(
   key: string
 ): boolean {
