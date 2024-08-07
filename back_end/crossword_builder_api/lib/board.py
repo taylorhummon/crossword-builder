@@ -1,6 +1,7 @@
 from __future__ import annotations
 import re
 
+from crossword_builder_api.lib.pattern import ActivePattern
 from crossword_builder_api.utilities.character import Character, EMPTY_SQUARE, FILLED_SQUARE
 from crossword_builder_api.utilities.math import calculate_remainder_and_quotient
 
@@ -24,7 +25,7 @@ class Board:
         self.height: int
         self.height = height
         self._squares: list[Character]
-        self._squares = squares
+        self._squares = _ensure_active_square_is_empty(squares, active_square_index)
         remainder_and_quotient = calculate_remainder_and_quotient(active_square_index, width)
         self.active_column: int
         self.active_column = remainder_and_quotient[0]
@@ -89,46 +90,34 @@ class Board:
         self: Board,
         start: int,
         end: int
-    ) -> str:
-        pattern_characters = [
-            self._pattern_character_horizontal(i)
+    ) -> ActivePattern:
+        characters = [
+            self.character_at(i, self.active_row)
             for i in range(start, end + 1)
         ]
-        return "".join(pattern_characters)
+        relative_active = self.active_column - start
+        return ActivePattern(characters, relative_active)
 
     def vertical_pattern_for(
         self: Board,
         start: int,
         end: int
-    ) -> str:
-        pattern_characters = [
-            self._pattern_character_vertical(j)
+    ) -> ActivePattern:
+        characters = [
+            self.character_at(self.active_column, j)
             for j in range(start, end + 1)
         ]
-        return "".join(pattern_characters)
+        relative_active = self.active_row - start
+        return ActivePattern(characters, relative_active)
 
-    def _pattern_character_horizontal(
-        self,
-        i: int
-    ) -> str:
-        character = self.character_at(i, self.active_row)
-        if (i == self.active_column):
-            return "@"
-        if (character == EMPTY_SQUARE):
-            return "."
-        if (UPPERCASE_LETTER_REGULAR_EXPRESSION.match(character)):
-            return character
-        raise Exception("unexpected character: #{character}")
 
-    def _pattern_character_vertical(
-        self,
-        j: int
-    ) -> str:
-        character = self.character_at(self.active_column, j)
-        if (j == self.active_row):
-            return "@"
-        if (character == EMPTY_SQUARE):
-            return "."
-        if (UPPERCASE_LETTER_REGULAR_EXPRESSION.match(character)):
-            return character
-        raise Exception("unexpected character: #{character}")
+def _ensure_active_square_is_empty(
+    squares: list[Character],
+    active_square_index: int
+) -> list[Character]:
+    if squares[active_square_index] == EMPTY_SQUARE:
+        return squares
+    else:
+        squares_copy = squares[:]
+        squares_copy[active_square_index] = EMPTY_SQUARE
+        return squares_copy

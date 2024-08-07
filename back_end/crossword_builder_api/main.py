@@ -5,7 +5,7 @@ from crossword_builder_api.settings import Settings
 from crossword_builder_api.cors import setup_cors
 from crossword_builder_api.models.suggestions_lists import SuggestionsListInParams, SuggestionsListOutParams
 from crossword_builder_api.lib.words_finder import WordsFinder
-from crossword_builder_api.lib.suggestions import build_suggestions_list
+from crossword_builder_api.lib.suggestions import build_suggestions
 
 
 settings = Settings()
@@ -18,4 +18,4 @@ words_finder = WordsFinder()
 async def create_suggestions_list(
     params: SuggestionsListInParams
 ):
-    return build_suggestions_list(words_finder, params)
+    return build_suggestions(words_finder, params)

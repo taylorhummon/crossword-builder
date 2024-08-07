@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from crossword_builder_api.lib.board import Board
+from crossword_builder_api.lib.pattern import ActivePattern
 
 
 def build_board(
@@ -26,7 +27,8 @@ def test_Board():
     assert board.active_row == 1
     assert board.character_at(0, 0) == "A"
     assert board.character_at(0, 2) == "□"
-    assert board.character_at(3, 1) == "O"
+    assert board.character_at(3, 1) == "□" # the active square should be empty
+    assert board.character_at(3, 2) == "G"
 
 def test_left_bound():
     assert build_board(7).left_bound() == 3
@@ -50,15 +52,17 @@ def test_bottom_bound():
     assert build_board(3).bottom_bound() == 2
 
 def test_horizontal_pattern_for():
-    assert build_board(0).horizontal_pattern_for(0, 2) == "@CE"
-    assert build_board(0).horizontal_pattern_for(0, 1) == "@C"
-    assert build_board(0).horizontal_pattern_for(0, 0) == "@"
-    assert build_board(1).horizontal_pattern_for(0, 2) == "A@E"
-    assert build_board(8).horizontal_pattern_for(0, 3) == "@TAG"
-    assert build_board(9).horizontal_pattern_for(0, 3) == ".@AG"
+    assert build_board(0).horizontal_pattern_for(0, 2) == ActivePattern(list("□CE"), 0)
+    assert build_board(0).horizontal_pattern_for(0, 1) == ActivePattern(list("□C"), 0)
+    assert build_board(0).horizontal_pattern_for(0, 0) == ActivePattern(list("□"), 0)
+    assert build_board(1).horizontal_pattern_for(0, 2) == ActivePattern(list("A□E"), 1)
+    assert build_board(1).horizontal_pattern_for(1, 2) == ActivePattern(list("□E"), 0)
+    assert build_board(8).horizontal_pattern_for(0, 3) == ActivePattern(list("□TAG"), 0)
+    assert build_board(9).horizontal_pattern_for(0, 3) == ActivePattern(list("□□AG"), 1)
 
 def test_vertical_pattern_for():
-    assert build_board(1).vertical_pattern_for(0, 2) == "@AT"
-    assert build_board(5).vertical_pattern_for(0, 2) == "C@T"
-    assert build_board(4).vertical_pattern_for(0, 2) == "A@."
-    assert build_board(8).vertical_pattern_for(2, 2) == "@"
+    assert build_board(1).vertical_pattern_for(0, 2) == ActivePattern(list("□AT"), 0)
+    assert build_board(5).vertical_pattern_for(0, 2) == ActivePattern(list("C□T"), 1)
+    assert build_board(4).vertical_pattern_for(0, 2) == ActivePattern(list("A□□"), 1)
+    assert build_board(4).vertical_pattern_for(1, 2) == ActivePattern(list("□□"), 0)
+    assert build_board(8).vertical_pattern_for(2, 2) == ActivePattern(list("□"), 0)

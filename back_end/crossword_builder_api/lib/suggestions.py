@@ -1,28 +1,23 @@
 from __future__ import annotations
-import re
 
 from crossword_builder_api.lib.words_finder import WordsFinder
 from crossword_builder_api.models.suggestions_lists import SuggestionsListInParams
 from crossword_builder_api.lib.board import Board
-from crossword_builder_api.lib.subpatterns import (
-    compute_subpatterns,
-    compute_subpatterns_trim_left,
-    compute_subpatterns_trim_right
-)
+from crossword_builder_api.lib.pattern import ActivePattern, Pattern
 from crossword_builder_api.utilities.character import FILLED_SQUARE
 
 
-def build_suggestions_list(
+def build_suggestions(
     words_finder: WordsFinder,
-    suggestions_list_in_params: SuggestionsListInParams
+    params: SuggestionsListInParams
 ) -> set[str]:
     board = Board(
-        width=suggestions_list_in_params.boardWidth,
-        height=suggestions_list_in_params.boardHeight,
-        squares=suggestions_list_in_params.squares,
-        active_square_index=suggestions_list_in_params.activeSquareIndex
+        width=params.boardWidth,
+        height=params.boardHeight,
+        squares=params.squares,
+        active_square_index=params.activeSquareIndex
     )
-    if suggestions_list_in_params.canSuggestFill:
+    if params.canSuggestFill:
         return _when_can_suggest_fill(words_finder, board)
     else:
         return _when_cannot_suggest_fill(words_finder, board)
@@ -41,10 +36,10 @@ def _when_can_suggest_fill(
     words_finder: WordsFinder,
     board: Board
 ) -> set[str]:
-    horizontal_pattern = board.horizontal_pattern_for(board.left_bound(), board.right_bound())
-    vertical_pattern = board.vertical_pattern_for(board.top_bound(), board.bottom_bound())
-    suggestions_set_a = _get_suggestions_set_for_all_subpatterns(words_finder, horizontal_pattern)
-    suggestions_set_b = _get_suggestions_set_for_all_subpatterns(words_finder, vertical_pattern)
+    pattern_a = board.horizontal_pattern_for(board.left_bound(), board.right_bound())
+    pattern_b = board.vertical_pattern_for(board.top_bound(), board.bottom_bound())
+    suggestions_set_a = _get_suggestions_set_for_all_subpatterns(words_finder, pattern_a)
+    suggestions_set_b = _get_suggestions_set_for_all_subpatterns(words_finder, pattern_b)
     suggestions_set = suggestions_set_a.intersection(suggestions_set_b)
     if _will_suggest_fill(words_finder, board):
         return suggestions_set.union([FILLED_SQUARE])
@@ -53,10 +48,10 @@ def _when_can_suggest_fill(
 
 def _get_suggestions_set_for_all_subpatterns(
     words_finder: WordsFinder,
-    pattern: str
+    pattern: ActivePattern
 ) -> set[str]:
     suggestions_set = set()
-    subpatterns = compute_subpatterns(pattern)
+    subpatterns = pattern.compute_subpatterns()
     for subpattern in subpatterns:
         for suggestion in _get_suggestions_set_for_pattern(words_finder, subpattern):
             suggestions_set.add(suggestion)
@@ -64,34 +59,17 @@ def _get_suggestions_set_for_all_subpatterns(
 
 def _get_suggestions_set_for_pattern(
     words_finder: WordsFinder,
-    pattern: str
+    pattern: ActivePattern
 ) -> set[str]:
     suggestions_set = set()
-    index = pattern.index("@")
-    regular_expression = _regular_expression_for(pattern)
+    i = pattern.active
+    regular_expression = pattern.as_regular_expression()
     words = words_finder.words_of_length(len(pattern))
     for word in words:
         if regular_expression.match(word):
-            suggestions_set.add(word[index:index + 1])
+            letter = word[i : i + 1]
+            suggestions_set.add(letter)
     return suggestions_set
-
-def _regular_expression_for(
-    pattern: str
-) -> re.Pattern:
-    characters = [
-        _replace_at_symbol_with_period(character)
-        for character in pattern
-    ]
-    regular_expression_pattern_string = "".join(characters)
-    return re.compile(f"^{regular_expression_pattern_string}$")
-
-def _replace_at_symbol_with_period(
-    character: str
-) -> str:
-    if character == '@':
-        return '.'
-    else:
-        return character
 
 def _will_suggest_fill(
     words_finder: WordsFinder,
@@ -117,37 +95,37 @@ def _will_suggest_fill(
 
 def _will_suggest_fill_trim_left(
     words_finder: WordsFinder,
-    pattern: str
+    pattern: ActivePattern
 ) -> bool:
-    if pattern[-1] != "@":
-        raise Exception("expected @ as last character")
-    subpatterns = compute_subpatterns_trim_left(pattern)
-    if "@" in subpatterns:
+    if pattern.active != len(pattern) - 1:
+        raise Exception("expected last character to be active")
+    subpatterns = pattern.compute_subpatterns_trim_left()
+    if any(len(subpattern) == 1 for subpattern in subpatterns):
         return True
     for subpattern in subpatterns:
-        if _has_match(words_finder, subpattern[:-1]):
+        if _has_match(words_finder, subpattern.drop_last_character()):
             return True
     return False
 
 def _will_suggest_fill_trim_right(
     words_finder: WordsFinder,
-    pattern: str
+    pattern: ActivePattern
 ) -> bool:
-    if pattern[0] != "@":
-        raise Exception("expected @ as first character")
-    subpatterns = compute_subpatterns_trim_right(pattern)
-    if "@" in subpatterns:
+    if pattern.active != 0:
+        raise Exception("expected first character to be active")
+    subpatterns = pattern.compute_subpatterns_trim_right()
+    if any(len(subpattern) == 1 for subpattern in subpatterns):
         return True
     for subpattern in subpatterns:
-        if _has_match(words_finder, subpattern[1:]):
+        if _has_match(words_finder, subpattern.drop_first_character()):
             return True
     return False
 
 def _has_match(
     words_finder: WordsFinder,
-    pattern: str
+    pattern: Pattern
 ) -> bool:
-    regular_expression = re.compile(f"^{pattern}$")
+    regular_expression = pattern.as_regular_expression()
     words = words_finder.words_of_length(len(pattern))
     for word in words:
         if regular_expression.match(word):
