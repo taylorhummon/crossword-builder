@@ -12,26 +12,26 @@ class Board:
         self: Board,
         width: int,
         height: int,
-        square_values: list[Character],
+        squares: list[Character],
         active_square_index: int,
     ) -> None:
-        if len(square_values) != width * height:
-            raise Exception("square_values must be an array of size width * height")
+        if len(squares) != width * height:
+            raise Exception("squares must be an array of size width * height")
         if active_square_index >= width * height:
             raise Exception("active_square_index cannot be greater or equal to width * height")
         self.width: int
         self.width = width
         self.height: int
         self.height = height
-        self._square_values: list[Character]
-        self._square_values = square_values
+        self._squares: list[Character]
+        self._squares = squares
         remainder_and_quotient = calculate_remainder_and_quotient(active_square_index, width)
         self.active_column: int
         self.active_column = remainder_and_quotient[0]
         self.active_row: int
         self.active_row = remainder_and_quotient[1]
 
-    def square_value_at(
+    def character_at(
         self: Board,
         i: int,
         j: int
@@ -39,7 +39,7 @@ class Board:
         index = j * self.width + i
         if (index < 0 or index >= self.width * self.height):
             raise Exception(f"indices out of bounds: {i}, {j}")
-        return self._square_values[index]
+        return self._squares[index]
 
     def left_bound(
         self: Board
@@ -47,7 +47,7 @@ class Board:
         i = self.active_column
         while (
             i - 1 >= 0 and
-            self.square_value_at(i - 1, self.active_row) != FILLED_SQUARE
+            self.character_at(i - 1, self.active_row) != FILLED_SQUARE
         ):
             i -= 1
         return i
@@ -58,7 +58,7 @@ class Board:
         i = self.active_column
         while (
             i + 1 < self.width and
-            self.square_value_at(i + 1, self.active_row) != FILLED_SQUARE
+            self.character_at(i + 1, self.active_row) != FILLED_SQUARE
         ):
             i += 1
         return i
@@ -69,7 +69,7 @@ class Board:
         j = self.active_row
         while (
             j - 1 >= 0 and
-            self.square_value_at(self.active_column, j - 1) != FILLED_SQUARE
+            self.character_at(self.active_column, j - 1) != FILLED_SQUARE
         ):
             j -= 1
         return j
@@ -80,7 +80,7 @@ class Board:
         j = self.active_row
         while (
             j + 1 < self.height and
-            self.square_value_at(self.active_column, j + 1) != FILLED_SQUARE
+            self.character_at(self.active_column, j + 1) != FILLED_SQUARE
         ):
             j += 1
         return j
@@ -111,7 +111,7 @@ class Board:
         self,
         i: int
     ) -> str:
-        character = self.square_value_at(i, self.active_row)
+        character = self.character_at(i, self.active_row)
         if (i == self.active_column):
             return "@"
         if (character == EMPTY_SQUARE):
@@ -124,7 +124,7 @@ class Board:
         self,
         j: int
     ) -> str:
-        character = self.square_value_at(self.active_column, j)
+        character = self.character_at(self.active_column, j)
         if (j == self.active_row):
             return "@"
         if (character == EMPTY_SQUARE):

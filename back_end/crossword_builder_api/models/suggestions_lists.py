@@ -11,7 +11,7 @@ from crossword_builder_api.utilities.character import (
 example_suggestions_list_in_params = {
     "boardWidth": 2,
     "boardHeight": 2,
-    "squareValues": ["A", FILLED_SQUARE, "B", EMPTY_SQUARE],
+    "squares": ["A", FILLED_SQUARE, "B", EMPTY_SQUARE],
     "activeSquareIndex": 0,
     "canSuggestFill": True
 }
@@ -19,7 +19,7 @@ example_suggestions_list_in_params = {
 class SuggestionsListInParams(BaseModel):
     boardWidth: int = Field(ge=1)
     boardHeight: int = Field(ge=1)
-    squareValues: list[Character]
+    squares: list[Character]
     activeSquareIndex: int = Field(ge=0)
     canSuggestFill: bool
 

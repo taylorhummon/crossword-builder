@@ -19,7 +19,7 @@ def build_suggestions_list(
     board = Board(
         width=suggestions_list_in_params.boardWidth,
         height=suggestions_list_in_params.boardHeight,
-        square_values=suggestions_list_in_params.squareValues,
+        squares=suggestions_list_in_params.squares,
         active_square_index=suggestions_list_in_params.activeSquareIndex
     )
     if suggestions_list_in_params.canSuggestFill:

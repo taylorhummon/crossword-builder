@@ -15,7 +15,7 @@ import cssModule from './App.module.scss';
 
 
 export interface State {
-  squareValues: Array<string>;
+  squares: Array<string>;
   activeSquareIndex: number | null;
   bookmarkedIndex: number | null;
   boardHasFocus: boolean;
@@ -26,7 +26,7 @@ export interface State {
 
 export default function App(): JSX.Element {
   const [state, setState] = useState<State>({
-    squareValues: Array(boardWidth * boardHeight).fill(EMPTY_SQUARE),
+    squares: Array(boardWidth * boardHeight).fill(EMPTY_SQUARE),
     activeSquareIndex: null,
     bookmarkedIndex: 0,
     boardHasFocus: false,
@@ -34,12 +34,12 @@ export default function App(): JSX.Element {
     isTypingVertical: false,
     suggestions: []
   });
-  const { squareValues, activeSquareIndex, canSuggestFill } = state;
+  const { squares, activeSquareIndex, canSuggestFill } = state;
   useEffect(
     () => {
-      updateSuggestions(setState, squareValues, activeSquareIndex, canSuggestFill);
+      updateSuggestions(setState, squares, activeSquareIndex, canSuggestFill);
     },
-    [squareValues, activeSquareIndex, canSuggestFill]
+    [squares, activeSquareIndex, canSuggestFill]
   );
 
   function handleBoardKeyDown(
@@ -99,7 +99,7 @@ export default function App(): JSX.Element {
       <div className={buildClassString(cssModule, ['content'])}>
         <div className={buildClassString(cssModule, ['content-column', 'content-column-left'])}>
           <Board
-            squareValues={state.squareValues}
+            squares={state.squares}
             activeSquareIndex={state.activeSquareIndex}
             boardHasFocus={state.boardHasFocus}
             handleBoardKeyDown={handleBoardKeyDown}

@@ -9,7 +9,7 @@ def build_board(
     return Board(
         width = 4,
         height = 3,
-        square_values = [
+        squares = [
             "A", "C", "E", "■",
             "■", "A", "■", "O",
             "□", "T", "A", "G",
@@ -24,9 +24,9 @@ def test_Board():
     assert board.height == 3
     assert board.active_column == 3
     assert board.active_row == 1
-    assert board.square_value_at(0, 0) == "A"
-    assert board.square_value_at(0, 2) == "□"
-    assert board.square_value_at(3, 1) == "O"
+    assert board.character_at(0, 0) == "A"
+    assert board.character_at(0, 2) == "□"
+    assert board.character_at(3, 1) == "O"
 
 def test_left_bound():
     assert build_board(7).left_bound() == 3

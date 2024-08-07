@@ -35,11 +35,11 @@ function dueToLetterKey(
   state: State,
   key: string
 ): State {
-  const { squareValues, activeSquareIndex } = state;
+  const { squares, activeSquareIndex } = state;
   const letter = key.toUpperCase();
   return {
     ...state,
-    squareValues: updatedSquareValues(squareValues, activeSquareIndex, letter),
+    squares: updatedSquareValues(squares, activeSquareIndex, letter),
     activeSquareIndex: indexOneAfterActive(state, true)
   };
 }
@@ -53,10 +53,10 @@ function dueToEnterKey(
 function dueToSpaceKey(
   state: State
 ): State {
-  const { squareValues, activeSquareIndex } = state;
+  const { squares, activeSquareIndex } = state;
   return {
     ...state,
-    squareValues: updatedSquareValues(squareValues, activeSquareIndex, FILLED_SQUARE),
+    squares: updatedSquareValues(squares, activeSquareIndex, FILLED_SQUARE),
     activeSquareIndex: indexOneAfterActive(state, true)
   };
 }
@@ -64,14 +64,14 @@ function dueToSpaceKey(
 function dueToBackspaceKey(
   state: State
 ): State {
-  const { squareValues, activeSquareIndex } = state;
-  if (activeSquareIndex !== null && squareValues[activeSquareIndex] !== EMPTY_SQUARE) {
+  const { squares, activeSquareIndex } = state;
+  if (activeSquareIndex !== null && squares[activeSquareIndex] !== EMPTY_SQUARE) {
     return dueToDeleteKey(state);
   }
   const willMoveFocusTo = indexOneBeforeActive(state, true);
   return {
     ...state,
-    squareValues: updatedSquareValues(squareValues, willMoveFocusTo, EMPTY_SQUARE),
+    squares: updatedSquareValues(squares, willMoveFocusTo, EMPTY_SQUARE),
     activeSquareIndex: willMoveFocusTo
   };
 }
@@ -79,10 +79,10 @@ function dueToBackspaceKey(
 function dueToDeleteKey(
   state: State
 ): State {
-  const { squareValues, activeSquareIndex } = state;
+  const { squares, activeSquareIndex } = state;
   return {
     ...state,
-    squareValues: updatedSquareValues(squareValues, activeSquareIndex, EMPTY_SQUARE)
+    squares: updatedSquareValues(squares, activeSquareIndex, EMPTY_SQUARE)
   };
 }
 
@@ -91,9 +91,9 @@ function updatedSquareValues(
   index: number | null,
   value: string
 ): Array<string> {
-  const squareValues = [...prevSquareValues];
+  const squares = [...prevSquareValues];
   if (index !== null) {
-    squareValues[index] = value;
+    squares[index] = value;
   }
-  return squareValues;
+  return squares;
 }

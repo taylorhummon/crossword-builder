@@ -30,7 +30,7 @@ def test_build_suggestions_list_when_active_square_is_empty_and_cannot_suggest_f
     suggestions_list_in_params = SuggestionsListInParams(
         boardWidth = 4,
         boardHeight = 1,
-        squareValues = ["A", "C", "E", "□"],
+        squares = ["A", "C", "E", "□"],
         activeSquareIndex = 3,
         canSuggestFill = False
     )
@@ -41,7 +41,7 @@ def test_build_suggestions_list_when_active_square_is_filled_and_cannot_suggest_
     suggestions_list_in_params = SuggestionsListInParams(
         boardWidth = 4,
         boardHeight = 1,
-        squareValues = ["A", "C", "E", "■"],
+        squares = ["A", "C", "E", "■"],
         activeSquareIndex = 3,
         canSuggestFill = False
     )
@@ -52,7 +52,7 @@ def test_build_suggestions_list_when_active_square_is_a_letter_and_cannot_sugges
     suggestions_list_in_params = SuggestionsListInParams(
         boardWidth = 4,
         boardHeight = 1,
-        squareValues = ["A", "C", "E", "D"],
+        squares = ["A", "C", "E", "D"],
         activeSquareIndex = 3,
         canSuggestFill = False
     )
@@ -63,7 +63,7 @@ def test_build_suggestions_list_when_constrained_in_two_dimensions_and_cannot_su
     suggestions_list_in_params = SuggestionsListInParams(
         boardWidth = 4,
         boardHeight = 3,
-        squareValues = [
+        squares = [
           "A", "C", "E", "■",
           "■", "A", "■", "O",
           "□", "T", "A", "G",
@@ -78,7 +78,7 @@ def test_build_suggestions_list_when_active_square_is_surrounded_by_filled_squar
     suggestions_list_in_params = SuggestionsListInParams(
         boardWidth = 4,
         boardHeight = 1,
-        squareValues = ["A", "□", "□", "□"],
+        squares = ["A", "□", "□", "□"],
         activeSquareIndex = 2,
         canSuggestFill = True
     )
@@ -89,7 +89,7 @@ def test_build_suggestions_list_when_active_square_is_adjacent_to_letter_and_can
     suggestions_list_in_params = SuggestionsListInParams(
         boardWidth = 4,
         boardHeight = 1,
-        squareValues = ["A", "□", "□", "□"],
+        squares = ["A", "□", "□", "□"],
         activeSquareIndex = 1,
         canSuggestFill = True
     )
@@ -100,7 +100,7 @@ def test_build_suggestions_list_when_active_square_is_between_letters_and_can_su
     suggestions_list_in_params = SuggestionsListInParams(
         boardWidth = 4,
         boardHeight = 1,
-        squareValues = ["A", "□", "S", "□"],
+        squares = ["A", "□", "S", "□"],
         activeSquareIndex = 1,
         canSuggestFill = True
     )
@@ -112,7 +112,7 @@ def test_build_suggestions_list_when_constrained_in_two_dimensions_and_can_sugge
     suggestions_list_in_params = SuggestionsListInParams(
         boardWidth = 4,
         boardHeight = 3,
-        squareValues = [
+        squares = [
           "A", "C", "E", "■",
           "■", "A", "■", "O",
           "□", "T", "A", "G",
