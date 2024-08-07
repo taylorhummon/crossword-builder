@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import cast
 
 from crossword_builder_api.lib.suggestions import build_suggestions_list
-from crossword_builder_api.lib.words import WordsFinder
+from crossword_builder_api.lib.words_finder import WordsFinder
 from crossword_builder_api.utilities.character import build_letters
 from crossword_builder_api.models.suggestions_lists import SuggestionsListInParams
 

@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from crossword_builder_api.settings import Settings
 from crossword_builder_api.cors import setup_cors
 from crossword_builder_api.models.suggestions_lists import SuggestionsListInParams, SuggestionsListOutParams
-from crossword_builder_api.lib.words import WordsFinder
+from crossword_builder_api.lib.words_finder import WordsFinder
 from crossword_builder_api.lib.suggestions import build_suggestions_list
 
 

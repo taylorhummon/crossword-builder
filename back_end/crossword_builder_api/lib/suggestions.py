@@ -1,7 +1,7 @@
 from __future__ import annotations
 import re
 
-from crossword_builder_api.lib.words import WordsFinder
+from crossword_builder_api.lib.words_finder import WordsFinder
 from crossword_builder_api.models.suggestions_lists import SuggestionsListInParams
 from crossword_builder_api.lib.board import Board
 from crossword_builder_api.lib.subpatterns import (
