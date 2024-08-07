@@ -111,6 +111,8 @@ class Board:
         return j
 
 
+# We're only using the Board to analyze suggestions. In this context, it's best to think of the
+# active square as empty.
 def _ensure_active_square_is_empty(
     squares: list[Character],
     active_index: int
