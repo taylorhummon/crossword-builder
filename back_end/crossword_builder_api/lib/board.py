@@ -38,9 +38,33 @@ class Board:
         j: int
     ) -> Character:
         index = j * self.width + i
-        if (index < 0 or index >= self.width * self.height):
+        if (i < 0 or j < 0 or i >= self.width or j >= self.height):
             raise Exception(f"indices out of bounds: {i}, {j}")
         return self._squares[index]
+
+    def horizontal_pattern_for(
+        self: Board,
+        start: int,
+        end: int
+    ) -> ActivePattern:
+        characters = [
+            self.character_at(i, self.active_row)
+            for i in range(start, end + 1)
+        ]
+        relative_active_index = self.active_column - start
+        return ActivePattern(characters, relative_active_index)
+
+    def vertical_pattern_for(
+        self: Board,
+        start: int,
+        end: int
+    ) -> ActivePattern:
+        characters = [
+            self.character_at(self.active_column, j)
+            for j in range(start, end + 1)
+        ]
+        relative_active_index = self.active_row - start
+        return ActivePattern(characters, relative_active_index)
 
     def left_bound(
         self: Board
@@ -85,30 +109,6 @@ class Board:
         ):
             j += 1
         return j
-
-    def horizontal_pattern_for(
-        self: Board,
-        start: int,
-        end: int
-    ) -> ActivePattern:
-        characters = [
-            self.character_at(i, self.active_row)
-            for i in range(start, end + 1)
-        ]
-        relative_active = self.active_column - start
-        return ActivePattern(characters, relative_active)
-
-    def vertical_pattern_for(
-        self: Board,
-        start: int,
-        end: int
-    ) -> ActivePattern:
-        characters = [
-            self.character_at(self.active_column, j)
-            for j in range(start, end + 1)
-        ]
-        relative_active = self.active_row - start
-        return ActivePattern(characters, relative_active)
 
 
 def _ensure_active_square_is_empty(
