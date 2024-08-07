@@ -9,7 +9,7 @@ from crossword_builder_api.lib.suggestions import build_suggestions_list
 
 
 settings = Settings()
-app = FastAPI(debug=settings.DEBUG)
+app = FastAPI(title="Crossword Builder API", debug=settings.DEBUG)
 setup_cors(app, settings)
 
 words_finder = WordsFinder()
