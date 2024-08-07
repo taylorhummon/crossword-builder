@@ -1,4 +1,4 @@
-import { indicesArray } from './arrays';
+import { indicesArray } from 'utilities/array';
 
 
 export const FILLED_SQUARE_CHARACTER = '■';

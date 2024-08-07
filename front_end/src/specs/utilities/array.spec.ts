@@ -1,7 +1,7 @@
 import {
   arrayShallowEquivalent,
   indicesArray
-} from 'utilities/arrays';
+} from 'utilities/array';
 
 
 describe('arrayShallowEquivalent()', () => {
