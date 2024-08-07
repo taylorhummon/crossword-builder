@@ -24,6 +24,14 @@ poetry install
 ```
 
 
+## Creating a dot-env file
+
+Create a `.env` file for development by copying the example:
+```
+cp example.env .env
+```
+
+
 ## Entering the virtual environment
 
 You can enter the virtual environment created by poetry by running:
