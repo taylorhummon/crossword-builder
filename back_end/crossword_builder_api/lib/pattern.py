@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import Any
 import re
 
-from crossword_builder_api.utilities.character import Character, EMPTY_SQUARE, FILLED_SQUARE
+from crossword_builder_api.utilities.character import PatternCharacter, EMPTY_SQUARE, FILLED_SQUARE
 
 
 UPPERCASE_LETTER_REGULAR_EXPRESSION = re.compile('^[A-Z]$')
@@ -10,9 +10,11 @@ UPPERCASE_LETTER_REGULAR_EXPRESSION = re.compile('^[A-Z]$')
 class Pattern:
     def __init__(
         self: Pattern,
-        characters: list[Character]
+        characters: list[PatternCharacter]
     ) -> None:
-        self._characters: list[Character]
+        if any(character == FILLED_SQUARE for character in characters):
+            raise Exception("patterns cannot contain filled squares")
+        self._characters: list[PatternCharacter]
         self._characters = characters
 
     def __len__(
@@ -57,7 +59,7 @@ class Pattern:
 class ActivePattern(Pattern):
     def __init__(
         self: ActivePattern,
-        characters: list[Character],
+        characters: list[PatternCharacter],
         active_index: int
     ) -> None:
         if active_index < 0 or active_index >= len(characters):
@@ -122,12 +124,10 @@ class ActivePattern(Pattern):
 
 
 def _character_for_regular_expression(
-    character: Character
+    character: PatternCharacter
 ) -> str:
     if UPPERCASE_LETTER_REGULAR_EXPRESSION.match(character):
         return character
     if character == EMPTY_SQUARE:
         return "."
-    if character == FILLED_SQUARE:
-        raise Exception("should not find filled square when building regular expression for pattern")
     raise Exception("unexpected character: #{character}")

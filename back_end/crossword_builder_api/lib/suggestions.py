@@ -3,7 +3,9 @@ from __future__ import annotations
 from crossword_builder_api.lib.words_provider import WordsProvider
 from crossword_builder_api.lib.board import Board
 from crossword_builder_api.lib.pattern import ActivePattern, Pattern
-from crossword_builder_api.utilities.character import Character, FILLED_SQUARE
+from crossword_builder_api.utilities.character import (
+    Character, SuggestableCharacter, Letter, FILLED_SQUARE
+)
 
 
 def build_suggestions(
@@ -13,7 +15,7 @@ def build_suggestions(
     squares: list[Character],
     active_index: int,
     can_suggest_filled: bool
-) -> set[str]:
+) -> set[SuggestableCharacter]:
     board = Board(
         width=board_width,
         height=board_height,
@@ -37,7 +39,7 @@ def _suggestions_when_cannot_suggest_fill(
     words_provider: WordsProvider,
     pattern_a: ActivePattern,
     pattern_b: ActivePattern
-) -> set[str]:
+) -> set[Letter]:
     suggestions_a = _suggestions_for_pattern(words_provider, pattern_a)
     suggestions_b = _suggestions_for_pattern(words_provider, pattern_b)
     return suggestions_a.intersection(suggestions_b)
@@ -47,7 +49,7 @@ def _suggestions_when_can_suggest_filled(
     board: Board,
     pattern_a: ActivePattern,
     pattern_b: ActivePattern
-) -> set[str]:
+) -> set[SuggestableCharacter]:
     suggestions_a = _suggestions_for_all_subpatterns(words_provider, pattern_a)
     suggestions_b = _suggestions_for_all_subpatterns(words_provider, pattern_b)
     suggestions = suggestions_a.intersection(suggestions_b)
@@ -58,7 +60,7 @@ def _suggestions_when_can_suggest_filled(
 def _suggestions_for_all_subpatterns(
     words_provider: WordsProvider,
     pattern: ActivePattern
-) -> set[str]:
+) -> set[Letter]:
     return {
         suggestion
         for subpattern in pattern.subpatterns()
@@ -68,7 +70,7 @@ def _suggestions_for_all_subpatterns(
 def _suggestions_for_pattern(
     words_provider: WordsProvider,
     pattern: ActivePattern
-) -> set[str]:
+) -> set[Letter]:
     i = pattern.active_index
     regular_expression = pattern.as_regular_expression()
     words = words_provider.words_of_length(len(pattern))

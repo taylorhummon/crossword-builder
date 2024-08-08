@@ -7,8 +7,6 @@ from crossword_builder_api.utilities.character import Character, EMPTY_SQUARE, F
 from crossword_builder_api.utilities.math import calculate_remainder_and_quotient
 
 
-UPPERCASE_LETTER_REGULAR_EXPRESSION = re.compile('^[A-Z]$')
-
 class Board:
     def __init__(
         self: Board,

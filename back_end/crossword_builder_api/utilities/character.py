@@ -3,6 +3,8 @@ from typing import Annotated, Literal
 from pydantic import StringConstraints
 
 
+### Types
+
 Letter = Annotated[
     str,
     StringConstraints(
@@ -14,7 +16,11 @@ Letter = Annotated[
 EmptySquareType = Literal["□"]
 FilledSquareType = Literal["■"]
 SuggestableCharacter = Letter | FilledSquareType
+PatternCharacter = Letter | EmptySquareType
 Character = Letter | FilledSquareType | EmptySquareType
+
+
+### Values
 
 def build_letters() -> list[Letter]:
     character_code_for_A = ord("A")
