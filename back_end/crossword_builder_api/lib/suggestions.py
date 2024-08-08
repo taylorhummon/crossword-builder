@@ -83,66 +83,56 @@ def _will_suggest_fill(
         board.bound_left_of_active_square,
         board.active_column
     )
-    if not _will_suggest_fill_trim_left(words_finder, left_pattern):
+    if not _will_suggest_fill_trimming_left(words_finder, left_pattern):
         return False
     right_pattern = board.horizontal_pattern_through_active_square(
         board.active_column,
         board.bound_right_of_active_square
     )
-    if not _will_suggest_fill_trim_right(words_finder, right_pattern):
+    if not _will_suggest_fill_trimming_right(words_finder, right_pattern):
         return False
-    top_pattern = board.vertical_pattern_through_active_square(
+    above_pattern = board.vertical_pattern_through_active_square(
         board.bound_above_active_square,
         board.active_row
     )
-    if not _will_suggest_fill_trim_left(words_finder, top_pattern):
+    if not _will_suggest_fill_trimming_left(words_finder, above_pattern):
         return False
-    bottom_pattern = board.vertical_pattern_through_active_square(
+    below_pattern = board.vertical_pattern_through_active_square(
         board.active_row,
         board.bound_below_active_square
     )
-    if not _will_suggest_fill_trim_right(words_finder, bottom_pattern):
+    if not _will_suggest_fill_trimming_right(words_finder, below_pattern):
         return False
     return True
 
-def _will_suggest_fill_trim_left(
+def _will_suggest_fill_trimming_left(
     words_finder: WordsFinder,
     pattern: ActivePattern
 ) -> bool:
     if pattern.active_index != len(pattern) - 1:
-        raise Exception("expected last character to be active")
-    subpatterns = pattern.subpatterns_trimming_left()
-    if any(
-        len(subpattern) == 1
-        for subpattern in subpatterns
-    ):
-        return True
+        raise Exception("expected rightmost character to be active")
     return any(
-        _has_match(words_finder, subpattern.drop_last_character())
-        for subpattern in subpatterns
+        _has_match(words_finder, subpattern.drop_rightmost_character())
+        for subpattern in pattern.subpatterns_trimming_left()
     )
 
-def _will_suggest_fill_trim_right(
+def _will_suggest_fill_trimming_right(
     words_finder: WordsFinder,
     pattern: ActivePattern
 ) -> bool:
     if pattern.active_index != 0:
-        raise Exception("expected first character to be active")
-    subpatterns = pattern.subpatterns_trimming_right()
-    if any(
-        len(subpattern) == 1
-        for subpattern in subpatterns
-    ):
-        return True
+        raise Exception("expected leftmost character to be active")
     return any(
-        _has_match(words_finder, subpattern.drop_first_character())
-        for subpattern in subpatterns
+        _has_match(words_finder, subpattern.drop_leftmost_character())
+        for subpattern in pattern.subpatterns_trimming_right()
     )
 
 def _has_match(
     words_finder: WordsFinder,
     pattern: Pattern
 ) -> bool:
+    if len(pattern) == 0:
+        return True
     regular_expression = pattern.as_regular_expression()
     words = words_finder.words_of_length(len(pattern))
     return any(

@@ -37,19 +37,19 @@ class Pattern:
         ])
         return re.compile(f"^{regular_expression_characters}$")
 
-    def drop_first_character(
+    def drop_leftmost_character(
         self: Pattern
     ) -> Pattern:
-        if len(self._characters) <= 1:
-            raise Exception("pattern too short to drop first character")
+        if len(self._characters) == 0:
+            raise Exception("cannot drop leftmost character of empty pattern")
         characters = self._characters[1 : len(self._characters)]
         return Pattern(characters)
 
-    def drop_last_character(
+    def drop_rightmost_character(
         self: Pattern
     ) -> Pattern:
-        if len(self._characters) <= 1:
-            raise Exception("paattern too long to drop last character")
+        if len(self._characters) == 0:
+            raise Exception("cannot drop rightmost character of empty pattern")
         characters = self._characters[0 : len(self._characters) - 1]
         return Pattern(characters)
 

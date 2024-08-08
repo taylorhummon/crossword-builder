@@ -17,13 +17,13 @@ def test_as_regular_expression():
     assert regular_expression.match("SCAR") != None
     assert regular_expression.match("SCOR") == None
 
-def test_drop_first_character():
+def test_drop_leftmost_character():
     pattern = Pattern(list("□CA□"))
-    assert pattern.drop_first_character() == Pattern(list("CA□"))
+    assert pattern.drop_leftmost_character() == Pattern(list("CA□"))
 
-def test_drop_last_character():
+def test_drop_rightmost_character():
     pattern = Pattern(list("□CA□"))
-    assert pattern.drop_last_character() == Pattern(list("□CA"))
+    assert pattern.drop_rightmost_character() == Pattern(list("□CA"))
 
 def test_active_pattern_equality():
     assert ActivePattern(list("□CA□"), 3) == ActivePattern(list("□CA□"), 3)
