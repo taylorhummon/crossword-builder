@@ -8,26 +8,25 @@ from crossword_builder_api.utilities.character import (
 )
 
 
-example_suggestions_list_in_params = {
+example_suggestions_params = {
     "boardWidth": 2,
     "boardHeight": 2,
     "squares": ["A", FILLED_SQUARE, "B", EMPTY_SQUARE],
     "activeIndex": 0,
-    "canSuggestFill": True
+    "canSuggestFilled": True
 }
+example_suggestions = ["E", "Y", FILLED_SQUARE]
 
-class SuggestionsListInParams(BaseModel):
+class SuggestionsRequestData(BaseModel):
     boardWidth: int = Field(ge=1)
     boardHeight: int = Field(ge=1)
     squares: list[Character]
     activeIndex: int = Field(ge=0)
-    canSuggestFill: bool
+    canSuggestFilled: bool
 
-    model_config = { "json_schema_extra": { "examples": [example_suggestions_list_in_params] } }
+    model_config = { "json_schema_extra": { "examples": [example_suggestions_params] } }
 
-example_suggestions_list_out_params = ["E", "Y", FILLED_SQUARE]
-
-SuggestionsListOutParams = Annotated[
+Suggestions = Annotated[
     list[SuggestableCharacter],
-    Body(examples=[example_suggestions_list_out_params])
+    Body(examples=[example_suggestions])
 ]

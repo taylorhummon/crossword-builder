@@ -3,5 +3,5 @@ export interface SuggestionsRequestData {
   boardHeight: number;
   squares: Array<string>;
   activeIndex: number;
-  canSuggestFill: boolean;
+  canSuggestFilled: boolean;
 }

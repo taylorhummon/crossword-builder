@@ -6,11 +6,11 @@ import Suggestions from 'components/suggestions/Suggestions';
 
 it('shows all 26 letters when none are suggested and cannot suggest fill', () => {
   const suggestions = [] as Array<string>;
-  const canSuggestFill = false;
+  const canSuggestFilled = false;
   render(
     <Suggestions
       suggestions={suggestions}
-      canSuggestFill={canSuggestFill}
+      canSuggestFilled={canSuggestFilled}
     />
   );
   const letterElements = screen.queryAllByTestId(/^suggestion-/);
@@ -32,11 +32,11 @@ it('shows all 26 letters when none are suggested and cannot suggest fill', () =>
 
 it('emphasizes the suggested letters when cannot suggest fill', () => {
   const suggestions = ['A', 'E', 'C'];
-  const canSuggestFill = false;
+  const canSuggestFilled = false;
   render(
     <Suggestions
       suggestions={suggestions}
-      canSuggestFill={canSuggestFill}
+      canSuggestFilled={canSuggestFilled}
     />
   );
   expect(
@@ -55,11 +55,11 @@ it('emphasizes the suggested letters when cannot suggest fill', () => {
 
 it('shows all 27 letters when none are suggested and can suggest fill', () => {
   const suggestions = [] as Array<string>;
-  const canSuggestFill = true;
+  const canSuggestFilled = true;
   render(
     <Suggestions
       suggestions={suggestions}
-      canSuggestFill={canSuggestFill}
+      canSuggestFilled={canSuggestFilled}
     />
   );
   const letterElements = screen.queryAllByTestId(/^suggestion-/);
@@ -84,11 +84,11 @@ it('shows all 27 letters when none are suggested and can suggest fill', () => {
 
 it('emphasizes the suggested letters when can suggest fill', () => {
   const suggestions = ['A', FILLED_SQUARE, 'C'];
-  const canSuggestFill = true;
+  const canSuggestFilled = true;
   render(
     <Suggestions
       suggestions={suggestions}
-      canSuggestFill={canSuggestFill}
+      canSuggestFilled={canSuggestFilled}
     />
   );
   expect(

@@ -19,7 +19,7 @@ export interface State {
   activeIndex: number | null;
   bookmarkedIndex: number | null;
   boardHasFocus: boolean;
-  canSuggestFill: boolean;
+  canSuggestFilled: boolean;
   isTypingVertical: boolean;
   suggestions: Array<string>;
 }
@@ -30,16 +30,16 @@ export default function App(): JSX.Element {
     activeIndex: null,
     bookmarkedIndex: 0,
     boardHasFocus: false,
-    canSuggestFill: true,
+    canSuggestFilled: true,
     isTypingVertical: false,
     suggestions: []
   });
-  const { squares, activeIndex, canSuggestFill } = state;
+  const { squares, activeIndex, canSuggestFilled } = state;
   useEffect(
     () => {
-      updateSuggestions(setState, squares, activeIndex, canSuggestFill);
+      updateSuggestions(setState, squares, activeIndex, canSuggestFilled);
     },
-    [squares, activeIndex, canSuggestFill]
+    [squares, activeIndex, canSuggestFilled]
   );
 
   function handleBoardKeyDown(
@@ -82,7 +82,7 @@ export default function App(): JSX.Element {
   function handleCanSuggestFillToggle(): void {
     setState(latestState => ({
       ...latestState,
-      canSuggestFill: ! latestState.canSuggestFill
+      canSuggestFilled: ! latestState.canSuggestFilled
     }));
   }
 
@@ -112,12 +112,12 @@ export default function App(): JSX.Element {
           <Options
             isTypingVertical={state.isTypingVertical}
             handleTypingDirectionToggle={handleTypingDirectionToggle}
-            canSuggestFill={state.canSuggestFill}
+            canSuggestFilled={state.canSuggestFilled}
             handleCanSuggestFillToggle={handleCanSuggestFillToggle}
           />
           <Suggestions
             suggestions={state.suggestions}
-            canSuggestFill={state.canSuggestFill}
+            canSuggestFilled={state.canSuggestFilled}
           />
         </div>
       </div>

@@ -6,27 +6,27 @@ import cssModule from './Suggestions.module.scss';
 
 interface SuggestionsProps {
   suggestions: Array<string>;
-  canSuggestFill: boolean;
+  canSuggestFilled: boolean;
 }
 
 export default function Suggestions({
   suggestions,
-  canSuggestFill
+  canSuggestFilled
 }: SuggestionsProps): JSX.Element {
   return (
     <div className={buildClassString(cssModule, ['suggestions'])}>
       <h4>Suggested letters</h4>
-      {renderLetters(suggestions, canSuggestFill)}
+      {renderLetters(suggestions, canSuggestFilled)}
     </div>
   );
 }
 
 function renderLetters(
   suggestions: Array<string>,
-  canSuggestFill: boolean
+  canSuggestFilled: boolean
 ): Array<JSX.Element> {
   const letters = buildLetters();
-  if (canSuggestFill) letters.push(FILLED_SQUARE);
+  if (canSuggestFilled) letters.push(FILLED_SQUARE);
   return letters.map(
     letter => renderLetter(suggestions, letter)
   );

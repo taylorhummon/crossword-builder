@@ -1,21 +1,24 @@
 from __future__ import annotations
 
 from crossword_builder_api.lib.words_provider import WordsProvider
-from crossword_builder_api.models.suggestions_lists import SuggestionsListInParams
 from crossword_builder_api.lib.board import Board
 from crossword_builder_api.lib.pattern import ActivePattern, Pattern
-from crossword_builder_api.utilities.character import FILLED_SQUARE
+from crossword_builder_api.utilities.character import Character, FILLED_SQUARE
 
 
 def build_suggestions(
     words_provider: WordsProvider,
-    params: SuggestionsListInParams
+    board_width: int,
+    board_height: int,
+    squares: list[Character],
+    active_index: int,
+    can_suggest_filled: bool
 ) -> set[str]:
     board = Board(
-        width=params.boardWidth,
-        height=params.boardHeight,
-        squares=params.squares,
-        active_index=params.activeIndex
+        width=board_width,
+        height=board_height,
+        squares=squares,
+        active_index=active_index
     )
     pattern_a = board.horizontal_pattern_through_active_square(
         board.bound_left_of_active_square,
@@ -25,8 +28,8 @@ def build_suggestions(
         board.bound_above_active_square,
         board.bound_below_active_square
     )
-    if params.canSuggestFill:
-        return _suggestions_when_can_suggest_fill(words_provider, board, pattern_a, pattern_b)
+    if can_suggest_filled:
+        return _suggestions_when_can_suggest_filled(words_provider, board, pattern_a, pattern_b)
     else:
         return _suggestions_when_cannot_suggest_fill(words_provider, pattern_a, pattern_b)
 
@@ -39,7 +42,7 @@ def _suggestions_when_cannot_suggest_fill(
     suggestions_b = _suggestions_for_pattern(words_provider, pattern_b)
     return suggestions_a.intersection(suggestions_b)
 
-def _suggestions_when_can_suggest_fill(
+def _suggestions_when_can_suggest_filled(
     words_provider: WordsProvider,
     board: Board,
     pattern_a: ActivePattern,

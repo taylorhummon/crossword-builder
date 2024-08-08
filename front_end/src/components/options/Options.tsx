@@ -6,14 +6,14 @@ import cssModule from './Options.module.scss';
 interface OptionsProps {
   isTypingVertical: boolean;
   handleTypingDirectionToggle: (event: React.ChangeEvent) => void;
-  canSuggestFill: boolean;
+  canSuggestFilled: boolean;
   handleCanSuggestFillToggle: (event: React.ChangeEvent) => void;
 }
 
 export default function Options({
   isTypingVertical,
   handleTypingDirectionToggle,
-  canSuggestFill,
+  canSuggestFilled,
   handleCanSuggestFillToggle
 }: OptionsProps): JSX.Element {
   return (
@@ -29,9 +29,9 @@ export default function Options({
       </label>
       <label className={buildClassString(cssModule, [], ['form-switch'])}>
         <input
-          name="canSuggestFilledSquare"
+          name="canSuggestFillededSquare"
           type="checkbox"
-          checked={canSuggestFill}
+          checked={canSuggestFilled}
           onChange={handleCanSuggestFillToggle}
         />
         <i className={buildClassString(cssModule, [], ['form-icon'])} /> Can suggest filled square

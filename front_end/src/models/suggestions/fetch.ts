@@ -7,7 +7,7 @@ export async function fetchSuggestions(
   requestData: SuggestionsRequestData
 ): Promise<Array<string>> {
   try {
-    const url = `${serverBaseUrl}:${serverPort}/suggestions_lists`;
+    const url = `${serverBaseUrl}:${serverPort}/make_suggestions`;
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },

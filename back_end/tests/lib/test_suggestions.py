@@ -4,7 +4,6 @@ from typing import cast
 from crossword_builder_api.lib.suggestions import build_suggestions
 from crossword_builder_api.lib.words_provider import WordsProvider
 from crossword_builder_api.utilities.character import build_letters
-from crossword_builder_api.models.suggestions_lists import SuggestionsListInParams
 
 
 WORDS_FOR_MOCK = build_letters() + [
@@ -27,98 +26,97 @@ class MockWordsProvider:
 mock_words_provider = cast(WordsProvider, MockWordsProvider())
 
 def test_build_suggestions_when_active_square_is_empty_and_cannot_suggest_fill():
-    suggestions_list_in_params = SuggestionsListInParams(
-        boardWidth = 4,
-        boardHeight = 1,
+    suggestions = build_suggestions(
+        words_provider = mock_words_provider,
+        board_width = 4,
+        board_height = 1,
         squares = ["A", "C", "E", "□"],
-        activeIndex = 3,
-        canSuggestFill = False
+        active_index = 3,
+        can_suggest_filled = False
     )
-    suggestions_list = build_suggestions(mock_words_provider, suggestions_list_in_params)
-    assert suggestions_list == { "D", "R", "S" }
+    assert suggestions == { "D", "R", "S" }
 
 def test_build_suggestions_when_active_square_is_filled_and_cannot_suggest_fill():
-    suggestions_list_in_params = SuggestionsListInParams(
-        boardWidth = 4,
-        boardHeight = 1,
+    suggestions = build_suggestions(
+        words_provider = mock_words_provider,
+        board_width = 4,
+        board_height = 1,
         squares = ["A", "C", "E", "■"],
-        activeIndex = 3,
-        canSuggestFill = False
+        active_index = 3,
+        can_suggest_filled = False
     )
-    suggestions_list = build_suggestions(mock_words_provider, suggestions_list_in_params)
-    assert suggestions_list == { "D", "R", "S" }
+    assert suggestions == { "D", "R", "S" }
 
 def test_build_suggestions_when_active_square_is_a_letter_and_cannot_suggest_fill():
-    suggestions_list_in_params = SuggestionsListInParams(
-        boardWidth = 4,
-        boardHeight = 1,
+    suggestions = build_suggestions(
+        words_provider = mock_words_provider,
+        board_width = 4,
+        board_height = 1,
         squares = ["A", "C", "E", "D"],
-        activeIndex = 3,
-        canSuggestFill = False
+        active_index = 3,
+        can_suggest_filled = False
     )
-    suggestions_list = build_suggestions(mock_words_provider, suggestions_list_in_params)
-    assert suggestions_list == { "D", "R", "S" }
+    assert suggestions == { "D", "R", "S" }
 
 def test_build_suggestions_when_constrained_in_two_dimensions_and_cannot_suggest_fill():
-    suggestions_list_in_params = SuggestionsListInParams(
-        boardWidth = 4,
-        boardHeight = 3,
+    suggestions = build_suggestions(
+        words_provider = mock_words_provider,
+        board_width = 4,
+        board_height = 3,
         squares = [
           "A", "C", "E", "■",
           "■", "A", "■", "O",
           "□", "T", "A", "G",
         ],
-        activeIndex = 3,
-        canSuggestFill = False
+        active_index = 3,
+        can_suggest_filled = False
     )
-    suggestions_list = build_suggestions(mock_words_provider, suggestions_list_in_params)
-    assert suggestions_list == { "D", "S" }
+    assert suggestions == { "D", "S" }
 
-def test_build_suggestions_when_active_square_is_surrounded_by_filled_squares_and_can_suggest_fill():
-    suggestions_list_in_params = SuggestionsListInParams(
-        boardWidth = 4,
-        boardHeight = 1,
+def test_build_suggestions_when_active_square_is_surrounded_by_filled_squares_and_can_suggest_filled():
+    suggestions = build_suggestions(
+        words_provider = mock_words_provider,
+        board_width = 4,
+        board_height = 1,
         squares = ["A", "□", "□", "□"],
-        activeIndex = 2,
-        canSuggestFill = True
+        active_index = 2,
+        can_suggest_filled = True
     )
-    suggestions_list = build_suggestions(mock_words_provider, suggestions_list_in_params)
-    assert suggestions_list == set(["■"]).union(build_letters())
+    assert suggestions == set(["■"]).union(build_letters())
 
-def test_build_suggestions_when_active_square_is_adjacent_to_letter_and_can_suggest_fill():
-    suggestions_list_in_params = SuggestionsListInParams(
-        boardWidth = 4,
-        boardHeight = 1,
+def test_build_suggestions_when_active_square_is_adjacent_to_letter_and_can_suggest_filled():
+    suggestions = build_suggestions(
+        words_provider = mock_words_provider,
+        board_width = 4,
+        board_height = 1,
         squares = ["A", "□", "□", "□"],
-        activeIndex = 1,
-        canSuggestFill = True
+        active_index = 1,
+        can_suggest_filled = True
     )
-    suggestions_list = build_suggestions(mock_words_provider, suggestions_list_in_params)
-    assert suggestions_list == { "B", "C", "T", "■" }
+    assert suggestions == { "B", "C", "T", "■" }
 
-def test_build_suggestions_when_active_square_is_between_letters_and_can_suggest_fill():
-    suggestions_list_in_params = SuggestionsListInParams(
-        boardWidth = 4,
-        boardHeight = 1,
+def test_build_suggestions_when_active_square_is_between_letters_and_can_suggest_filled():
+    suggestions = build_suggestions(
+        words_provider = mock_words_provider,
+        board_width = 4,
+        board_height = 1,
         squares = ["A", "□", "S", "□"],
-        activeIndex = 1,
-        canSuggestFill = True
+        active_index = 1,
+        can_suggest_filled = True
     )
-    suggestions_list = build_suggestions(mock_words_provider, suggestions_list_in_params)
-    assert suggestions_list == { "B", "■" }
+    assert suggestions == { "B", "■" }
 
-
-def test_build_suggestions_when_constrained_in_two_dimensions_and_can_suggest_fill():
-    suggestions_list_in_params = SuggestionsListInParams(
-        boardWidth = 4,
-        boardHeight = 3,
+def test_build_suggestions_when_constrained_in_two_dimensions_and_can_suggest_filled():
+    suggestions = build_suggestions(
+        words_provider = mock_words_provider,
+        board_width = 4,
+        board_height = 3,
         squares = [
           "A", "C", "E", "■",
           "■", "A", "■", "O",
           "□", "T", "A", "G",
         ],
-        activeIndex = 3,
-        canSuggestFill = True
+        active_index = 3,
+        can_suggest_filled = True
     )
-    suggestions_list = build_suggestions(mock_words_provider, suggestions_list_in_params)
-    assert suggestions_list == { "D", "S", "■" }
+    assert suggestions == { "D", "S", "■" }

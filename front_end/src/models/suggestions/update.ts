@@ -9,7 +9,7 @@ export async function updateSuggestions(
   setState: (updater: (latestState: State) => State) => void,
   squares: Array<string>,
   activeIndex: number | null,
-  canSuggestFill: boolean
+  canSuggestFilled: boolean
 ): Promise<void> {
   if (activeIndex === null) {
     setState((latestState: State) => ({
@@ -18,7 +18,7 @@ export async function updateSuggestions(
     }));
     return;
   }
-  const requestData = { boardWidth, boardHeight, squares, activeIndex, canSuggestFill };
+  const requestData = { boardWidth, boardHeight, squares, activeIndex, canSuggestFilled };
   const suggestions = await fetchSuggestions(requestData);
   setState((latestState: State) => {
     if (areSuggestionsOutdated(latestState, requestData)) {
@@ -37,7 +37,7 @@ function areSuggestionsOutdated(
   requestData: SuggestionsRequestData
 ): boolean {
   if (requestData.activeIndex !== latestState.activeIndex) return true;
-  if (requestData.canSuggestFill !== latestState.canSuggestFill) return true;
+  if (requestData.canSuggestFilled !== latestState.canSuggestFilled) return true;
   if (! arrayShallowEquivalent(requestData.squares, latestState.squares)) return true;
   return false;
 }
