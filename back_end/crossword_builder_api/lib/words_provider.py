@@ -7,9 +7,9 @@ UPPER_CASE_WORD_REGULAR_EXPRESSION = re.compile('^[A-Z]*$')
 MIN_WORD_LENGTH = 1
 MAX_WORD_LENGTH = 10
 
-class WordsFinder:
+class WordsProvider:
     def __init__(
-        self: WordsFinder
+        self: WordsProvider
     ) -> None:
         self._words_lists: list[list[str]]
         self._words_lists = [
@@ -18,7 +18,7 @@ class WordsFinder:
         ]
 
     def words_of_length(
-        self: WordsFinder,
+        self: WordsProvider,
         length: int
     ) -> list[str]:
         if length < MIN_WORD_LENGTH or length > MAX_WORD_LENGTH:
