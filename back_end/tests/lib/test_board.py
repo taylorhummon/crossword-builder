@@ -30,39 +30,39 @@ def test_Board():
     assert board.character_at(3, 1) == "□" # the active square should be empty
     assert board.character_at(3, 2) == "G"
 
-def test_left_bound():
-    assert build_board(7).left_bound() == 3
-    assert build_board(6).left_bound() == 1
-    assert build_board(2).left_bound() == 0
-    assert build_board(8).left_bound() == 0
+def test_bound_left_of_active_square():
+    assert build_board(7).bound_left_of_active_square == 3
+    assert build_board(6).bound_left_of_active_square == 1
+    assert build_board(2).bound_left_of_active_square == 0
+    assert build_board(8).bound_left_of_active_square == 0
 
-def test_right_bound():
-    assert build_board(0).right_bound() == 2
-    assert build_board(4).right_bound() == 1
-    assert build_board(8).right_bound() == 3
+def test_bound_right_of_active_square():
+    assert build_board(0).bound_right_of_active_square == 2
+    assert build_board(4).bound_right_of_active_square == 1
+    assert build_board(8).bound_right_of_active_square == 3
 
-def test_top_bound():
-    assert build_board(0).top_bound() == 0
-    assert build_board(8).top_bound() == 2
-    assert build_board(11).top_bound() == 1
+def test_bound_above_active_square():
+    assert build_board(0).bound_above_active_square == 0
+    assert build_board(8).bound_above_active_square == 2
+    assert build_board(11).bound_above_active_square == 1
 
-def test_bottom_bound():
-    assert build_board(0).bottom_bound() == 0
-    assert build_board(1).bottom_bound() == 2
-    assert build_board(3).bottom_bound() == 2
+def test_bound_below_active_square():
+    assert build_board(0).bound_below_active_square == 0
+    assert build_board(1).bound_below_active_square == 2
+    assert build_board(3).bound_below_active_square == 2
 
-def test_horizontal_pattern_for():
-    assert build_board(0).horizontal_pattern_for(0, 2) == ActivePattern(list("□CE"), 0)
-    assert build_board(0).horizontal_pattern_for(0, 1) == ActivePattern(list("□C"), 0)
-    assert build_board(0).horizontal_pattern_for(0, 0) == ActivePattern(list("□"), 0)
-    assert build_board(1).horizontal_pattern_for(0, 2) == ActivePattern(list("A□E"), 1)
-    assert build_board(1).horizontal_pattern_for(1, 2) == ActivePattern(list("□E"), 0)
-    assert build_board(8).horizontal_pattern_for(0, 3) == ActivePattern(list("□TAG"), 0)
-    assert build_board(9).horizontal_pattern_for(0, 3) == ActivePattern(list("□□AG"), 1)
+def test_horizontal_pattern_through_active_square():
+    assert build_board(0).horizontal_pattern_through_active_square(0, 2) == ActivePattern(list("□CE"), 0)
+    assert build_board(0).horizontal_pattern_through_active_square(0, 1) == ActivePattern(list("□C"), 0)
+    assert build_board(0).horizontal_pattern_through_active_square(0, 0) == ActivePattern(list("□"), 0)
+    assert build_board(1).horizontal_pattern_through_active_square(0, 2) == ActivePattern(list("A□E"), 1)
+    assert build_board(1).horizontal_pattern_through_active_square(1, 2) == ActivePattern(list("□E"), 0)
+    assert build_board(8).horizontal_pattern_through_active_square(0, 3) == ActivePattern(list("□TAG"), 0)
+    assert build_board(9).horizontal_pattern_through_active_square(0, 3) == ActivePattern(list("□□AG"), 1)
 
-def test_vertical_pattern_for():
-    assert build_board(1).vertical_pattern_for(0, 2) == ActivePattern(list("□AT"), 0)
-    assert build_board(5).vertical_pattern_for(0, 2) == ActivePattern(list("C□T"), 1)
-    assert build_board(4).vertical_pattern_for(0, 2) == ActivePattern(list("A□□"), 1)
-    assert build_board(4).vertical_pattern_for(1, 2) == ActivePattern(list("□□"), 0)
-    assert build_board(8).vertical_pattern_for(2, 2) == ActivePattern(list("□"), 0)
+def test_vertical_pattern_through_active_square():
+    assert build_board(1).vertical_pattern_through_active_square(0, 2) == ActivePattern(list("□AT"), 0)
+    assert build_board(5).vertical_pattern_through_active_square(0, 2) == ActivePattern(list("C□T"), 1)
+    assert build_board(4).vertical_pattern_through_active_square(0, 2) == ActivePattern(list("A□□"), 1)
+    assert build_board(4).vertical_pattern_through_active_square(1, 2) == ActivePattern(list("□□"), 0)
+    assert build_board(8).vertical_pattern_through_active_square(2, 2) == ActivePattern(list("□"), 0)

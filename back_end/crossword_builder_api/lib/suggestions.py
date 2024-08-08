@@ -26,8 +26,14 @@ def _when_cannot_suggest_fill(
     words_finder: WordsFinder,
     board: Board
 ) -> set[str]:
-    pattern_a = board.horizontal_pattern_for(board.left_bound(), board.right_bound())
-    pattern_b = board.vertical_pattern_for(board.top_bound(), board.bottom_bound())
+    pattern_a = board.horizontal_pattern_through_active_square(
+        board.bound_left_of_active_square,
+        board.bound_right_of_active_square
+    )
+    pattern_b = board.vertical_pattern_through_active_square(
+        board.bound_above_active_square,
+        board.bound_below_active_square
+    )
     suggestions_set_a = _get_suggestions_set_for_pattern(words_finder, pattern_a)
     suggestions_set_b = _get_suggestions_set_for_pattern(words_finder, pattern_b)
     return suggestions_set_a.intersection(suggestions_set_b)
@@ -36,8 +42,14 @@ def _when_can_suggest_fill(
     words_finder: WordsFinder,
     board: Board
 ) -> set[str]:
-    pattern_a = board.horizontal_pattern_for(board.left_bound(), board.right_bound())
-    pattern_b = board.vertical_pattern_for(board.top_bound(), board.bottom_bound())
+    pattern_a = board.horizontal_pattern_through_active_square(
+        board.bound_left_of_active_square,
+        board.bound_right_of_active_square
+    )
+    pattern_b = board.vertical_pattern_through_active_square(
+        board.bound_above_active_square,
+        board.bound_below_active_square
+    )
     suggestions_set_a = _get_suggestions_set_for_all_subpatterns(words_finder, pattern_a)
     suggestions_set_b = _get_suggestions_set_for_all_subpatterns(words_finder, pattern_b)
     suggestions_set = suggestions_set_a.intersection(suggestions_set_b)
@@ -75,19 +87,31 @@ def _will_suggest_fill(
     words_finder: WordsFinder,
     board: Board
 ) -> bool:
-    left_pattern = board.horizontal_pattern_for(board.left_bound(), board.active_column)
+    left_pattern = board.horizontal_pattern_through_active_square(
+        board.bound_left_of_active_square,
+        board.active_column
+    )
     fill_ok_for_left = _will_suggest_fill_trim_left(words_finder, left_pattern)
     if not fill_ok_for_left:
         return False
-    right_pattern = board.horizontal_pattern_for(board.active_column, board.right_bound())
+    right_pattern = board.horizontal_pattern_through_active_square(
+        board.active_column,
+        board.bound_right_of_active_square
+    )
     fill_ok_for_right = _will_suggest_fill_trim_right(words_finder, right_pattern)
     if not fill_ok_for_right:
         return False
-    top_pattern = board.vertical_pattern_for(board.top_bound(), board.active_row)
+    top_pattern = board.vertical_pattern_through_active_square(
+        board.bound_above_active_square,
+        board.active_row
+    )
     fill_ok_for_top = _will_suggest_fill_trim_left(words_finder, top_pattern)
     if not fill_ok_for_top:
         return False
-    bottom_pattern = board.vertical_pattern_for(board.active_row, board.bottom_bound())
+    bottom_pattern = board.vertical_pattern_through_active_square(
+        board.active_row,
+        board.bound_below_active_square
+    )
     fill_ok_for_bottom = _will_suggest_fill_trim_right(words_finder, bottom_pattern)
     if not fill_ok_for_bottom:
         return False

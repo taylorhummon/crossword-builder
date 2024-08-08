@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Tuple
 import re
 
 from crossword_builder_api.lib.pattern import ActivePattern
@@ -17,36 +18,48 @@ class Board:
         active_index: int,
     ) -> None:
         if len(squares) != width * height:
-            raise Exception("squares must be an array of size width * height")
+            raise Exception("squares must be a list of size width * height")
         if active_index >= width * height:
             raise Exception("active_index cannot be greater or equal to width * height")
+
         self.width: int
-        self.width = width
         self.height: int
-        self.height = height
         self._squares: list[Character]
-        self._squares = _ensure_active_square_is_empty(squares, active_index)
-        remainder_and_quotient = calculate_remainder_and_quotient(active_index, width)
         self.active_column: int
-        self.active_column = remainder_and_quotient[0]
         self.active_row: int
-        self.active_row = remainder_and_quotient[1]
+        self.bound_left_of_active_square: int
+        self.bound_right_of_active_square: int
+        self.bound_above_active_square: int
+        self.bound_below_active_square: int
+
+        self.width = width
+        self.height = height
+        self._squares = _ensure_active_square_is_empty(squares, active_index)
+        (
+            self.active_column,
+            self.active_row
+        ) = calculate_remainder_and_quotient(active_index, width)
+        (
+            self.bound_left_of_active_square,
+            self.bound_right_of_active_square,
+            self.bound_above_active_square,
+            self.bound_below_active_square
+        ) = _bounds(self.width, self.height, self._squares, self.active_column, self.active_row)
 
     def character_at(
         self: Board,
         i: int,
         j: int
     ) -> Character:
-        index = j * self.width + i
-        if (i < 0 or j < 0 or i >= self.width or j >= self.height):
-            raise Exception(f"indices out of bounds: {i}, {j}")
-        return self._squares[index]
+        return _character_at(self.width, self.height, self._squares, i, j)
 
-    def horizontal_pattern_for(
+    def horizontal_pattern_through_active_square(
         self: Board,
         start: int,
         end: int
     ) -> ActivePattern:
+        if self.active_column not in range(start, end + 1):
+            raise Exception("active square must sit between start and end")
         characters = [
             self.character_at(i, self.active_row)
             for i in range(start, end + 1)
@@ -54,11 +67,13 @@ class Board:
         relative_active_index = self.active_column - start
         return ActivePattern(characters, relative_active_index)
 
-    def vertical_pattern_for(
+    def vertical_pattern_through_active_square(
         self: Board,
         start: int,
         end: int
     ) -> ActivePattern:
+        if self.active_row not in range(start, end + 1):
+            raise Exception("active square must sit between start and end")
         characters = [
             self.character_at(self.active_column, j)
             for j in range(start, end + 1)
@@ -66,53 +81,11 @@ class Board:
         relative_active_index = self.active_row - start
         return ActivePattern(characters, relative_active_index)
 
-    def left_bound(
-        self: Board
-    ) -> int:
-        i = self.active_column
-        while (
-            i - 1 >= 0 and
-            self.character_at(i - 1, self.active_row) != FILLED_SQUARE
-        ):
-            i -= 1
-        return i
 
-    def right_bound(
-        self: Board
-    ) -> int:
-        i = self.active_column
-        while (
-            i + 1 < self.width and
-            self.character_at(i + 1, self.active_row) != FILLED_SQUARE
-        ):
-            i += 1
-        return i
+### Private Helper Functions
 
-    def top_bound(
-        self: Board
-    ) -> int:
-        j = self.active_row
-        while (
-            j - 1 >= 0 and
-            self.character_at(self.active_column, j - 1) != FILLED_SQUARE
-        ):
-            j -= 1
-        return j
-
-    def bottom_bound(
-        self: Board
-    ) -> int:
-        j = self.active_row
-        while (
-            j + 1 < self.height and
-            self.character_at(self.active_column, j + 1) != FILLED_SQUARE
-        ):
-            j += 1
-        return j
-
-
-# We're only using the Board to analyze suggestions. In this context, it's best to think of the
-# active square as empty.
+# We're only using the Board to analyze suggestions.
+# Given that, it's best to think of the active square as empty.
 def _ensure_active_square_is_empty(
     squares: list[Character],
     active_index: int
@@ -123,3 +96,47 @@ def _ensure_active_square_is_empty(
         squares_copy = squares[:]
         squares_copy[active_index] = EMPTY_SQUARE
         return squares_copy
+
+def _bounds(
+    width: int,
+    height: int,
+    squares: list[Character],
+    active_column: int,
+    active_row: int
+) -> Tuple[int, int, int, int]:
+    bound_left = active_column
+    bound_right = active_column
+    bound_above = active_row
+    bound_below = active_row
+    while (
+        bound_left - 1 >= 0 and
+        _character_at(width, height, squares, bound_left - 1, active_row) != FILLED_SQUARE
+    ):
+        bound_left -= 1
+    while (
+        bound_right + 1 < width and
+        _character_at(width, height, squares, bound_right + 1, active_row) != FILLED_SQUARE
+    ):
+        bound_right += 1
+    while (
+        bound_above - 1 >= 0 and
+        _character_at(width, height, squares, active_column, bound_above - 1) != FILLED_SQUARE
+    ):
+        bound_above -= 1
+    while (
+        bound_below + 1 < height and
+        _character_at(width, height, squares, active_column, bound_below + 1) != FILLED_SQUARE
+    ):
+        bound_below += 1
+    return (bound_left, bound_right, bound_above, bound_below)
+
+def _character_at(
+    width: int,
+    height: int,
+    squares: list[Character],
+    i: int,
+    j: int
+) -> Character:
+    if (i < 0 or j < 0 or i >= width or j >= height):
+        raise Exception(f"indices out of bounds: {i}, {j}")
+    return squares[j * width + i]
