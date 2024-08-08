@@ -8,7 +8,7 @@ from crossword_builder_api.utilities.character import (
 )
 
 
-example_suggestions_params = {
+example_suggestions_reqest_data = {
     "boardWidth": 2,
     "boardHeight": 2,
     "squares": ["A", FILLED_SQUARE, "B", EMPTY_SQUARE],
@@ -24,7 +24,7 @@ class SuggestionsRequestData(BaseModel):
     activeIndex: int = Field(ge=0)
     canSuggestFilled: bool
 
-    model_config = { "json_schema_extra": { "examples": [example_suggestions_params] } }
+    model_config = { "json_schema_extra": { "examples": [example_suggestions_reqest_data] } }
 
 Suggestions = Annotated[
     list[SuggestableCharacter],
