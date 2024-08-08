@@ -63,7 +63,7 @@ def _get_suggestions_set_for_all_subpatterns(
     pattern: ActivePattern
 ) -> set[str]:
     suggestions_set = set()
-    subpatterns = pattern.compute_subpatterns()
+    subpatterns = pattern.subpatterns()
     for subpattern in subpatterns:
         for suggestion in _get_suggestions_set_for_pattern(words_finder, subpattern):
             suggestions_set.add(suggestion)
@@ -123,7 +123,7 @@ def _will_suggest_fill_trim_left(
 ) -> bool:
     if pattern.active_index != len(pattern) - 1:
         raise Exception("expected last character to be active")
-    subpatterns = pattern.compute_subpatterns_trim_left()
+    subpatterns = pattern.subpatterns_trimming_left()
     if any(len(subpattern) == 1 for subpattern in subpatterns):
         return True
     for subpattern in subpatterns:
@@ -137,7 +137,7 @@ def _will_suggest_fill_trim_right(
 ) -> bool:
     if pattern.active_index != 0:
         raise Exception("expected first character to be active")
-    subpatterns = pattern.compute_subpatterns_trim_right()
+    subpatterns = pattern.subpatterns_trimming_right()
     if any(len(subpattern) == 1 for subpattern in subpatterns):
         return True
     for subpattern in subpatterns:

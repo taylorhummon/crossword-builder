@@ -4,6 +4,7 @@ import re
 
 from crossword_builder_api.utilities.character import Character, EMPTY_SQUARE, FILLED_SQUARE
 
+
 UPPERCASE_LETTER_REGULAR_EXPRESSION = re.compile('^[A-Z]$')
 
 class Pattern:
@@ -41,26 +42,16 @@ class Pattern:
     ) -> Pattern:
         if len(self._characters) <= 1:
             raise Exception("pattern too short to drop first character")
-        return Pattern(self._characters[1 : len(self._characters)])
+        characters = self._characters[1 : len(self._characters)]
+        return Pattern(characters)
 
     def drop_last_character(
         self: Pattern
     ) -> Pattern:
         if len(self._characters) <= 1:
             raise Exception("paattern too long to drop last character")
-        return Pattern(self._characters[0 : len(self._characters) - 1])
-
-
-def _character_for_regular_expression(
-    character: Character
-) -> str:
-    if UPPERCASE_LETTER_REGULAR_EXPRESSION.match(character):
-        return character
-    if character == EMPTY_SQUARE:
-        return "."
-    if character == FILLED_SQUARE:
-        raise Exception("should not find filled square when building regular expression for pattern")
-    raise Exception("unexpected character: #{character}")
+        characters = self._characters[0 : len(self._characters) - 1]
+        return Pattern(characters)
 
 
 class ActivePattern(Pattern):
@@ -81,20 +72,23 @@ class ActivePattern(Pattern):
     ) -> bool:
         if type(other) != ActivePattern:
             return False
-        return other._characters == self._characters and other.active_index == self.active_index
+        return (
+            other._characters == self._characters and
+            other.active_index == self.active_index
+        )
 
-    def compute_subpatterns(
+    def subpatterns(
         self: ActivePattern
     ) -> list[ActivePattern]:
         subpatterns = [
             subsubpattern
-            for subpattern in self.compute_subpatterns_trim_left()
-            for subsubpattern in subpattern.compute_subpatterns_trim_right()
+            for subpattern in self.subpatterns_trimming_left()
+            for subsubpattern in subpattern.subpatterns_trimming_right()
         ]
         subpatterns.sort(key = lambda subpattern: len(subpattern))
         return subpatterns
 
-    def compute_subpatterns_trim_left(
+    def subpatterns_trimming_left(
         self: ActivePattern
     ) -> list[ActivePattern]:
         trim_points = []
@@ -103,11 +97,14 @@ class ActivePattern(Pattern):
             if self._characters[i] == EMPTY_SQUARE:
                 trim_points.append(i + 1)
         return [
-            ActivePattern(self._characters[trim_point : len(self)], self.active_index - trim_point)
+            ActivePattern(
+                self._characters[trim_point : len(self)],
+                self.active_index - trim_point
+            )
             for trim_point in reversed(trim_points)
         ]
 
-    def compute_subpatterns_trim_right(
+    def subpatterns_trimming_right(
         self: ActivePattern
     ) -> list[ActivePattern]:
         trim_points = []
@@ -116,6 +113,21 @@ class ActivePattern(Pattern):
                 trim_points.append(i)
         trim_points.append(len(self))
         return [
-            ActivePattern(self._characters[0 : trim_point], self.active_index)
+            ActivePattern(
+                self._characters[0 : trim_point],
+                self.active_index
+            )
             for trim_point in trim_points
         ]
+
+
+def _character_for_regular_expression(
+    character: Character
+) -> str:
+    if UPPERCASE_LETTER_REGULAR_EXPRESSION.match(character):
+        return character
+    if character == EMPTY_SQUARE:
+        return "."
+    if character == FILLED_SQUARE:
+        raise Exception("should not find filled square when building regular expression for pattern")
+    raise Exception("unexpected character: #{character}")

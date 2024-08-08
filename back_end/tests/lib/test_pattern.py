@@ -31,9 +31,9 @@ def test_active_pattern_equality():
     assert ActivePattern(list("□CA□"), 3) != ActivePattern(list("□CA□"), 0)
     assert ActivePattern(list("□CA□"), 3) != Pattern(list("□CA□"))
 
-def test_compute_subpatterns_1():
+def test_subpatterns_1():
     pattern = ActivePattern(list("A□□B□□C□D"), 5)
-    assert pattern.compute_subpatterns() == [
+    assert pattern.subpatterns() == [
         ActivePattern(list("□C"), 0),
         ActivePattern(list("□C□D"), 0),
         ActivePattern(list("B□□C"), 2),
@@ -44,68 +44,68 @@ def test_compute_subpatterns_1():
         ActivePattern(list("A□□B□□C□D"), 5)
     ]
 
-def test_compute_subpatterns_2():
+def test_subpatterns_2():
     pattern = ActivePattern(list("□C□D"), 0)
-    assert pattern.compute_subpatterns() == [
+    assert pattern.subpatterns() == [
         ActivePattern(list("□C"), 0),
         ActivePattern(list("□C□D"), 0)
     ]
 
-def test_compute_subpatterns_3():
+def test_subpatterns_3():
     pattern = ActivePattern(list("A□□B□□"), 5)
-    assert pattern.compute_subpatterns() == [
+    assert pattern.subpatterns() == [
         ActivePattern(list("□"), 0),
         ActivePattern(list("B□□"), 2),
         ActivePattern(list("□B□□"), 3),
         ActivePattern(list("A□□B□□"), 5)
     ]
 
-def test_compute_subpatterns_4():
+def test_subpatterns_4():
     pattern = ActivePattern(list("□"), 0)
-    assert pattern.compute_subpatterns() == [
+    assert pattern.subpatterns() == [
         ActivePattern(list("□"), 0)
     ]
 
-def test_compute_subpatterns_trim_left_1():
+def test_subpatterns_trimming_left_1():
     pattern = ActivePattern(list("A□□B□□C□D"), 5)
-    assert pattern.compute_subpatterns_trim_left() == [
+    assert pattern.subpatterns_trimming_left() == [
         ActivePattern(list("□C□D"), 0),
         ActivePattern(list("B□□C□D"), 2),
         ActivePattern(list("□B□□C□D"), 3),
         ActivePattern(list("A□□B□□C□D"), 5)
     ]
 
-def test_compute_subpatterns_trim_left_2():
+def test_subpatterns_trimming_left_2():
     pattern = ActivePattern(list("A□□B□□"), 5)
-    assert pattern.compute_subpatterns_trim_left() == [
+    assert pattern.subpatterns_trimming_left() == [
         ActivePattern(list("□"), 0),
         ActivePattern(list("B□□"), 2),
         ActivePattern(list("□B□□"), 3),
         ActivePattern(list("A□□B□□"), 5)
     ]
 
-def test_compute_subpatterns_trim_left_3():
+def test_subpatterns_trimming_left_3():
     pattern = ActivePattern(list("□"), 0)
-    assert pattern.compute_subpatterns_trim_left() == [
+    assert pattern.subpatterns_trimming_left() == [
         ActivePattern(list("□"), 0)
     ]
 
-def test_compute_subpatterns_trim_right_1():
+def test_subpatterns_trimming_right_1():
     pattern = ActivePattern(list("A□□B□□C□D"), 5)
-    assert pattern.compute_subpatterns_trim_right() == [
+    assert pattern.subpatterns_trimming_right() == [
         ActivePattern(list("A□□B□□C"), 5),
         ActivePattern(list("A□□B□□C□D"), 5)
     ]
 
-def test_compute_subpatterns_trim_right_2():
+def test_subpatterns_trimming_right_2():
     pattern = ActivePattern(list("□C□D"), 0)
-    assert pattern.compute_subpatterns_trim_right() == [
+    assert pattern.subpatterns_trimming_right() == [
         ActivePattern(list("□C"), 0),
         ActivePattern(list("□C□D"), 0)
     ]
 
-def test_compute_subpatterns_trim_right_3():
+def test_subpatterns_trimming_right_3():
     pattern = ActivePattern(list("□"), 0)
-    assert pattern.compute_subpatterns_trim_right() == [
+    assert pattern.subpatterns_trimming_right() == [
         ActivePattern(list("□"), 0)
     ]
