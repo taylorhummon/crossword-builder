@@ -36,9 +36,8 @@ def _load_words_of_length(
     if not os.path.isfile(filename):
         raise Exception(f"file does not exist: {filename}")
     with open(filename) as f:
-        words = f.read().splitlines()
-    return [
-        word
-        for word in words
-        if UPPER_CASE_WORD_REGULAR_EXPRESSION.match(word)
-    ]
+        return [
+            word
+            for word in f.read().splitlines()
+            if UPPER_CASE_WORD_REGULAR_EXPRESSION.match(word)
+        ]

@@ -62,9 +62,9 @@ class ActivePattern(Pattern):
         characters: list[PatternCharacter],
         active_index: int
     ) -> None:
+        super().__init__(characters)
         if active_index < 0 or active_index >= len(characters):
             raise Exception(f"active_index={active_index} is invalid for characters={characters}")
-        super().__init__(characters)
         self.active_index: int
         self.active_index = active_index
 

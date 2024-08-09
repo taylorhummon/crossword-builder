@@ -1,6 +1,5 @@
 from __future__ import annotations
 from typing import Tuple
-import re
 
 from crossword_builder_api.lib.pattern import ActivePattern
 from crossword_builder_api.utilities.character import Character, EMPTY_SQUARE, FILLED_SQUARE
@@ -42,20 +41,36 @@ class Board:
             self.bound_right_of_active_square,
             self.bound_above_active_square,
             self.bound_below_active_square
-        ) = _bounds(self.width, self.height, self._squares, self.active_column, self.active_row)
+        ) = _bounds(
+            width = self.width,
+            height = self.height,
+            squares = self._squares,
+            active_column = self.active_column,
+            active_row = self.active_row
+        )
 
     def character_at(
         self: Board,
         i: int,
         j: int
     ) -> Character:
-        return _character_at(self.width, self.height, self._squares, i, j)
+        return _character_at(
+            width = self.width,
+            height = self.height,
+            squares = self._squares,
+            i = i,
+            j = j
+        )
 
     def horizontal_pattern_through_active_square(
         self: Board,
-        start: int,
-        end: int
+        start: int | None = None,
+        end: int | None = None
     ) -> ActivePattern:
+        if start == None:
+            start = self.bound_left_of_active_square
+        if end == None:
+            end = self.bound_right_of_active_square
         if self.active_column not in range(start, end + 1):
             raise Exception("active square must sit between start and end")
         characters = [
@@ -67,9 +82,13 @@ class Board:
 
     def vertical_pattern_through_active_square(
         self: Board,
-        start: int,
-        end: int
+        start: int | None = None,
+        end: int | None = None
     ) -> ActivePattern:
+        if start == None:
+            start = self.bound_above_active_square
+        if end == None:
+            end = self.bound_below_active_square
         if self.active_row not in range(start, end + 1):
             raise Exception("active square must sit between start and end")
         characters = [
@@ -108,22 +127,46 @@ def _bounds(
     bound_below = active_row
     while (
         bound_left - 1 >= 0 and
-        _character_at(width, height, squares, bound_left - 1, active_row) != FILLED_SQUARE
+        _character_at(
+            width = width,
+            height = height,
+            squares = squares,
+            i = bound_left - 1,
+            j = active_row
+        ) != FILLED_SQUARE
     ):
         bound_left -= 1
     while (
         bound_right + 1 < width and
-        _character_at(width, height, squares, bound_right + 1, active_row) != FILLED_SQUARE
+        _character_at(
+            width = width,
+            height = height,
+            squares = squares,
+            i = bound_right + 1,
+            j = active_row
+        ) != FILLED_SQUARE
     ):
         bound_right += 1
     while (
         bound_above - 1 >= 0 and
-        _character_at(width, height, squares, active_column, bound_above - 1) != FILLED_SQUARE
+        _character_at(
+            width = width,
+            height = height,
+            squares = squares,
+            i = active_column,
+            j = bound_above - 1
+        ) != FILLED_SQUARE
     ):
         bound_above -= 1
     while (
         bound_below + 1 < height and
-        _character_at(width, height, squares, active_column, bound_below + 1) != FILLED_SQUARE
+        _character_at(
+            width = width,
+            height = height,
+            squares = squares,
+            i = active_column,
+            j = bound_below + 1
+        ) != FILLED_SQUARE
     ):
         bound_below += 1
     return (bound_left, bound_right, bound_above, bound_below)

@@ -22,14 +22,8 @@ def build_suggestions(
         squares=squares,
         active_index=active_index
     )
-    pattern_a = board.horizontal_pattern_through_active_square(
-        board.bound_left_of_active_square,
-        board.bound_right_of_active_square
-    )
-    pattern_b = board.vertical_pattern_through_active_square(
-        board.bound_above_active_square,
-        board.bound_below_active_square
-    )
+    pattern_a = board.horizontal_pattern_through_active_square()
+    pattern_b = board.vertical_pattern_through_active_square()
     if can_suggest_filled:
         return _suggestions_when_can_suggest_filled(words_provider, board, pattern_a, pattern_b)
     else:
@@ -84,28 +78,16 @@ def _will_suggest_fill(
     words_provider: WordsProvider,
     board: Board
 ) -> bool:
-    left_pattern = board.horizontal_pattern_through_active_square(
-        board.bound_left_of_active_square,
-        board.active_column
-    )
+    left_pattern = board.horizontal_pattern_through_active_square(end = board.active_column)
     if not _will_suggest_fill_trimming_left(words_provider, left_pattern):
         return False
-    right_pattern = board.horizontal_pattern_through_active_square(
-        board.active_column,
-        board.bound_right_of_active_square
-    )
+    right_pattern = board.horizontal_pattern_through_active_square(start = board.active_column)
     if not _will_suggest_fill_trimming_right(words_provider, right_pattern):
         return False
-    above_pattern = board.vertical_pattern_through_active_square(
-        board.bound_above_active_square,
-        board.active_row
-    )
+    above_pattern = board.vertical_pattern_through_active_square(end = board.active_row)
     if not _will_suggest_fill_trimming_left(words_provider, above_pattern):
         return False
-    below_pattern = board.vertical_pattern_through_active_square(
-        board.active_row,
-        board.bound_below_active_square
-    )
+    below_pattern = board.vertical_pattern_through_active_square(start = board.active_row)
     if not _will_suggest_fill_trimming_right(words_provider, below_pattern):
         return False
     return True
