@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 
-import { FILLED_SQUARE } from 'utilities/character';
+import { FILLED_SQUARE, SuggestableCharacter } from 'utilities/character';
 import Suggestions from 'components/suggestions/Suggestions';
 
 
 it('shows all 26 letters when none are suggested and cannot suggest fill', () => {
-  const suggestions = [] as Array<string>;
+  const suggestions = [] as Array<SuggestableCharacter>;
   const canSuggestFilled = false;
   render(
     <Suggestions
@@ -13,25 +13,25 @@ it('shows all 26 letters when none are suggested and cannot suggest fill', () =>
       canSuggestFilled={canSuggestFilled}
     />
   );
-  const letterElements = screen.queryAllByTestId(/^suggestion-/);
+  const elements = screen.queryAllByTestId(/^suggestion-/);
   expect(
-    letterElements.length
+    elements.length
   ).toEqual(26);
   expect(
-    letterElements[0].textContent
+    elements[0].textContent
   ).toEqual('A');
   expect(
-    letterElements[25].textContent
+    elements[25].textContent
   ).toEqual('Z');
-  letterElements.forEach(letterElement => {
+  elements.forEach(element => {
     expect(
-      letterElement
+      element
     ).not.toHaveClass('suggested');
   });
 });
 
 it('emphasizes the suggested letters when cannot suggest fill', () => {
-  const suggestions = ['A', 'E', 'C'];
+  const suggestions = ['A', 'E', 'C'] as Array<SuggestableCharacter>;
   const canSuggestFilled = false;
   render(
     <Suggestions
@@ -54,7 +54,7 @@ it('emphasizes the suggested letters when cannot suggest fill', () => {
 });
 
 it('shows all 27 letters when none are suggested and can suggest fill', () => {
-  const suggestions = [] as Array<string>;
+  const suggestions = [] as Array<SuggestableCharacter>;
   const canSuggestFilled = true;
   render(
     <Suggestions
@@ -62,28 +62,28 @@ it('shows all 27 letters when none are suggested and can suggest fill', () => {
       canSuggestFilled={canSuggestFilled}
     />
   );
-  const letterElements = screen.queryAllByTestId(/^suggestion-/);
+  const elements = screen.queryAllByTestId(/^suggestion-/);
   expect(
-    letterElements.length
+    elements.length
   ).toEqual(27);
   expect(
-    letterElements[0].textContent
+    elements[0].textContent
   ).toEqual('A');
   expect(
-    letterElements[25].textContent
+    elements[25].textContent
   ).toEqual('Z');
   expect(
-    letterElements[26]
-  ).toContainElement(screen.getByTestId('letter-filled-square'));
-  letterElements.forEach(letterElement => {
+    elements[26]
+  ).toContainElement(screen.getByTestId('character-■'));
+  elements.forEach(element => {
     expect(
-      letterElement
+      element
     ).not.toHaveClass('suggested');
   });
 });
 
 it('emphasizes the suggested letters when can suggest fill', () => {
-  const suggestions = ['A', FILLED_SQUARE, 'C'];
+  const suggestions = ['A', FILLED_SQUARE, 'C'] as Array<SuggestableCharacter>;
   const canSuggestFilled = true;
   render(
     <Suggestions
@@ -95,7 +95,7 @@ it('emphasizes the suggested letters when can suggest fill', () => {
     screen.queryByTestId(/^suggestion-A$/)
   ).toHaveClass('suggested');
   expect(
-    screen.queryByTestId(/^suggestion-filled-square$/)
+    screen.queryByTestId(/^suggestion-■$/)
   ).toHaveClass('suggested');
   expect(
     screen.queryByTestId(/^suggestion-C$/)

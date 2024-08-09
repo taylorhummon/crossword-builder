@@ -1,32 +1,11 @@
 import {
   EMPTY_SQUARE,
   FILLED_SQUARE,
-  buildLetters,
   isLetter,
   isSuggestableCharacter,
   isCharacter
 } from 'utilities/character';
 
-
-describe('buildLetters()', () => {
-  it('builds the uppercase alphabet', () => {
-    expect(
-      buildLetters().length
-    ).toBe(
-      26
-    );
-    expect(
-      buildLetters()[0]
-    ).toBe(
-      'A'
-    );
-    expect(
-      buildLetters()[25]
-    ).toBe(
-      'Z'
-    );
-  });
-});
 
 describe('isLetter()', () => {
   it('can identify (uppercase) letters', () => {

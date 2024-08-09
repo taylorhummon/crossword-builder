@@ -8,20 +8,20 @@ import { boardWidth, boardHeight } from 'environment/board';
 import { isMouseNavigation } from 'lib/navigation';
 import { nextStateDueToKeyPress } from 'lib/keyPress';
 import { updateSuggestions } from 'models/suggestions/update';
-import { EMPTY_SQUARE } from 'utilities/character';
+import { EMPTY_SQUARE, Character, SuggestableCharacter } from 'utilities/character';
 import { buildClassString } from 'utilities/css';
 
 import cssModule from './App.module.scss';
 
 
 export interface State {
-  squares: Array<string>;
+  squares: Array<Character>;
   activeIndex: number | null;
   bookmarkedIndex: number | null;
   boardHasFocus: boolean;
   canSuggestFilled: boolean;
   isTypingVertical: boolean;
-  suggestions: Array<string>;
+  suggestions: Array<SuggestableCharacter>;
 }
 
 export default function App(): JSX.Element {

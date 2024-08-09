@@ -1,5 +1,5 @@
 import { State } from 'components/app/App';
-import { EMPTY_SQUARE, FILLED_SQUARE } from 'utilities/character';
+import { EMPTY_SQUARE, FILLED_SQUARE, Letter, Character } from 'utilities/character';
 import {
   isLetterKey, isArrowKey, indexDeterminedByArrowKey,
   indexOneBeforeActive, indexOneAfterActive
@@ -36,7 +36,7 @@ function dueToLetterKey(
   key: string
 ): State {
   const { squares, activeIndex } = state;
-  const letter = key.toUpperCase();
+  const letter = key.toUpperCase() as Letter;
   return {
     ...state,
     squares: updatedSquareValues(squares, activeIndex, letter),
@@ -87,10 +87,10 @@ function dueToDeleteKey(
 }
 
 function updatedSquareValues(
-  prevSquareValues: Array<string>,
+  prevSquareValues: Array<Character>,
   index: number | null,
-  value: string
-): Array<string> {
+  value: Character
+): Array<Character> {
   const squares = [...prevSquareValues];
   if (index !== null) {
     squares[index] = value;

@@ -1,15 +1,18 @@
-import { indicesArray } from 'utilities/array';
+export type Letter = (
+  'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' |
+  'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z'
+);
+export type SuggestableCharacter = Letter | '■';
+export type Character = Letter | '□' | '■';
 
 
+export const LETTERS = [
+  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+  'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+] as const;
 export const EMPTY_SQUARE = '□';
 export const FILLED_SQUARE = '■';
 
-export function buildLetters(): Array<string> {
-  const charCodeForA = 'A'.charCodeAt(0);
-  return indicesArray(26).map(
-    i => String.fromCharCode(charCodeForA + i)
-  );
-}
 
 export function isLetter(
   value: any

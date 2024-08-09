@@ -2,6 +2,11 @@ import { State } from 'components/app/App';
 import { boardWidth, boardHeight } from 'environment/board';
 
 
+const ARROW_LEFT   = 'ArrowLeft';
+const ARROW_RIGHT  = 'ArrowRight';
+const ARROW_UP     = 'ArrowUp';
+const ARROW_DOWN   = 'ArrowDown';
+
 export function isMouseNavigation(): boolean {
   return document.body.classList.contains('mouse-navigation');
 }
@@ -9,11 +14,6 @@ export function isMouseNavigation(): boolean {
 export function isKeyboardNavigation(): boolean {
   return document.body.classList.contains('keyboard-navigation');
 }
-
-const ARROW_LEFT   = 'ArrowLeft';
-const ARROW_RIGHT  = 'ArrowRight';
-const ARROW_UP     = 'ArrowUp';
-const ARROW_DOWN   = 'ArrowDown';
 
 export function isLetterKey(
   key: string

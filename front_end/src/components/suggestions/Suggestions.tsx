@@ -1,11 +1,11 @@
-import { FILLED_SQUARE, buildLetters } from 'utilities/character';
+import { FILLED_SQUARE, LETTERS, SuggestableCharacter } from 'utilities/character';
 import { buildClassString } from 'utilities/css';
 
 import cssModule from './Suggestions.module.scss';
 
 
 interface SuggestionsProps {
-  suggestions: Array<string>;
+  suggestions: Array<SuggestableCharacter>;
   canSuggestFilled: boolean;
 }
 
@@ -16,63 +16,56 @@ export default function Suggestions({
   return (
     <div className={buildClassString(cssModule, ['suggestions'])}>
       <h4>Suggested letters</h4>
-      {renderLetters(suggestions, canSuggestFilled)}
+      {renderCharacters(suggestions, canSuggestFilled)}
     </div>
   );
 }
 
-function renderLetters(
-  suggestions: Array<string>,
+function renderCharacters(
+  suggestions: Array<SuggestableCharacter>,
   canSuggestFilled: boolean
 ): Array<JSX.Element> {
-  const letters = buildLetters();
-  if (canSuggestFilled) letters.push(FILLED_SQUARE);
-  return letters.map(
-    letter => renderLetter(suggestions, letter)
+  const characters = LETTERS.slice() as Array<SuggestableCharacter>;
+  if (canSuggestFilled) characters.push(FILLED_SQUARE);
+  return characters.map(
+    character => renderCharacter(suggestions, character)
   );
 }
 
-function renderLetter(
-  suggestions: Array<string>,
-  letter: string
+function renderCharacter(
+  suggestions: Array<SuggestableCharacter>,
+  character: SuggestableCharacter
 ): JSX.Element {
   return (
     <div
-      className={className(suggestions, letter)}
-      key={letter}
-      data-testid={testid(letter)}
+      className={className(suggestions, character)}
+      key={character}
+      data-testid={`suggestion-${character}`}
     >
-      {letterForDisplay(letter)}
+      {display(character)}
     </div>
   );
 }
 
 function className(
-  suggestions: Array<string>,
-  letter: string
+  suggestions: Array<SuggestableCharacter>,
+  character: SuggestableCharacter
 ): string {
-  const classNames = ['letter'];
-  if (suggestions.includes(letter)) {
+  const classNames = ['character'];
+  if (suggestions.includes(character)) {
     classNames.push('suggested');
   }
   return buildClassString(cssModule, classNames);
 }
 
-function testid(
-  letter: string
-): string {
-  if (letter === FILLED_SQUARE) return 'suggestion-filled-square';
-  return `suggestion-${letter}`;
-}
-
-function letterForDisplay(
-  letter: string
+function display(
+  character: SuggestableCharacter
 ): JSX.Element | string {
-  if (letter === FILLED_SQUARE) return (
+  if (character === FILLED_SQUARE) return (
     <div
       className={buildClassString(cssModule, ['filled-square'])}
-      data-testid="letter-filled-square"
+      data-testid="character-■"
     ></div>
   );
-  return letter;
+  return character;
 }

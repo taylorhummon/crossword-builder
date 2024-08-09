@@ -1,13 +1,14 @@
 import { State } from 'components/app/App';
 import { boardWidth, boardHeight } from 'environment/board';
-import { arrayShallowEquivalent } from 'utilities/array';
 import { SuggestionsRequestData } from 'models/suggestions/type';
 import { fetchSuggestions } from 'models/suggestions/fetch';
+import { arrayShallowEquivalent } from 'utilities/array';
+import { Character } from 'utilities/character';
 
 
 export async function updateSuggestions(
   setState: (updater: (latestState: State) => State) => void,
-  squares: Array<string>,
+  squares: Array<Character>,
   activeIndex: number | null,
   canSuggestFilled: boolean
 ): Promise<void> {

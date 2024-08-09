@@ -1,11 +1,11 @@
 import { SuggestionsRequestData } from 'models/suggestions/type';
 import { serverBaseUrl, serverPort } from 'environment/server';
-import { isSuggestableCharacter } from 'utilities/character';
+import { isSuggestableCharacter, SuggestableCharacter } from 'utilities/character';
 
 
 export async function fetchSuggestions(
   requestData: SuggestionsRequestData
-): Promise<Array<string>> {
+): Promise<Array<SuggestableCharacter>> {
   try {
     const url = `${serverBaseUrl}:${serverPort}/make_suggestions`;
     const options = {
@@ -25,13 +25,7 @@ export async function fetchSuggestions(
 
 function deserializeSuggestions(
   jsonHash: any
-): Array<string> {
+): Array<SuggestableCharacter> {
   if (! Array.isArray(jsonHash)) throw new Error('Expected response to be an array', jsonHash);
-  const suggestions = [] as Array<string>;
-  for (const entry of jsonHash) {
-    if (isSuggestableCharacter(entry)) {
-      suggestions.push(entry);
-    }
-  }
-  return suggestions;
+  return jsonHash.filter(isSuggestableCharacter);
 }

@@ -1,13 +1,14 @@
 import Square from 'components/square/Square';
 import { boardWidth, boardHeight } from 'environment/board';
 import { indicesArray } from 'utilities/array';
+import { Character } from 'utilities/character';
 import { buildClassString } from 'utilities/css';
 
 import cssModule from './Board.module.scss';
 
 
 interface BoardProps {
-  squares: Array<string>;
+  squares: Array<Character>;
   activeIndex: number | null;
   boardHasFocus: boolean;
   handleBoardKeyDown: (event: React.KeyboardEvent) => void;
@@ -34,24 +35,24 @@ export default function Board({
       onBlur={handleBoardBlur}
       data-testid="board"
     >
-      {getRows(squares, activeIndex, boardHasFocus, handleBoardClick)}
+      {buildRows(squares, activeIndex, boardHasFocus, handleBoardClick)}
     </div>
   );
 }
 
-function getRows(
-  squares: Array<string>,
+function buildRows(
+  squares: Array<Character>,
   activeIndex: number | null,
   boardHasFocus: boolean,
   handleBoardClick: (event: React.MouseEvent, k: number) => void
 ): Array<JSX.Element> {
   return indicesArray(boardHeight).map(
-    i => getRow(squares, activeIndex, boardHasFocus, handleBoardClick, i)
+    i => buildRow(squares, activeIndex, boardHasFocus, handleBoardClick, i)
   );
 }
 
-function getRow(
-  squares: Array<string>,
+function buildRow(
+  squares: Array<Character>,
   activeIndex: number | null,
   boardHasFocus: boolean,
   handleBoardClick: (event: React.MouseEvent, k: number) => void,
@@ -62,20 +63,20 @@ function getRow(
       className={buildClassString(cssModule, ['board-row'])}
       key={i}
     >
-      {getSquares(squares, activeIndex, boardHasFocus, handleBoardClick, i)}
+      {buildSquares(squares, activeIndex, boardHasFocus, handleBoardClick, i)}
     </div>
   );
 }
 
-function getSquares(
-  squares: Array<string>,
+function buildSquares(
+  squares: Array<Character>,
   activeIndex: number | null,
   boardHasFocus: boolean,
   handleBoardClick: (event: React.MouseEvent, k: number) => void,
   i: number
 ): Array<JSX.Element> {
   return indicesArray(boardWidth).map(
-    j => getSquare(
+    j => buildSquare(
       squares,
       activeIndex,
       boardHasFocus,
@@ -85,8 +86,8 @@ function getSquares(
   );
 }
 
-function getSquare(
-  squares: Array<string>,
+function buildSquare(
+  squares: Array<Character>,
   activeIndex: number | null,
   boardHasFocus: boolean,
   handleBoardClick: (event: React.MouseEvent, k: number) => void,
@@ -95,7 +96,7 @@ function getSquare(
   return (
     <Square
       key={k}
-      value={squares[k]}
+      character={squares[k]}
       isActive={activeIndex === k}
       boardHasFocus={boardHasFocus}
       handleSquareClick={(event: React.MouseEvent) => handleBoardClick(event, k)}
