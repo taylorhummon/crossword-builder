@@ -1,0 +1,9 @@
+.board {
+  margin: 16px 0;
+  display: inline-block;
+  min-width: 264px;
+
+  &:focus {
+    outline: none;
+  }
+}

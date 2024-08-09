@@ -1,7 +1,11 @@
 {
-  "name": "front_end_vite",
+  "name": "crossword-builder",
+  "version": "0.3.0",
   "private": true,
-  "version": "0.0.0",
+  "author": {
+    "name": "Taylor Hummon",
+    "email": "taylor@taylorhummon.com"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -22,6 +26,8 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
+    "sass": "^1.77.8",
+    "sass-embedded": "^1.77.8",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.0",
     "vite": "^5.4.0"
