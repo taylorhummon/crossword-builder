@@ -31,27 +31,28 @@ def test_Board():
     assert board.character_at(3, 2) == "G"
 
 def test_bound_left_of_active_square():
-    assert build_board(7).bound_left_of_active_square == 3
-    assert build_board(6).bound_left_of_active_square == 1
-    assert build_board(2).bound_left_of_active_square == 0
-    assert build_board(8).bound_left_of_active_square == 0
+    assert build_board(7)._bound_left_of_active_square == 3
+    assert build_board(6)._bound_left_of_active_square == 1
+    assert build_board(2)._bound_left_of_active_square == 0
+    assert build_board(8)._bound_left_of_active_square == 0
 
 def test_bound_right_of_active_square():
-    assert build_board(0).bound_right_of_active_square == 2
-    assert build_board(4).bound_right_of_active_square == 1
-    assert build_board(8).bound_right_of_active_square == 3
+    assert build_board(0)._bound_right_of_active_square == 2
+    assert build_board(4)._bound_right_of_active_square == 1
+    assert build_board(8)._bound_right_of_active_square == 3
 
 def test_bound_above_active_square():
-    assert build_board(0).bound_above_active_square == 0
-    assert build_board(8).bound_above_active_square == 2
-    assert build_board(11).bound_above_active_square == 1
+    assert build_board(0)._bound_above_active_square == 0
+    assert build_board(8)._bound_above_active_square == 2
+    assert build_board(11)._bound_above_active_square == 1
 
 def test_bound_below_active_square():
-    assert build_board(0).bound_below_active_square == 0
-    assert build_board(1).bound_below_active_square == 2
-    assert build_board(3).bound_below_active_square == 2
+    assert build_board(0)._bound_below_active_square == 0
+    assert build_board(1)._bound_below_active_square == 2
+    assert build_board(3)._bound_below_active_square == 2
 
 def test_horizontal_pattern_through_active_square():
+    assert build_board(0).horizontal_pattern_through_active_square() == ActivePattern(list("□CE"), 0)
     assert build_board(0).horizontal_pattern_through_active_square(0, 2) == ActivePattern(list("□CE"), 0)
     assert build_board(0).horizontal_pattern_through_active_square(0, 1) == ActivePattern(list("□C"), 0)
     assert build_board(0).horizontal_pattern_through_active_square(0, 0) == ActivePattern(list("□"), 0)
@@ -61,6 +62,7 @@ def test_horizontal_pattern_through_active_square():
     assert build_board(9).horizontal_pattern_through_active_square(0, 3) == ActivePattern(list("□□AG"), 1)
 
 def test_vertical_pattern_through_active_square():
+    assert build_board(1).vertical_pattern_through_active_square() == ActivePattern(list("□AT"), 0)
     assert build_board(1).vertical_pattern_through_active_square(0, 2) == ActivePattern(list("□AT"), 0)
     assert build_board(5).vertical_pattern_through_active_square(0, 2) == ActivePattern(list("C□T"), 1)
     assert build_board(4).vertical_pattern_through_active_square(0, 2) == ActivePattern(list("A□□"), 1)

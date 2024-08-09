@@ -3,6 +3,7 @@ from typing import cast
 
 from crossword_builder_api.lib.suggestions import build_suggestions
 from crossword_builder_api.lib.words_provider import WordsProvider
+from crossword_builder_api.lib.matcher import Matcher
 from crossword_builder_api.utilities.character import build_letters
 
 
@@ -24,10 +25,11 @@ class MockWordsProvider:
         ]
 
 mock_words_provider = cast(WordsProvider, MockWordsProvider())
+matcher = Matcher(mock_words_provider)
 
 def test_build_suggestions_when_active_square_is_empty_and_cannot_suggest_fill():
     suggestions = build_suggestions(
-        words_provider = mock_words_provider,
+        matcher = matcher,
         board_width = 4,
         board_height = 1,
         squares = ["A", "C", "E", "□"],
@@ -38,7 +40,7 @@ def test_build_suggestions_when_active_square_is_empty_and_cannot_suggest_fill()
 
 def test_build_suggestions_when_active_square_is_filled_and_cannot_suggest_fill():
     suggestions = build_suggestions(
-        words_provider = mock_words_provider,
+        matcher = matcher,
         board_width = 4,
         board_height = 1,
         squares = ["A", "C", "E", "■"],
@@ -49,7 +51,7 @@ def test_build_suggestions_when_active_square_is_filled_and_cannot_suggest_fill(
 
 def test_build_suggestions_when_active_square_is_a_letter_and_cannot_suggest_fill():
     suggestions = build_suggestions(
-        words_provider = mock_words_provider,
+        matcher = matcher,
         board_width = 4,
         board_height = 1,
         squares = ["A", "C", "E", "D"],
@@ -60,7 +62,7 @@ def test_build_suggestions_when_active_square_is_a_letter_and_cannot_suggest_fil
 
 def test_build_suggestions_when_constrained_in_two_dimensions_and_cannot_suggest_fill():
     suggestions = build_suggestions(
-        words_provider = mock_words_provider,
+        matcher = matcher,
         board_width = 4,
         board_height = 3,
         squares = [
@@ -75,7 +77,7 @@ def test_build_suggestions_when_constrained_in_two_dimensions_and_cannot_suggest
 
 def test_build_suggestions_when_active_square_is_surrounded_by_filled_squares_and_can_suggest_filled():
     suggestions = build_suggestions(
-        words_provider = mock_words_provider,
+        matcher = matcher,
         board_width = 4,
         board_height = 1,
         squares = ["A", "□", "□", "□"],
@@ -86,7 +88,7 @@ def test_build_suggestions_when_active_square_is_surrounded_by_filled_squares_an
 
 def test_build_suggestions_when_active_square_is_adjacent_to_letter_and_can_suggest_filled():
     suggestions = build_suggestions(
-        words_provider = mock_words_provider,
+        matcher = matcher,
         board_width = 4,
         board_height = 1,
         squares = ["A", "□", "□", "□"],
@@ -97,7 +99,7 @@ def test_build_suggestions_when_active_square_is_adjacent_to_letter_and_can_sugg
 
 def test_build_suggestions_when_active_square_is_between_letters_and_can_suggest_filled():
     suggestions = build_suggestions(
-        words_provider = mock_words_provider,
+        matcher = matcher,
         board_width = 4,
         board_height = 1,
         squares = ["A", "□", "S", "□"],
@@ -108,7 +110,7 @@ def test_build_suggestions_when_active_square_is_between_letters_and_can_suggest
 
 def test_build_suggestions_when_constrained_in_two_dimensions_and_can_suggest_filled():
     suggestions = build_suggestions(
-        words_provider = mock_words_provider,
+        matcher = matcher,
         board_width = 4,
         board_height = 3,
         squares = [
