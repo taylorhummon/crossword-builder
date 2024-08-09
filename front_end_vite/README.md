@@ -1,50 +1,60 @@
-# React + TypeScript + Vite
+# Crossword Builder Front End #
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the front end for the Crossword Builder app.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installing Dependencies ##
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+Make sure you have [Node.JS](https://nodejs.org/) and [Yarn](https://yarnpkg.com/) installed.
+Then install dependencies:
+```
+cd crossword-builder/front_end/
+yarn
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Running the Crossword Builder API ##
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+Follow the instructions in [crossword-builder/back_end/README.md](../back_end/README.md) to
+get the Crossword Builder API running.
+
+
+## Running the Crossword Builder Front End ##
+
+To spin up an instance of the front end in development mode, run:
+```
+yarn dev
+```
+
+You should then be able to view the app at [http://localhost:3000](http://localhost:3000) in your
+browser.
+
+
+### Testing
+
+To execute the front end's test suite, run:
+```
+yarn test
+```
+
+
+### Linting and Checking Types
+
+To lint, run:
+```
+yarn lint
+```
+
+And to execute the type checker, run:
+```
+yarn check-types
+```
+
+
+### Building
+
+To build the app and preview the result, run:
+```
+yarn build &&
+yarn preview
 ```

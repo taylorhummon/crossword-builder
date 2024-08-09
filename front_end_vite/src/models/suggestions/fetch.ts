@@ -26,6 +26,6 @@ export async function fetchSuggestions(
 function deserializeSuggestions(
   jsonHash: any
 ): Array<SuggestableCharacter> {
-  if (! Array.isArray(jsonHash)) throw new Error('Expected response to be an array', jsonHash);
+  if (! Array.isArray(jsonHash)) throw new Error(`Expected response to be an array: ${jsonHash}`);
   return jsonHash.filter(isSuggestableCharacter);
 }

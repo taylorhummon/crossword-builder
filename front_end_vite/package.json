@@ -9,8 +9,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "check-types": "tsc --noEmit",
+    "build": "tsc -b && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
