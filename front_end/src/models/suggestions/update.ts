@@ -1,9 +1,9 @@
-import { State } from 'src/components/app/App';
+import type { State } from 'src/components/app/App';
+import type { Character } from 'src/utilities/character';
+import type { SuggestionsRequestData } from 'src/models/suggestions/type';
 import { boardWidth, boardHeight } from 'src/environment/board';
-import { SuggestionsRequestData } from 'src/models/suggestions/type';
 import { fetchSuggestions } from 'src/models/suggestions/fetch';
 import { arrayShallowEquivalent } from 'src/utilities/array';
-import { Character } from 'src/utilities/character';
 
 
 export async function updateSuggestions(

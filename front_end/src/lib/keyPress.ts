@@ -1,5 +1,6 @@
-import { State } from 'src/components/app/App';
-import { EMPTY_SQUARE, FILLED_SQUARE, Letter, Character } from 'src/utilities/character';
+import type { State } from 'src/components/app/App';
+import type { Letter, Character } from 'src/utilities/character';
+import { EMPTY_SQUARE, FILLED_SQUARE } from 'src/utilities/character';
 import {
   isLetterKey, isArrowKey, indexDeterminedByArrowKey,
   indexOneBeforeActive, indexOneAfterActive

@@ -1,7 +1,8 @@
 import { test, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
-import { FILLED_SQUARE, SuggestableCharacter } from 'src/utilities/character';
+import type { SuggestableCharacter } from 'src/utilities/character';
+import { FILLED_SQUARE } from 'src/utilities/character';
 import Suggestions from 'src/components/suggestions/Suggestions';
 import cssModule from 'src/components/suggestions/Suggestions.module.scss';
 

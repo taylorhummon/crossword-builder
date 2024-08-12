@@ -1,4 +1,4 @@
-import { State } from 'src/components/app/App';
+import type { State } from 'src/components/app/App';
 import { boardWidth, boardHeight } from 'src/environment/board';
 
 

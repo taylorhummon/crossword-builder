@@ -1,4 +1,4 @@
-import { SuggestionsRequestData } from 'src/models/suggestions/type';
+import type { SuggestionsRequestData } from 'src/models/suggestions/type';
 import { serverBaseUrl, serverPort } from 'src/environment/server';
 import { isSuggestableCharacter, SuggestableCharacter } from 'src/utilities/character';
 
