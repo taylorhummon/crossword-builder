@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 
-import Board from 'components/board/Board';
-import Options from 'components/options/Options';
-import Suggestions from 'components/suggestions/Suggestions';
-import Help from 'components/help/Help';
-import { boardWidth, boardHeight } from 'environment/board';
-import { isMouseNavigation } from 'lib/navigation';
-import { nextStateDueToKeyPress } from 'lib/keyPress';
-import { updateSuggestions } from 'models/suggestions/update';
-import { EMPTY_SQUARE, Character, SuggestableCharacter } from 'utilities/character';
-import { buildClassString } from 'utilities/css';
+import Board from 'src/components/board/Board';
+import Options from 'src/components/options/Options';
+import Suggestions from 'src/components/suggestions/Suggestions';
+import Help from 'src/components/help/Help';
+import { boardWidth, boardHeight } from 'src/environment/board';
+import { isMouseNavigation } from 'src/lib/navigation';
+import { nextStateDueToKeyPress } from 'src/lib/keyPress';
+import { updateSuggestions } from 'src/models/suggestions/update';
+import { EMPTY_SQUARE, Character, SuggestableCharacter } from 'src/utilities/character';
+import { buildClassString } from 'src/utilities/css';
 
 import cssModule from './App.module.scss';
 

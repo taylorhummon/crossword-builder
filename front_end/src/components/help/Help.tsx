@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { buildClassString } from 'utilities/css';
+
+import { buildClassString } from 'src/utilities/css';
 
 import cssModule from './Help.module.scss';
 

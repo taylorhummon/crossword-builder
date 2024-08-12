@@ -9,6 +9,6 @@ export function lookupInEnvironment<T>({
   defaultValue,
   clean,
 }: LookupInEnvironmentProps<T>): T {
-  const uncleanValue = process.env[environmentVariable];
+  const uncleanValue = import.meta.env[environmentVariable];
   return clean(uncleanValue, defaultValue);
 }

@@ -1,8 +1,8 @@
-import Square from 'components/square/Square';
-import { boardWidth, boardHeight } from 'environment/board';
-import { indicesArray } from 'utilities/array';
-import { Character } from 'utilities/character';
-import { buildClassString } from 'utilities/css';
+import Square from 'src/components/square/Square';
+import { boardWidth, boardHeight } from 'src/environment/board';
+import { indicesArray } from 'src/utilities/array';
+import { Character } from 'src/utilities/character';
+import { buildClassString } from 'src/utilities/css';
 
 import cssModule from './Board.module.scss';
 

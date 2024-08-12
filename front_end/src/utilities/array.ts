@@ -1,4 +1,4 @@
-import { isNumber } from './math';
+import { isNumber } from 'src/utilities/math';
 
 
 export function arrayShallowEquivalent(

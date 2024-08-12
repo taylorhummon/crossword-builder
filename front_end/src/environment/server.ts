@@ -1,9 +1,9 @@
-import { lookupInEnvironment } from 'utilities/environment';
-import { NATURAL_NUMBER_REGULAR_EXPRESSION } from 'utilities/math';
+import { lookupInEnvironment } from 'src/utilities/environment';
+import { NATURAL_NUMBER_REGULAR_EXPRESSION } from 'src/utilities/math';
 
 
 export const serverBaseUrl = lookupInEnvironment({
-  environmentVariable: "REACT_APP_SERVER_BASE_URL",
+  environmentVariable: "VITE_SERVER_BASE_URL",
   defaultValue: "http://localhost",
   clean(
     serverBaseUrl: string | undefined,
@@ -14,7 +14,7 @@ export const serverBaseUrl = lookupInEnvironment({
 });
 
 export const serverPort = lookupInEnvironment({
-  environmentVariable: "REACT_APP_SERVER_PORT",
+  environmentVariable: "VITE_SERVER_PORT",
   defaultValue: "8000",
   clean(
     serverPort: string | undefined,

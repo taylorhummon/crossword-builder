@@ -1,4 +1,4 @@
-import { Character } from 'utilities/character';
+import { Character } from 'src/utilities/character';
 
 export interface SuggestionsRequestData {
   boardWidth: number;

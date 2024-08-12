@@ -1,9 +1,9 @@
-import { State } from 'components/app/App';
-import { EMPTY_SQUARE, FILLED_SQUARE, Letter, Character } from 'utilities/character';
+import { State } from 'src/components/app/App';
+import { EMPTY_SQUARE, FILLED_SQUARE, Letter, Character } from 'src/utilities/character';
 import {
   isLetterKey, isArrowKey, indexDeterminedByArrowKey,
   indexOneBeforeActive, indexOneAfterActive
-} from 'lib/navigation';
+} from 'src/lib/navigation';
 
 
 export function nextStateDueToKeyPress(

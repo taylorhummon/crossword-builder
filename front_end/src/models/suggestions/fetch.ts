@@ -1,6 +1,6 @@
-import { SuggestionsRequestData } from 'models/suggestions/type';
-import { serverBaseUrl, serverPort } from 'environment/server';
-import { isSuggestableCharacter, SuggestableCharacter } from 'utilities/character';
+import { SuggestionsRequestData } from 'src/models/suggestions/type';
+import { serverBaseUrl, serverPort } from 'src/environment/server';
+import { isSuggestableCharacter, SuggestableCharacter } from 'src/utilities/character';
 
 
 export async function fetchSuggestions(
@@ -26,6 +26,6 @@ export async function fetchSuggestions(
 function deserializeSuggestions(
   jsonHash: any
 ): Array<SuggestableCharacter> {
-  if (! Array.isArray(jsonHash)) throw new Error('Expected response to be an array', jsonHash);
+  if (! Array.isArray(jsonHash)) throw new Error(`Expected response to be an array: ${jsonHash}`);
   return jsonHash.filter(isSuggestableCharacter);
 }

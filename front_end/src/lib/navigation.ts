@@ -1,5 +1,5 @@
-import { State } from 'components/app/App';
-import { boardWidth, boardHeight } from 'environment/board';
+import { State } from 'src/components/app/App';
+import { boardWidth, boardHeight } from 'src/environment/board';
 
 
 const ARROW_LEFT   = 'ArrowLeft';

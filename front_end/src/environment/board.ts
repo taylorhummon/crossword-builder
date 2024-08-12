@@ -1,9 +1,9 @@
-import { lookupInEnvironment } from 'utilities/environment';
-import { NATURAL_NUMBER_REGULAR_EXPRESSION, integerFromString } from 'utilities/math';
+import { lookupInEnvironment } from 'src/utilities/environment';
+import { NATURAL_NUMBER_REGULAR_EXPRESSION, integerFromString } from 'src/utilities/math';
 
 
 export const boardWidth = lookupInEnvironment({
-  environmentVariable: "REACT_APP_BOARD_WIDTH",
+  environmentVariable: "VITE_BOARD_WIDTH",
   defaultValue: 8,
   clean(
     boardWidthString: string | undefined,
@@ -16,7 +16,7 @@ export const boardWidth = lookupInEnvironment({
 });
 
 export const boardHeight = lookupInEnvironment({
-  environmentVariable: "REACT_APP_BOARD_HEIGHT",
+  environmentVariable: "VITE_BOARD_HEIGHT",
   defaultValue: 8,
   clean(
     boardHeightString: string | undefined,

@@ -23,11 +23,24 @@ get the Crossword Builder API running.
 
 To spin up an instance of the front end in development mode, run:
 ```
-yarn start
+yarn dev
 ```
 
 You should then be able to view the app at [http://localhost:3000](http://localhost:3000) in your
 browser.
+
+
+### Linting and Checking Types
+
+To lint, run:
+```
+yarn lint
+```
+
+And to execute the type checker, run:
+```
+yarn check-types
+```
 
 
 ### Testing
@@ -35,4 +48,13 @@ browser.
 To execute the front end's test suite, run:
 ```
 yarn test
+```
+
+
+### Building
+
+To build the app and preview the result, run:
+```
+yarn build &&
+yarn preview
 ```
