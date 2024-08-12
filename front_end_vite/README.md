@@ -30,14 +30,6 @@ You should then be able to view the app at [http://localhost:3000](http://localh
 browser.
 
 
-### Testing
-
-To execute the front end's test suite, run:
-```
-yarn test
-```
-
-
 ### Linting and Checking Types
 
 To lint, run:
@@ -48,6 +40,14 @@ yarn lint
 And to execute the type checker, run:
 ```
 yarn check-types
+```
+
+
+### Testing
+
+To execute the front end's test suite, run:
+```
+yarn test
 ```
 
 

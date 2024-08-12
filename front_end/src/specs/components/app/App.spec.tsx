@@ -1,8 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { boardWidth, boardHeight } from 'environment/board';
-import App from 'components/app/App';
+import { boardWidth, boardHeight } from 'src/environment/board';
+import App from 'src/components/app/App';
 
 
 jest.mock('environment/board', () => {
