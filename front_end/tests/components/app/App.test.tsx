@@ -16,7 +16,7 @@ vi.mock('src/environment/board', () => {
   };
 });
 
-vi.mock('models/suggestions/fetch', () => {
+vi.mock('src/models/suggestions/fetch', () => {
   return {
     fetchSuggestions() {
       return [];
