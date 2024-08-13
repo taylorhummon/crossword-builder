@@ -7,6 +7,21 @@ const ARROW_RIGHT  = 'ArrowRight';
 const ARROW_UP     = 'ArrowUp';
 const ARROW_DOWN   = 'ArrowDown';
 
+function setupNavigationListeners() {
+  window.addEventListener('mousedown', () => {
+    document.body.classList.add('mouse-navigation');
+    document.body.classList.remove('keyboard-navigation');
+  });
+
+  window.addEventListener('keydown', (event: KeyboardEvent) => {
+    if (event.key !== 'Tab') return;
+    document.body.classList.add('keyboard-navigation');
+    document.body.classList.remove('mouse-navigation');
+  });
+}
+
+setupNavigationListeners();
+
 export function isMouseNavigation(): boolean {
   return document.body.classList.contains('mouse-navigation');
 }

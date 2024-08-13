@@ -11,16 +11,5 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script>
-      window.addEventListener('mousedown', function (event) {
-        document.body.classList.add('mouse-navigation');
-        document.body.classList.remove('keyboard-navigation');
-      });
-      window.addEventListener('keydown', function (event) {
-        if (event.keyCode !== 9) return; // we are looking for a tab key
-        document.body.classList.add('keyboard-navigation');
-        document.body.classList.remove('mouse-navigation');
-      });
-    </script>
   </body>
 </html>
