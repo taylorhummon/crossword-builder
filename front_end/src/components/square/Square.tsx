@@ -1,7 +1,7 @@
 import { EMPTY_SQUARE, FILLED_SQUARE, Character } from 'src/utilities/character';
 import { buildClassString } from 'src/utilities/css';
 
-import cssModule from './Square.module.scss';
+import cssModule from './Square.module.css';
 
 
 interface SquareProps {

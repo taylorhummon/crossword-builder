@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { buildClassString } from 'src/utilities/css';
 
-import cssModule from './Help.module.scss';
+import cssModule from './Help.module.css';
 
 
 export default function Help(): JSX.Element {

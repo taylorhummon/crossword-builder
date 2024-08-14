@@ -4,7 +4,7 @@ import { indicesArray } from 'src/utilities/array';
 import { Character } from 'src/utilities/character';
 import { buildClassString } from 'src/utilities/css';
 
-import cssModule from './Board.module.scss';
+import cssModule from './Board.module.css';
 
 
 interface BoardProps {

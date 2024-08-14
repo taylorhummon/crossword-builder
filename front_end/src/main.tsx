@@ -5,7 +5,7 @@ import App from 'src/components/app/App';
 
 import 'src/css/spectre.min.css';
 import 'src/css/spectre-icons.min.css';
-import 'src/css/index.css';
+import 'src/css/main.css';
 
 
 const rootDomElement = document.getElementById('root') as HTMLElement;

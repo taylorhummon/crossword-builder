@@ -1,7 +1,7 @@
 import { FILLED_SQUARE, LETTERS, SuggestableCharacter } from 'src/utilities/character';
 import { buildClassString } from 'src/utilities/css';
 
-import cssModule from './Suggestions.module.scss';
+import cssModule from './Suggestions.module.css';
 
 
 interface SuggestionsProps {

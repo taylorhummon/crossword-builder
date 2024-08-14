@@ -11,7 +11,7 @@ import { updateSuggestions } from 'src/models/suggestions/update';
 import { EMPTY_SQUARE, Character, SuggestableCharacter } from 'src/utilities/character';
 import { buildClassString } from 'src/utilities/css';
 
-import cssModule from './App.module.scss';
+import cssModule from './App.module.css';
 
 
 export interface State {

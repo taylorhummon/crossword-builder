@@ -1,6 +1,6 @@
 import { buildClassString } from 'src/utilities/css';
 
-import cssModule from './Options.module.scss';
+import cssModule from './Options.module.css';
 
 
 interface OptionsProps {
