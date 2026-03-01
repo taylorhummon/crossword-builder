@@ -9,7 +9,7 @@ There are three sub-projects in this monorepo:
 
 * front_end/
   
-  - The JavaScript web app.
+  - The TypeScript web app.
 
 * back_end/
   
